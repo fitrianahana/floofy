@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace floofy
+﻿namespace floofy
 {
     public partial class App : Application
     {

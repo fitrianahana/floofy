@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="floofy.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:floofy"
-    Title="floofy">
+  x:Class="floofy.AppShell"
+  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+  xmlns:views="clr-namespace:floofy.Views"
+  Title="floofy">
+
+  <TabBar>
+    <ShellContent
+      Title="Home"
+      ContentTemplate="{DataTemplate views:Home}"/>
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+      Title="PetShop"
+      ContentTemplate="{DataTemplate views:PetShop}"/>
+
+    <ShellContent
+      Title="Floofy+"
+      ContentTemplate="{DataTemplate views:FloofyPlus}"/>
+
+    <ShellContent
+      Title="Profile"
+      ContentTemplate="{DataTemplate views:Profile}"/>
+  </TabBar>
 
 </Shell>
