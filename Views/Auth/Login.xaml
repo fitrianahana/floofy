@@ -3,9 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="floofy.Views.Login"
              Title="Login">
-  <VerticalStackLayout Padding="24"
-                       Spacing="12">
-    <Label Text="Login Screen"
-           FontSize="24"/>
-  </VerticalStackLayout>
+  <ScrollView>
+    <VerticalStackLayout Padding="24"
+        Spacing="16">
+      <Label Text="Welcome to Floofy"
+             FontSize="28"
+             FontAttributes="Bold"
+             HorizontalOptions="Center"/>
+
+      <Label Text="Sign in to continue"
+             FontSize="16"
+             HorizontalOptions="Center"
+             TextColor="Gray"/>
+      <Entry x:Name="EmailEntry"
+             Placeholder="Email"
+             Keyboard="Email"/>
+      <Entry x:Name="PasswordEntry"
+             Placeholder="Password"
+             IsPassword="True"/>
+      <Button Text="Login"
+              Clicked="OnLoginClicked"/>
+      <Button Text="Create an account"
+              Clicked="OnGoToRegisterClicked"
+              BackgroundColor="Transparent"
+              TextColor="{StaticResource Primary}"/>
+    </VerticalStackLayout>
+  </ScrollView>
 </ContentPage>
