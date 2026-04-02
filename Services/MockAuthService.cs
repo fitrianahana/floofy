@@ -31,9 +31,11 @@ public class MockAuthService : IAuthService
 
   public Task<(bool Success, string Message)> RegisterAsync(RegisterRequest request)
   {
-    if (_users.Any(u => u.Email.Equals(request.Email, StringComparison.OrdinalIgnoreCase))) return Task.FromResult((false, "Email is already registered"));
+    if (_users.Any(u => u.Email.Equals(request.Email, StringComparison.OrdinalIgnoreCase)))
+      return Task.FromResult((false, "Email is already registered"));
 
-    if (request.Roles.Count == 0) return Task.FromResult((false, "Choose at least one role."));
+    if (request.Roles.Count == 0)
+      return Task.FromResult((false, "Choose at least one role."));
 
     _users.Add(new User
     {
