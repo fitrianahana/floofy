@@ -1,9 +1,8 @@
-
 namespace floofy.Views;
 
-public partial class Shop : ContentPage
+public partial class Login : ContentPage
 {
-  public Shop()
+  public Login()
   {
     InitializeComponent();
   }

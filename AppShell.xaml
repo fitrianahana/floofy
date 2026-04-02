@@ -12,8 +12,8 @@
       ContentTemplate="{DataTemplate views:Home}"/>
 
     <ShellContent
-      Title="PetShop"
-      ContentTemplate="{DataTemplate views:PetShop}"/>
+      Title="Shop"
+      ContentTemplate="{DataTemplate views:Shop}"/>
 
     <ShellContent
       Title="Floofy+"
