@@ -4,8 +4,46 @@
              x:Class="floofy.Views.Profile"
              Title="Profile">
   <VerticalStackLayout Padding="24"
-                       Spacing="12">
-    <Label Text="Profile Screen"
-           FontSize="24"/>
+      Spacing="16">
+    <Label Text="Profile"
+           FontSize="28"
+           FontAttributes="Bold"/>
+    <Border StrokeShape="RoundRectangle 8"
+        Stroke="Gray"
+        StrokeThickness="1"
+        Padding="16"
+        Margin="0,16,0,0">
+      <VerticalStackLayout Spacing="12">
+        <Label Text="User Information"
+            FontAttributes="Bold"
+            FontSize="16"/>
+
+        <VerticalStackLayout Spacing="4">
+          <Label Text="Name:"
+              FontAttributes="Bold"
+              FontSize="12"/>
+          <Label x:Name="FullNameLabel"
+              FontSize="14"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Spacing="4">
+          <Label Text="Email:"
+              FontAttributes="Bold"
+              FontSize="12"/>
+          <Label x:Name="EmailLabel"
+              FontSize="14"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Spacing="4">
+          <Label Text="Roles:"
+              FontAttributes="Bold"
+              FontSize="12"/>
+          <Label x:Name="RolesLabel"
+              FontSize="14"/>
+        </VerticalStackLayout>
+      </VerticalStackLayout>
+    </Border>
+    <Button Text="Logout"
+            Clicked="OnLogoutClicked"
+            BackgroundColor="Red"
+            Margin="0,32,0,0"/>
   </VerticalStackLayout>
 </ContentPage>
