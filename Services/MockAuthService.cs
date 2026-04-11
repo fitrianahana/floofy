@@ -15,6 +15,13 @@ public class MockAuthService : IAuthService
     },
     new User
     {
+      FullName = "Julian Asna",
+      Email = "julian@floofy.com",
+      Password = "julian",
+      Roles = new List<RoleType> {RoleType.Buyer, RoleType.Seller}
+    },
+    new User
+    {
       FullName = "Buyer Seller",
       Email = "both@floofy.com",
       Password = "123456",
