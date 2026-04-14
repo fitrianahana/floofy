@@ -10,7 +10,7 @@ public class MockAuthService : IAuthService
     {
       FullName = "Frans Jesky",
       Email = "jesky@floofy.com",
-      Password = "jesky",
+      Password = "password",
       Roles = new List<RoleType> {RoleType.Buyer, RoleType.Seller}
     },
     new User

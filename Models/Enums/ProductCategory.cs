@@ -7,7 +7,7 @@ public enum ProductCategory
   PetBedding,
   PetClothing,
   PetAccessories,
-  PetHealhCare,
+  PetHealhcare,
   PetGrooming,
   Other
 }
