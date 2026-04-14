@@ -1,3 +1,4 @@
+using floofy.Models.Enums;
 namespace floofy.Models;
 
 public class RegisterRequest

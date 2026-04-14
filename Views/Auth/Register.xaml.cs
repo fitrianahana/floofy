@@ -1,4 +1,5 @@
 using floofy.Models;
+using floofy.Models.Enums;
 using floofy.Services;
 namespace floofy.Views;
 

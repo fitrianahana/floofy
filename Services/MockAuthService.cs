@@ -1,5 +1,5 @@
 using floofy.Models;
-
+using floofy.Models.Enums;
 namespace floofy.Services;
 
 public class MockAuthService : IAuthService

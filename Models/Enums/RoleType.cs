@@ -1,4 +1,4 @@
-namespace floofy.Models;
+namespace floofy.Models.Enums;
 
 public enum RoleType
 {
