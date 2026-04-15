@@ -3,7 +3,6 @@ namespace floofy.Models;
 public class PetListing : Entity
 {
   public decimal Price { get; set; }
-  public string Currency { get; set; } = string.Empty;
   public bool IsActive { get; set; } = true;
   public DateTime ListingStartDate { get; set; }
   public DateTime? ListingEndDate { get; set; }

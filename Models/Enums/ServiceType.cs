@@ -1,6 +1,6 @@
 namespace floofy.Models.Enums;
 
-public enum ServiceCategory
+public enum ServiceType
 {
   Grooming,
   Training,

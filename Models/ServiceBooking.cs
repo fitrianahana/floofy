@@ -1,3 +1,4 @@
+using floofy.Models.Enums;
 namespace floofy.Models;
 
 public class ServiceBooking : Entity
@@ -5,7 +6,7 @@ public class ServiceBooking : Entity
   public DateTime BookingDate { get; set; }
   public DateTime StartTime { get; set; }
   public DateTime EndTime { get; set; }
-  public string Status { get; set; } = "Pending";
+  public BookingStatus Status { get; set; } = BookingStatus.Pending;
   public string? Notes { get; set; }
 
   public Guid BuyerId { get; set; }
@@ -14,27 +15,27 @@ public class ServiceBooking : Entity
 
   public bool CanBeCancelled()
   {
-    return Status == "Pending" || Status == "Confirmed";
+    return Status == BookingStatus.Pending || Status == BookingStatus.Confirmed;
   }
 
   public void CancelBooking()
   {
     if (CanBeCancelled())
     {
-      Status = "Cancelled";
+      Status = BookingStatus.Cancelled;
       MarkAsUpdated();
     }
   }
 
   public void ConfirmBooking()
   {
-    Status = "Confirmed";
+    Status = BookingStatus.Confirmed;
     MarkAsUpdated();
   }
 
   public void CompleteBooking()
   {
-    Status = "Completed";
+    Status = BookingStatus.Completed;
     MarkAsUpdated();
   }
 }
