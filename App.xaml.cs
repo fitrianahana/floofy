@@ -1,5 +1,6 @@
 ﻿using floofy.Services;
 using floofy.Views;
+using floofy.Data;
 
 namespace floofy;
 
@@ -14,6 +15,21 @@ public partial class App : Application
     InitializeComponent();
     Services = services;
     _sessionService = sessionService;
+    _ = InitializeDatabase();
+  }
+
+  private async Task InitializeDatabase()
+  {
+    try
+    {
+      var db = Services.GetRequiredService<AppDatabase>();
+      await db.InitializeAsync();
+      System.Diagnostics.Debug.WriteLine("Database initialized successfully");
+    }
+    catch (Exception ex)
+    {
+      System.Diagnostics.Debug.WriteLine($"Database initialization failed: {ex.Message}");
+    }
   }
 
   protected override Window CreateWindow(IActivationState? activationState)

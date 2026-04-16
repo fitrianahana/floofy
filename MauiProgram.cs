@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using floofy.Data;
 using floofy.Services;
 using floofy.Views;
 
@@ -16,6 +17,10 @@ namespace floofy
             fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
           });
+
+      // Data layer
+      builder.Services.AddSingleton<AppDatabase>();
+      builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
       // Register services
       builder.Services.AddSingleton<SessionService>();
