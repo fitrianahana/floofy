@@ -1,4 +1,5 @@
-﻿using floofy.Services;
+﻿using System.Diagnostics;
+using floofy.Services;
 using floofy.Views;
 using floofy.Data;
 
@@ -16,6 +17,7 @@ public partial class App : Application
     Services = services;
     _sessionService = sessionService;
     _ = InitializeDatabase();
+    _ = SeedDatabaseAsync();
   }
 
   private async Task InitializeDatabase()
@@ -24,11 +26,27 @@ public partial class App : Application
     {
       var db = Services.GetRequiredService<AppDatabase>();
       await db.InitializeAsync();
-      System.Diagnostics.Debug.WriteLine("Database initialized successfully");
+      Debug.WriteLine("Database initialized successfully");
     }
     catch (Exception ex)
     {
-      System.Diagnostics.Debug.WriteLine($"Database initialization failed: {ex.Message}");
+      Debug.WriteLine($"Database initialization failed: {ex.Message}");
+    }
+  }
+
+  private async Task SeedDatabaseAsync()
+  {
+    try
+    {
+      var appDatabase = this.Handler?.MauiContext?.Services.GetService<AppDatabase>();
+      if (appDatabase != null)
+      {
+        await appDatabase.SeedDataIfEmptyAsync();
+      }
+    }
+    catch (Exception ex)
+    {
+      Debug.WriteLine($"Error seeding database: {ex.Message}");
     }
   }
 
