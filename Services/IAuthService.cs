@@ -1,6 +1,6 @@
-using floofy.Models;
-
 namespace floofy.Services;
+
+using floofy.Models;
 
 public interface IAuthService
 {

@@ -22,6 +22,11 @@ namespace floofy
       builder.Services.AddSingleton<AppDatabase>();
       builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
+      // Core services
+      builder.Services.AddScoped<IOrderService, OrderService>();
+      builder.Services.AddScoped<IProductService, ProductService>();
+      builder.Services.AddScoped<ICartService, CartService>();
+
       // Register services
       builder.Services.AddSingleton<SessionService>();
       builder.Services.AddSingleton<IAuthService, MockAuthService>();
