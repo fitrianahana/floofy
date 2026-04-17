@@ -30,6 +30,7 @@ public class AppDatabase
     // create tables for all entities (in order of dependencies)
     await CreateTablesAsync();
   }
+
   private async Task CreateTablesAsync()
   {
     // Users
@@ -37,6 +38,10 @@ public class AppDatabase
     await _database.CreateTableAsync<Address>();
     await _database.CreateTableAsync<BankAccount>();
     await _database.CreateTableAsync<PaymentMethod>();
+
+    // Shopping Cart
+    await _database.CreateTableAsync<Cart>();
+    await _database.CreateTableAsync<CartItem>();
 
     // Categories
     await _database.CreateTableAsync<PetCategory>();
