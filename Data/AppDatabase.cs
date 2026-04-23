@@ -133,7 +133,7 @@ public class AppDatabase
       {
         Id = user1Id,
         FullName = "Frans Jesky",
-        Email = "frans@example.com",
+        Email = "frans@floofy.com",
         Password = "admin",
         PhoneNumber = "+1-555-0001",
         ProfileImageUrl = "",

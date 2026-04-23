@@ -27,6 +27,13 @@ namespace floofy
       builder.Services.AddScoped<IProductService, ProductService>();
       builder.Services.AddScoped<ICartService, CartService>();
 
+      // Extended services
+      builder.Services.AddScoped<IBookingService, BookingService>();
+      builder.Services.AddScoped<IPetService, PetService>();
+      builder.Services.AddScoped<ICommunityService, CommunityService>();
+      builder.Services.AddScoped<IPaymentService, PaymentService>();
+      builder.Services.AddScoped<IReportService, ReportService>();
+
       // Register services
       builder.Services.AddSingleton<SessionService>();
       builder.Services.AddSingleton<IAuthService, MockAuthService>();
