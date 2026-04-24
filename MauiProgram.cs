@@ -2,6 +2,8 @@
 using floofy.Data;
 using floofy.Services;
 using floofy.Views;
+using floofy.ViewModels;
+using floofy.Converters;
 
 namespace floofy
 {
@@ -34,6 +36,16 @@ namespace floofy
       builder.Services.AddScoped<IPaymentService, PaymentService>();
       builder.Services.AddScoped<IReportService, ReportService>();
 
+      // ViewModels - MVVM layer
+      builder.Services.AddTransient<LoginViewModel>();
+      builder.Services.AddTransient<RegisterViewModel>();
+      builder.Services.AddTransient<ProductListViewModel>();
+      builder.Services.AddTransient<CartViewModel>();
+      builder.Services.AddTransient<OrderViewModel>();
+      builder.Services.AddTransient<PetListViewModel>();
+      builder.Services.AddTransient<BookingViewModel>();
+      builder.Services.AddTransient<CommunityViewModel>();
+
       // Register services
       builder.Services.AddSingleton<SessionService>();
       builder.Services.AddSingleton<IAuthService, MockAuthService>();
@@ -42,6 +54,9 @@ namespace floofy
       builder.Services.AddSingleton<AppShell>();
       builder.Services.AddTransient<Login>();
       builder.Services.AddTransient<Register>();
+      builder.Services.AddTransient<Home>();
+      builder.Services.AddTransient<Shop>();
+      builder.Services.AddTransient<FloofyPlus>();
 
 #if DEBUG
       builder.Logging.AddDebug();

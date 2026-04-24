@@ -2,6 +2,7 @@ using floofy.Models;
 using floofy.Models.Enums;
 using floofy.Services;
 using System.Windows.Input;
+
 namespace floofy.ViewModels;
 
 public class RegisterViewModel : BaseViewModel
@@ -12,6 +13,8 @@ public class RegisterViewModel : BaseViewModel
   private string _email = string.Empty;
   private string _password = string.Empty;
   private string _confirmPassword = string.Empty;
+  private bool _isBuyerSelected = false;
+  private bool _isSellerSelected = false;
 
   public string FullName
   {
@@ -37,6 +40,18 @@ public class RegisterViewModel : BaseViewModel
     set => SetProperty(ref _confirmPassword, value);
   }
 
+  public bool IsBuyerSelected
+  {
+    get => _isBuyerSelected;
+    set => SetProperty(ref _isBuyerSelected, value);
+  }
+
+  public bool IsSellerSelected
+  {
+    get => _isSellerSelected;
+    set => SetProperty(ref _isSellerSelected, value);
+  }
+
   public ICommand RegisterCommand { get; }
   public ICommand GoToLoginCommand { get; }
 
@@ -53,28 +68,48 @@ public class RegisterViewModel : BaseViewModel
     !string.IsNullOrWhiteSpace(FullName) &&
     !string.IsNullOrWhiteSpace(Email) &&
     !string.IsNullOrWhiteSpace(Password) &&
-    Password == ConfirmPassword;
+    Password == ConfirmPassword &&
+    (IsBuyerSelected || IsSellerSelected);
+
   private async Task OnRegisterAsync()
   {
     ErrorMessage = string.Empty;
     IsLoading = true;
+
     try
     {
+      var roles = GetSelectedRoles();
+      if (roles.Count == 0)
+      {
+        ErrorMessage = "Please select at least one role";
+        IsLoading = false;
+        return;
+      }
+
       var (success, message) = await _authService.RegisterAsync(new RegisterRequest
       {
         FullName = FullName.Trim(),
         Email = Email.Trim(),
         Password = Password,
-        Roles = new List<RoleType> { RoleType.Buyer } // Default role
+        Roles = roles
       });
+
       if (!success)
       {
         ErrorMessage = message;
         return;
       }
+
       ErrorMessage = "Registration successful! Please login.";
-      // Could auto-navigate to login here or let user do it manually
+
+      FullName = string.Empty;
+      Email = string.Empty;
+      Password = string.Empty;
+      ConfirmPassword = string.Empty;
+      IsBuyerSelected = false;
+      IsSellerSelected = false;
     }
+
     catch (Exception ex)
     {
       ErrorMessage = $"Registration failed: {ex.Message}";
@@ -84,6 +119,15 @@ public class RegisterViewModel : BaseViewModel
       IsLoading = false;
     }
   }
+
+  private List<RoleType> GetSelectedRoles()
+  {
+    var roles = new List<RoleType>();
+    if (IsBuyerSelected) roles.Add(RoleType.Buyer);
+    if (IsSellerSelected) roles.Add(RoleType.Seller);
+    return roles;
+  }
+
   private void OnGoToLogin()
   {
     // Navigate back to login - handled by View

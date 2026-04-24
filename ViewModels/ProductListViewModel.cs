@@ -32,18 +32,21 @@ public class ProductListViewModel : BaseViewModel
 
   public ICommand LoadProductsCommand { get; }
   public ICommand SearchCommand { get; }
+  public ICommand SelectProductCommand { get; }
 
   public ProductListViewModel()
   {
     _productService = App.Services.GetRequiredService<IProductService>();
     LoadProductsCommand = new RelayCommand(async () => await OnLoadProductsAsync());
     SearchCommand = new RelayCommand(async () => await OnSearchAsync());
+    SelectProductCommand = new RelayCommand<Product>(OnSelectProduct);
   }
 
   private async Task OnLoadProductsAsync()
   {
     ErrorMessage = string.Empty;
     IsLoading = true;
+
     try
     {
       var products = await _productService.GetAllProductsAsync();
@@ -66,8 +69,10 @@ public class ProductListViewModel : BaseViewModel
       await OnLoadProductsAsync();
       return;
     }
+
     ErrorMessage = string.Empty;
     IsLoading = true;
+
     try
     {
       var products = await _productService.SearchProductsAsync(SearchQuery);
@@ -81,5 +86,10 @@ public class ProductListViewModel : BaseViewModel
     {
       IsLoading = false;
     }
+  }
+
+  private void OnSelectProduct(Product product)
+  {
+    SelectedProduct = product;
   }
 }
