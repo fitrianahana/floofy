@@ -10,21 +10,33 @@
              FontSize="28"
              FontAttributes="Bold"
              HorizontalOptions="Center"/>
-
       <Label Text="Sign in to continue"
              FontSize="16"
              HorizontalOptions="Center"
              TextColor="Gray"/>
-      <Entry x:Name="EmailEntry"
+      <!-- Error/Success Message Display -->
+      <Label Text="{Binding ErrorMessage}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
+             TextColor="Red"
+             FontAttributes="Bold"
+             Margin="0,0,0,8"/>
+      <!-- Loading Indicator -->
+      <ActivityIndicator IsRunning="{Binding IsLoading}"
+                         IsVisible="{Binding IsLoading}"
+                         Color="{StaticResource Primary}"
+                         Margin="0,16,0,16"/>
+      <Entry Text="{Binding Email}"
              Placeholder="Email"
              Keyboard="Email"/>
-      <Entry x:Name="PasswordEntry"
+      <Entry Text="{Binding Password}"
              Placeholder="Password"
              IsPassword="True"/>
       <Button Text="Login"
-              Clicked="OnLoginClicked"/>
+              Command="{Binding LoginCommand}"
+              IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+              Margin="0,8,0,0"/>
       <Button Text="Create an account"
-              Clicked="OnGoToRegisterClicked"
+              Command="{Binding GoToRegisterCommand}"
               BackgroundColor="Transparent"
               TextColor="{StaticResource Primary}"/>
     </VerticalStackLayout>
