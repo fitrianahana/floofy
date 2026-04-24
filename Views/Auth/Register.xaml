@@ -10,38 +10,52 @@
              FontSize="28"
              FontAttributes="Bold"
              HorizontalOptions="Center"/>
-
       <Label Text="Join Floofy today"
              FontSize="16"
              HorizontalOptions="Center"
              TextColor="Gray"/>
-      <Entry x:Name="FullNameEntry"
+      <!-- Error/Success Message Display -->
+      <Label Text="{Binding ErrorMessage}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
+             TextColor="Red"
+             FontAttributes="Bold"
+             Margin="0,0,0,8"/>
+      <!-- Loading Indicator -->
+      <ActivityIndicator IsRunning="{Binding IsLoading}"
+                         IsVisible="{Binding IsLoading}"
+                         Color="{StaticResource Primary}"
+                         Margin="0,16,0,16"/>
+      <Entry Text="{Binding FullName}"
              Placeholder="Full name"/>
-      <Entry x:Name="EmailEntry"
+      <Entry Text="{Binding Email}"
              Placeholder="Email"
              Keyboard="Email"/>
-      <Entry x:Name="PasswordEntry"
+      <Entry Text="{Binding Password}"
              Placeholder="Password"
+             IsPassword="True"/>
+      <Entry Text="{Binding ConfirmPassword}"
+             Placeholder="Confirm Password"
              IsPassword="True"/>
       <Label Text="Select your role(s)"
              FontAttributes="Bold"
              Margin="0,8,0,0"/>
       <HorizontalStackLayout Spacing="12"
                              Margin="0,8,0,0">
-        <CheckBox x:Name="BuyerCheckBox"/>
+        <CheckBox IsChecked="{Binding IsBuyerSelected}"/>
         <Label Text="Buyer"
                VerticalOptions="Center"/>
       </HorizontalStackLayout>
       <HorizontalStackLayout Spacing="12">
-        <CheckBox x:Name="SellerCheckBox"/>
+        <CheckBox IsChecked="{Binding IsSellerSelected}"/>
         <Label Text="Seller"
                VerticalOptions="Center"/>
       </HorizontalStackLayout>
       <Button Text="Create Account"
-              Clicked="OnRegisterClicked"
+              Command="{Binding RegisterCommand}"
+              IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
               Margin="0,16,0,0"/>
       <Button Text="Already have an account? Login"
-              Clicked="OnBackToLoginClicked"
+              Command="{Binding GoToLoginCommand}"
               BackgroundColor="Transparent"
               TextColor="{StaticResource Primary}"/>
     </VerticalStackLayout>
