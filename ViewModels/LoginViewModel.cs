@@ -24,15 +24,21 @@ public class LoginViewModel : BaseViewModel
   }
 
   public ICommand LoginCommand { get; }
+  public ICommand GoToRegisterCommand { get; }
 
   public LoginViewModel()
   {
     _authService = App.Services.GetRequiredService<IAuthService>();
     _sessionService = App.Services.GetRequiredService<SessionService>();
     LoginCommand = new RelayCommand(async () => await OnLoginAsync(), CanLogin);
+    GoToRegisterCommand = new RelayCommand(OnGoToRegister);
+  }
+  private void OnGoToRegister()
+  {
+    // Navigation handled by Login.xaml.cs code-behind
   }
 
-  private bool CanLogin() => !IsLoading && !string.IsNullOrWhiteSpace(Email);
+  private bool CanLogin() => !IsLoading && !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password);
 
   private async Task OnLoginAsync()
   {
