@@ -2,10 +2,10 @@ using floofy.ViewModels;
 using System.Windows.Input;
 namespace floofy.Views;
 
-public partial class ProductList : ContentPage
+public partial class Shop : ContentPage
 {
     private readonly ProductListViewModel _viewModel;
-    public ProductList(ProductListViewModel viewModel)
+    public Shop(ProductListViewModel viewModel)
     {
         InitializeComponent();
         _viewModel = viewModel;
