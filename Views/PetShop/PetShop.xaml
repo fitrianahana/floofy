@@ -16,6 +16,7 @@
       <!-- Search Bar -->
       <SearchBar x:Name="SearchBar"
                  Placeholder="Search pets by name..."
+                 Text="{Binding SearchQuery}"
                  SearchButtonPressed="OnSearchButtonPressed"
                  IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"/>
 
