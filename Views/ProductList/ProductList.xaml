@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="floofy.Views.ProductList"
+             Title="Product Catalog">
+    <VerticalStackLayout Padding="0"
+            Spacing="0">
+        <!-- Header Section -->
+        <VerticalStackLayout Padding="16"
+                Spacing="12"
+                BackgroundColor="#F5F5F5">
+            <Label Text="Product Catalog"
+                   FontSize="24"
+                   FontAttributes="Bold"/>
+
+            <!-- Search Bar -->
+            <SearchBar x:Name="SearchBar"
+                       Placeholder="Search products by name..."
+                       SearchButtonPressed="OnSearchButtonPressed"
+                       IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"/>
+
+            <!-- Error/Success Message Display -->
+            <Label Text="{Binding ErrorMessage}"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
+                   TextColor="Red"
+                   FontAttributes="Bold"
+                   FontSize="14"/>
+        </VerticalStackLayout>
+        <!-- Loading Indicator -->
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Color="{StaticResource Primary}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           Margin="0,20,0,0"/>
+        <!-- Products Collection View (2-Column Grid) -->
+        <CollectionView ItemsSource="{Binding Products}"
+                        SelectionMode="Single"
+                        IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+                        SelectionChangedCommand="{Binding SelectProductCommand}"
+                        SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
+                        Margin="0"
+                        Padding="8">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                                 HorizontalItemSpacing="8"
+                                 VerticalItemSpacing="12"
+                                 Columns="2"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout Spacing="0">
+                        <Border StrokeShape="RoundRectangle 12,12,12,12"
+                                Stroke="{StaticResource Primary}"
+                                StrokeThickness="1"
+                                Padding="0"
+                                Margin="0">
+                            <VerticalStackLayout Spacing="0"
+                                    Padding="0">
+                                <!-- Product Image -->
+                                <Image Source="{Binding ImageUrl}"
+                                       Aspect="AspectFill"
+                                       HeightRequest="150"
+                                       WidthRequest="170"/>
+
+                                <!-- Product Details -->
+                                <VerticalStackLayout Padding="12"
+                                        Spacing="8">
+                                    <!-- Product Name -->
+                                    <Label Text="{Binding Name}"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="2"
+                                           VerticalTextAlignment="Start"/>
+
+                                    <!-- Product Price -->
+                                    <Label Text="{Binding Price, StringFormat='${0:F2}'}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Primary}"/>
+
+                                    <!-- View Details Button -->
+                                    <Button Text="View"
+                                            BackgroundColor="{StaticResource Primary}"
+                                            TextColor="White"
+                                            CornerRadius="6"
+                                            Padding="8,6"
+                                            FontSize="12"
+                                            Margin="0,4,0,0"/>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <!-- Empty State -->
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="20"
+                                     Spacing="12"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center">
+                    <Label Text="No products found"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Try adjusting your search"
+                           FontSize="14"
+                           TextColor="Gray"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
