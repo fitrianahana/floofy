@@ -5,7 +5,7 @@
              Title="Login">
   <ScrollView>
     <VerticalStackLayout Padding="24"
-        Spacing="16">
+                         Spacing="16">
       <Label Text="Welcome to Floofy"
              FontSize="28"
              FontAttributes="Bold"
@@ -37,6 +37,7 @@
               Margin="0,8,0,0"/>
       <Button Text="Create an account"
               Command="{Binding GoToRegisterCommand}"
+              Clicked="OnGoToRegisterClicked"
               BackgroundColor="Transparent"
               TextColor="{StaticResource Primary}"/>
     </VerticalStackLayout>

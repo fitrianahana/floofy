@@ -1,5 +1,7 @@
 using floofy.ViewModels;
+
 namespace floofy.Views;
+
 public partial class Login : ContentPage
 {
   private readonly LoginViewModel _viewModel;
@@ -22,5 +24,9 @@ public partial class Login : ContentPage
         }
       }
     };
+  }
+  private async void OnGoToRegisterClicked(object sender, EventArgs e)
+  {
+    await Navigation.PushAsync(App.Services.GetRequiredService<Register>());
   }
 }

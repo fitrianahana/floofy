@@ -1,7 +1,6 @@
 using floofy.Models;
 using floofy.Services;
 using System.Windows.Input;
-
 namespace floofy.ViewModels;
 
 public class LoginViewModel : BaseViewModel
@@ -14,13 +13,21 @@ public class LoginViewModel : BaseViewModel
   public string Email
   {
     get => _email;
-    set => SetProperty(ref _email, value);
+    set
+    {
+      SetProperty(ref _email, value);
+      ((RelayCommand)LoginCommand).RaiseCanExecuteChanged();
+    }
   }
 
   public string Password
   {
     get => _password;
-    set => SetProperty(ref _password, value);
+    set
+    {
+      SetProperty(ref _password, value);
+      ((RelayCommand)LoginCommand).RaiseCanExecuteChanged();
+    }
   }
 
   public ICommand LoginCommand { get; }
@@ -33,6 +40,7 @@ public class LoginViewModel : BaseViewModel
     LoginCommand = new RelayCommand(async () => await OnLoginAsync(), CanLogin);
     GoToRegisterCommand = new RelayCommand(OnGoToRegister);
   }
+
   private void OnGoToRegister()
   {
     // Navigation handled by Login.xaml.cs code-behind
@@ -44,6 +52,7 @@ public class LoginViewModel : BaseViewModel
   {
     ErrorMessage = string.Empty;
     IsLoading = true;
+
     try
     {
       var user = await _authService.LoginAsync(new LoginRequest
