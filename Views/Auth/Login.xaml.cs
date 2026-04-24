@@ -10,21 +10,23 @@ public partial class Login : ContentPage
     InitializeComponent();
     _viewModel = viewModel;
     BindingContext = viewModel;
+
     // Handle navigation after successful login
-    viewModel.PropertyChanged += async (s, e) =>
+    viewModel.PropertyChanged += (s, e) =>
     {
       if (e.PropertyName == nameof(LoginViewModel.IsLoading) && !viewModel.IsLoading)
       {
-        // Login attempt completed (IsLoading changed from true to false)
-        // Check if there's an error message
         if (string.IsNullOrEmpty(viewModel.ErrorMessage))
         {
-          // Success! No error message means login succeeded
-          await Navigation.PushAsync(App.Services.GetRequiredService<Home>());
+          if (Application.Current?.Windows.FirstOrDefault() is Window window)
+          {
+            window.Page = App.Services.GetRequiredService<AppShell>();
+          }
         }
       }
     };
   }
+
   private async void OnGoToRegisterClicked(object sender, EventArgs e)
   {
     await Navigation.PushAsync(App.Services.GetRequiredService<Register>());
