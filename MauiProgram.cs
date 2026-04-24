@@ -45,6 +45,7 @@ namespace floofy
       builder.Services.AddTransient<PetListViewModel>();
       builder.Services.AddTransient<BookingViewModel>();
       builder.Services.AddTransient<CommunityViewModel>();
+      builder.Services.AddTransient<ShopViewModel>();
 
       // Register services
       builder.Services.AddSingleton<SessionService>();

@@ -1,0 +1,142 @@
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using floofy.Models;
+using floofy.Services;
+
+namespace floofy.ViewModels;
+
+public enum ShopSection
+{
+  Pets,
+  Products
+}
+
+public class ShopViewModel : BaseViewModel
+{
+  private readonly IPetService _petService;
+  private readonly IProductService _productService;
+  private ShopSection _activeSection = ShopSection.Pets;
+  private string _searchQuery = string.Empty;
+  private ObservableCollection<Pet> _pets = new();
+  private ObservableCollection<Product> _products = new();
+
+  public ShopSection ActiveSection
+  {
+    get => _activeSection;
+    set
+    {
+      SetProperty(ref _activeSection, value);
+      OnPropertyChanged(nameof(IsPetsSectionActive));
+      OnPropertyChanged(nameof(IsProductsSectionActive));
+    }
+  }
+
+  public bool IsPetsSectionActive => ActiveSection == ShopSection.Pets;
+  public bool IsProductsSectionActive => ActiveSection == ShopSection.Products;
+
+  public string SearchQuery
+  {
+    get => _searchQuery;
+    set => SetProperty(ref _searchQuery, value);
+  }
+
+  public ObservableCollection<Pet> Pets
+  {
+    get => _pets;
+    set => SetProperty(ref _pets, value);
+  }
+
+  public ObservableCollection<Product> Products
+  {
+    get => _products;
+    set => SetProperty(ref _products, value);
+  }
+
+  public ICommand SwitchToPetsCommand { get; }
+  public ICommand SwitchToProductsCommand { get; }
+  public ICommand LoadCurrentSectionCommand { get; }
+  public ICommand SearchCommand { get; }
+
+  public ShopViewModel()
+  {
+    _petService = App.Services.GetRequiredService<IPetService>();
+    _productService = App.Services.GetRequiredService<IProductService>();
+
+    SwitchToPetsCommand = new RelayCommand(async () =>
+    {
+      ActiveSection = ShopSection.Pets;
+      await LoadCurrentSectionAsync();
+    });
+
+    SwitchToProductsCommand = new RelayCommand(async () =>
+    {
+      ActiveSection = ShopSection.Products;
+      await LoadCurrentSectionAsync();
+    });
+
+    LoadCurrentSectionCommand = new RelayCommand(async () => await LoadCurrentSectionAsync());
+    SearchCommand = new RelayCommand(async () => await SearchCurrentSectionAsync());
+  }
+
+  private async Task LoadCurrentSectionAsync()
+  {
+    ErrorMessage = string.Empty;
+    IsLoading = true;
+
+    try
+    {
+      if (ActiveSection == ShopSection.Pets)
+      {
+        var pets = await _petService.GetAllPetsAsync();
+        Pets = new ObservableCollection<Pet>(pets);
+      }
+      else
+      {
+        var products = await _productService.GetAllProductsAsync();
+        Products = new ObservableCollection<Product>(products);
+      }
+    }
+    catch (Exception ex)
+    {
+      ErrorMessage = $"Failed to load data: {ex.Message}";
+    }
+    finally
+    {
+      IsLoading = false;
+    }
+  }
+
+  private async Task SearchCurrentSectionAsync()
+  {
+    if (string.IsNullOrWhiteSpace(SearchQuery))
+    {
+      await LoadCurrentSectionAsync();
+      return;
+    }
+
+    ErrorMessage = string.Empty;
+    IsLoading = true;
+
+    try
+    {
+      if (ActiveSection == ShopSection.Pets)
+      {
+        var pets = await _petService.SearchPetsAsync(SearchQuery.Trim());
+        Pets = new ObservableCollection<Pet>(pets);
+      }
+      else
+      {
+        var products = await _productService.SearchProductsAsync(SearchQuery.Trim());
+        Products = new ObservableCollection<Product>(products);
+      }
+    }
+    catch (Exception ex)
+    {
+      ErrorMessage = $"Search failed: {ex.Message}";
+    }
+    finally
+    {
+      IsLoading = false;
+    }
+  }
+}

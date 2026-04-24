@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="floofy.Views.Shop"
+             x:Class="floofy.Views.PetShop"
              Title="Available Pets">
   <VerticalStackLayout Padding="0"
                        Spacing="0">
@@ -37,8 +37,6 @@
     <CollectionView ItemsSource="{Binding Pets}"
                     SelectionMode="Single"
                     IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
-                    SelectionChangedCommand="{Binding SelectPetCommand}"
-                    SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
                     Margin="0">
       <CollectionView.ItemsLayout>
         <LinearItemsLayout Orientation="Vertical"
@@ -57,7 +55,7 @@
               <VerticalStackLayout Spacing="12"
                                    Padding="0">
                 <!-- Pet Image -->
-                <Image Source="{Binding ImageUrl}"
+                <Image Source="dotnet_bot.png"
                        Aspect="AspectFill"
                        HeightRequest="200"
                        WidthRequest="360"/>
@@ -72,7 +70,7 @@
                            FontSize="18"
                            FontAttributes="Bold"
                            VerticalTextAlignment="Center"/>
-                    <Label Text="{Binding Category}"
+                    <Label Text="{Binding Species}"
                            FontSize="12"
                            BackgroundColor="{StaticResource Primary}"
                            TextColor="White"
@@ -86,11 +84,10 @@
                          LineBreakMode="TailTruncation"
                          MaxLines="2"/>
 
-                  <!-- Price -->
-                  <Label Text="{Binding Price, StringFormat='${0:F2}'}"
-                         FontSize="20"
-                         FontAttributes="Bold"
-                         TextColor="{StaticResource Primary}"/>
+                  <!-- Pet Age -->
+                  <Label Text="{Binding Age, StringFormat='Age: {0} year(s)'}"
+                         FontSize="14"
+                         TextColor="Gray"/>
 
                   <!-- View Details Button -->
                   <Button Text="View Details"
