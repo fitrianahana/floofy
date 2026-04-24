@@ -79,7 +79,6 @@
                            Padding="8,4"
                            VerticalTextAlignment="Center"/>
                   </HorizontalStackLayout>
-
                   <!-- Pet Description -->
                   <Label Text="{Binding Description}"
                          FontSize="13"
