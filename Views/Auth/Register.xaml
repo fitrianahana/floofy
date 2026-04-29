@@ -4,69 +4,186 @@
              x:Class="floofy.Views.Register"
              Title="Register"
              NavigationPage.HasNavigationBar="False">
-  <Grid>
-    <BoxView Color="#F4F1FF" />
+  <Grid RowDefinitions="Auto,*">
+    <Image Grid.Row="0" 
+           Grid.RowSpan="2"
+           Source="register_bg.jpg"
+           Aspect="AspectFill"
+           HorizontalOptions="Fill"
+           VerticalOptions="Fill"
+           Opacity="1" />
 
-    <ScrollView>
-      <VerticalStackLayout Padding="24,40,24,24" Spacing="16">
-        <VerticalStackLayout Spacing="6">
-          <Label Text="Create account"
-                 FontSize="30"
-                 FontAttributes="Bold" />
-          <Label Text="Join Floofy and start exploring pets, products, and services"
-                 FontSize="14"
-                 TextColor="{StaticResource Gray500}" />
+    <ScrollView Grid.Row="0" Grid.RowSpan="2" Padding="24,20,24,20">
+      <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+        <!-- Header Section -->
+        <VerticalStackLayout Spacing="4" Margin="0,0,0,20">
+          <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+            <Button Text="←"
+                    Clicked="OnCancelClicked"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    BorderWidth="0"
+                    Padding="8,4,8,10"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start" />
+            <Label Text="Create Account"
+                   FontSize="26"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalOptions="Center" />
+          </HorizontalStackLayout>
+          <Label Text="Join Floofy and start exploring"
+                 FontSize="13"
+                 FontAttributes="Bold"
+                 TextColor="#D4CCFF"
+                 LineBreakMode="WordWrap"
+                 Margin="0,0,0,0" />
         </VerticalStackLayout>
 
-        <Border Stroke="#D9CFFC"
+        <!-- Form Container -->
+        <Border Stroke="#5F687A"
                 StrokeThickness="1"
-                StrokeShape="RoundRectangle 14,14,14,14"
-                BackgroundColor="White"
-                Padding="18">
-          <VerticalStackLayout Spacing="12">
-            <Label Text="Full name" FontSize="13" TextColor="{StaticResource Gray600}" />
-            <Entry Text="{Binding FullName}" Placeholder="Your full name" />
+                StrokeShape="RoundRectangle 18,18,18,18"
+                BackgroundColor="#99121624"
+                Padding="14"
+                Margin="0,0,0,16">
+          <VerticalStackLayout Spacing="10">
+            <!-- Full Name Field -->
+            <VerticalStackLayout Spacing="4">
+              <Label Text="Full Name" FontSize="12" TextColor="#F2EEFF" />
+              <Border Stroke="#6F7789"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#6618212F"
+                      Padding="10,3">
+                <Entry Text="{Binding FullName}"
+                       Placeholder="Your full name"
+                       TextColor="#F3F6FF"
+                       PlaceholderColor="#AEB7CC"
+                       FontSize="13" />
+              </Border>
+            </VerticalStackLayout>
 
-            <Label Text="Email" FontSize="13" TextColor="{StaticResource Gray600}" />
-            <Entry Text="{Binding Email}" Placeholder="you@example.com" Keyboard="Email" />
+            <!-- Email Field -->
+            <VerticalStackLayout Spacing="4">
+              <Label Text="Email" FontSize="12" TextColor="#F2EEFF" />
+              <Border Stroke="#6F7789"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#6618212F"
+                      Padding="10,3">
+                <Entry Text="{Binding Email}"
+                       Placeholder="you@example.com"
+                       TextColor="#F3F6FF"
+                       PlaceholderColor="#AEB7CC"
+                       Keyboard="Email"
+                       FontSize="13" />
+              </Border>
+            </VerticalStackLayout>
 
-            <Label Text="Password" FontSize="13" TextColor="{StaticResource Gray600}" />
-            <Entry Text="{Binding Password}" Placeholder="Create password" IsPassword="True" />
+            <!-- Password Field -->
+            <VerticalStackLayout Spacing="4">
+              <Label Text="Password" FontSize="12" TextColor="#F2EEFF" />
+              <Border Stroke="#6F7789"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#6618212F"
+                      Padding="10,3">
+                <Entry Text="{Binding Password}"
+                       Placeholder="Create password"
+                       TextColor="#F3F6FF"
+                       PlaceholderColor="#AEB7CC"
+                       IsPassword="True"
+                       FontSize="13" />
+              </Border>
+            </VerticalStackLayout>
 
-            <Label Text="Confirm password" FontSize="13" TextColor="{StaticResource Gray600}" />
-            <Entry Text="{Binding ConfirmPassword}" Placeholder="Repeat password" IsPassword="True" />
+            <!-- Confirm Password Field -->
+            <VerticalStackLayout Spacing="4">
+              <Label Text="Confirm Password" FontSize="12" TextColor="#F2EEFF" />
+              <Border Stroke="#6F7789"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#6618212F"
+                      Padding="10,3">
+                <Entry Text="{Binding ConfirmPassword}"
+                       Placeholder="Repeat password"
+                       TextColor="#F3F6FF"
+                       PlaceholderColor="#AEB7CC"
+                       IsPassword="True"
+                       FontSize="13" />
+              </Border>
+            </VerticalStackLayout>
 
-            <Label Text="Select your role(s)" FontAttributes="Bold" Margin="0,6,0,0" />
+            <!-- Role Selection Side by Side -->
+            <VerticalStackLayout Spacing="6" Margin="0,4,0,0">
+              <Label Text="What would you like to do?"
+                     FontSize="12"
+                     FontAttributes="Bold"
+                     TextColor="#F2EEFF" />
+              
+              <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <!-- Buyer Checkbox -->
+                <HorizontalStackLayout Grid.Column="0" Spacing="6" VerticalOptions="Center">
+                  <CheckBox IsChecked="{Binding IsBuyerSelected}" 
+                            Color="#B19CD9" />
+                  <Label Text="Find pets" 
+                         TextColor="#F3F6FF"
+                         FontSize="12"
+                         VerticalOptions="Center" />
+                </HorizontalStackLayout>
 
-            <HorizontalStackLayout Spacing="10">
-              <CheckBox IsChecked="{Binding IsBuyerSelected}" />
-              <Label Text="Buyer" VerticalOptions="Center" />
-            </HorizontalStackLayout>
+                <!-- Seller Checkbox -->
+                <HorizontalStackLayout Grid.Column="1" Spacing="6" VerticalOptions="Center">
+                  <CheckBox IsChecked="{Binding IsSellerSelected}"
+                            Color="#B19CD9" />
+                  <Label Text="Offer services"
+                         TextColor="#F3F6FF"
+                         FontSize="12"
+                         VerticalOptions="Center" />
+                </HorizontalStackLayout>
+              </Grid>
+            </VerticalStackLayout>
 
-            <HorizontalStackLayout Spacing="10">
-              <CheckBox IsChecked="{Binding IsSellerSelected}" />
-              <Label Text="Seller" VerticalOptions="Center" />
-            </HorizontalStackLayout>
-
+            <!-- Error Message -->
             <Label Text="{Binding ErrorMessage}"
                    IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
-                   TextColor="#C62828"
+                   TextColor="#FF6B6B"
                    FontAttributes="Bold"
-                   FontSize="13" />
+                   FontSize="11"
+                   LineBreakMode="WordWrap"
+                   Margin="0,4,0,0" />
 
+            <!-- Loading Indicator -->
             <ActivityIndicator IsRunning="{Binding IsLoading}"
                                IsVisible="{Binding IsLoading}"
-                               Color="{StaticResource Primary}" />
+                               Color="#B19CD9"
+                               Margin="0,4,0,0" />
 
+            <!-- Buttons -->
+            <!-- Create Account Button -->
             <Button Text="Create Account"
                     Command="{Binding RegisterCommand}"
                     IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
-                    Margin="0,6,0,0" />
+                    Margin="0,8,0,0"
+                    FontAttributes="Bold"
+                    FontSize="13"
+                    Padding="0,10" />
 
-            <Button Text="Already have an account? Login"
-                    Clicked="OnGoToLoginClicked"
+            <!-- Cancel Button -->
+            <Button Text="Cancel"
+                    Clicked="OnCancelClicked"
                     BackgroundColor="Transparent"
-                    TextColor="{StaticResource Primary}" />
+                    TextColor="#D4CCFF"
+                    FontFamily="OpenSansSemibold"
+                    FontSize="13"
+                    BorderWidth="1"
+                    BorderColor="#6F7789"
+                    Padding="0,10" />
           </VerticalStackLayout>
         </Border>
       </VerticalStackLayout>
