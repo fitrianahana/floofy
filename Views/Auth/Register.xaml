@@ -2,62 +2,74 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="floofy.Views.Register"
-             Title="Register">
-  <ScrollView>
-    <VerticalStackLayout Padding="24"
-                         Spacing="16">
-      <Label Text="Create Account"
-             FontSize="28"
-             FontAttributes="Bold"
-             HorizontalOptions="Center"/>
-      <Label Text="Join Floofy today"
-             FontSize="16"
-             HorizontalOptions="Center"
-             TextColor="Gray"/>
-      <!-- Error/Success Message Display -->
-      <Label Text="{Binding ErrorMessage}"
-             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
-             TextColor="Red"
-             FontAttributes="Bold"
-             Margin="0,0,0,8"/>
-      <!-- Loading Indicator -->
-      <ActivityIndicator IsRunning="{Binding IsLoading}"
-                         IsVisible="{Binding IsLoading}"
-                         Color="{StaticResource Primary}"
-                         Margin="0,16,0,16"/>
-      <Entry Text="{Binding FullName}"
-             Placeholder="Full name"/>
-      <Entry Text="{Binding Email}"
-             Placeholder="Email"
-             Keyboard="Email"/>
-      <Entry Text="{Binding Password}"
-             Placeholder="Password"
-             IsPassword="True"/>
-      <Entry Text="{Binding ConfirmPassword}"
-             Placeholder="Confirm Password"
-             IsPassword="True"/>
-      <Label Text="Select your role(s)"
-             FontAttributes="Bold"
-             Margin="0,8,0,0"/>
-      <HorizontalStackLayout Spacing="12"
-                             Margin="0,8,0,0">
-        <CheckBox IsChecked="{Binding IsBuyerSelected}"/>
-        <Label Text="Buyer"
-               VerticalOptions="Center"/>
-      </HorizontalStackLayout>
-      <HorizontalStackLayout Spacing="12">
-        <CheckBox IsChecked="{Binding IsSellerSelected}"/>
-        <Label Text="Seller"
-               VerticalOptions="Center"/>
-      </HorizontalStackLayout>
-      <Button Text="Create Account"
-              Command="{Binding RegisterCommand}"
-              IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
-              Margin="0,16,0,0"/>
-      <Button Text="Already have an account? Login"
-              Command="{Binding GoToLoginCommand}"
-              BackgroundColor="Transparent"
-              TextColor="{StaticResource Primary}"/>
-    </VerticalStackLayout>
-  </ScrollView>
+             Title="Register"
+             NavigationPage.HasNavigationBar="False">
+  <Grid>
+    <BoxView Color="#F4F1FF" />
+
+    <ScrollView>
+      <VerticalStackLayout Padding="24,40,24,24" Spacing="16">
+        <VerticalStackLayout Spacing="6">
+          <Label Text="Create account"
+                 FontSize="30"
+                 FontAttributes="Bold" />
+          <Label Text="Join Floofy and start exploring pets, products, and services"
+                 FontSize="14"
+                 TextColor="{StaticResource Gray500}" />
+        </VerticalStackLayout>
+
+        <Border Stroke="#D9CFFC"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 14,14,14,14"
+                BackgroundColor="White"
+                Padding="18">
+          <VerticalStackLayout Spacing="12">
+            <Label Text="Full name" FontSize="13" TextColor="{StaticResource Gray600}" />
+            <Entry Text="{Binding FullName}" Placeholder="Your full name" />
+
+            <Label Text="Email" FontSize="13" TextColor="{StaticResource Gray600}" />
+            <Entry Text="{Binding Email}" Placeholder="you@example.com" Keyboard="Email" />
+
+            <Label Text="Password" FontSize="13" TextColor="{StaticResource Gray600}" />
+            <Entry Text="{Binding Password}" Placeholder="Create password" IsPassword="True" />
+
+            <Label Text="Confirm password" FontSize="13" TextColor="{StaticResource Gray600}" />
+            <Entry Text="{Binding ConfirmPassword}" Placeholder="Repeat password" IsPassword="True" />
+
+            <Label Text="Select your role(s)" FontAttributes="Bold" Margin="0,6,0,0" />
+
+            <HorizontalStackLayout Spacing="10">
+              <CheckBox IsChecked="{Binding IsBuyerSelected}" />
+              <Label Text="Buyer" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="10">
+              <CheckBox IsChecked="{Binding IsSellerSelected}" />
+              <Label Text="Seller" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <Label Text="{Binding ErrorMessage}"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
+                   TextColor="#C62828"
+                   FontAttributes="Bold"
+                   FontSize="13" />
+
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               IsVisible="{Binding IsLoading}"
+                               Color="{StaticResource Primary}" />
+
+            <Button Text="Create Account"
+                    Command="{Binding RegisterCommand}"
+                    IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+                    Margin="0,6,0,0" />
+
+            <Button Text="Already have an account? Login"
+                    Clicked="OnGoToLoginClicked"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource Primary}" />
+          </VerticalStackLayout>
+        </Border>
+      </VerticalStackLayout>
+    </ScrollView>
+  </Grid>
 </ContentPage>

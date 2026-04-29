@@ -21,4 +21,9 @@ public partial class Register : ContentPage
       }
     };
   }
+
+  private async void OnGoToLoginClicked(object sender, EventArgs e)
+  {
+    await Navigation.PopAsync();
+  }
 }
