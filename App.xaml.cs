@@ -10,51 +10,66 @@ public partial class App : Application
   public static IServiceProvider Services { get; private set; } = default!;
 
   private readonly SessionService _sessionService;
+  private bool _isStartupCompleted;
 
   public App(IServiceProvider services, SessionService sessionService)
   {
     InitializeComponent();
     Services = services;
     _sessionService = sessionService;
-    _ = InitializeDatabase();
-    _ = SeedDatabaseAsync();
-  }
-
-  private async Task InitializeDatabase()
-  {
-    try
-    {
-      var db = Services.GetRequiredService<AppDatabase>();
-      await db.InitializeAsync();
-      Debug.WriteLine("Database initialized successfully");
-    }
-    catch (Exception ex)
-    {
-      Debug.WriteLine($"Database initialization failed: {ex.Message}");
-    }
-  }
-
-  private async Task SeedDatabaseAsync()
-  {
-    try
-    {
-      var appDatabase = this.Handler?.MauiContext?.Services.GetService<AppDatabase>();
-      if (appDatabase != null)
-      {
-        await appDatabase.SeedDataIfEmptyAsync();
-      }
-    }
-    catch (Exception ex)
-    {
-      Debug.WriteLine($"Error seeding database: {ex.Message}");
-    }
   }
 
   protected override Window CreateWindow(IActivationState? activationState)
   {
-    if (_sessionService.IsLoggedIn)
-      return new Window(Services.GetRequiredService<AppShell>());
+    // Temporary loading page while DB initializes
+    var loadingPage = new ContentPage
+    {
+      Content = new Grid
+      {
+        Children =
+        {
+          new ActivityIndicator
+          {
+            IsRunning = true,
+            VerticalOptions = LayoutOptions.Center,
+            HorizontalOptions = LayoutOptions.Center
+          }
+        }
+      }
+    };
 
-    return new Window(new NavigationPage(Services.GetRequiredService<Login>()));
+    var window = new Window(loadingPage);
+
+    _ = InitializeAndNavigateAsync(window);
+
+    return window;
+  }
+
+  private async Task InitializeAndNavigateAsync(Window window)
+  {
+    if (_isStartupCompleted)
+    {
+      window.Page = _sessionService.IsLoggedIn
+        ? Services.GetRequiredService<AppShell>()
+        : new NavigationPage(Services.GetRequiredService<Login>());
+      return;
+    }
+
+    try
+    {
+      var db = Services.GetRequiredService<AppDatabase>();
+      await db.InitializeAsync();
+      await db.SeedDataIfEmptyAsync();
+      _isStartupCompleted = true;
+      Debug.WriteLine("Startup initialization completed");
+    }
+    catch (Exception ex)
+    {
+      Debug.WriteLine($"Startup initialization failed: {ex.Message}");
+    }
+
+    window.Page = _sessionService.IsLoggedIn
+      ? Services.GetRequiredService<AppShell>()
+      : new NavigationPage(Services.GetRequiredService<Login>());
   }
 }

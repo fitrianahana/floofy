@@ -1,3 +1,5 @@
+using SQLite;
+
 namespace floofy.Models;
 
 public class Product : Entity
@@ -7,6 +9,7 @@ public class Product : Entity
   public decimal Price { get; set; }
   public int StockQuantity { get; set; }
   public string Sku { get; set; } = string.Empty;
+  [Ignore]
   public List<string> ImageUrls { get; set; } = new();
   public bool IsActive { get; set; } = true;
   public decimal Discount { get; set; } = 0;

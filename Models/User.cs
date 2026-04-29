@@ -1,4 +1,6 @@
+using SQLite;
 using floofy.Models.Enums;
+
 namespace floofy.Models;
 
 public class User : Entity
@@ -8,6 +10,7 @@ public class User : Entity
   public string Password { get; set; } = string.Empty;
   public string PhoneNumber { get; set; } = string.Empty;
   public string ProfileImageUrl { get; set; } = string.Empty;
+  [Ignore]
   public List<RoleType> Roles { get; set; } = new();
   public bool IsVerified { get; set; } = false;
   public string? VerificationToken { get; set; }

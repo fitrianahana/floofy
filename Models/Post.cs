@@ -1,10 +1,13 @@
+using SQLite;
 using floofy.Models.Enums;
+
 namespace floofy.Models;
 
 public class Post : Entity
 {
   public string Title { get; set; } = string.Empty;
   public string Content { get; set; } = string.Empty;
+  [Ignore]
   public List<string> ImageUrls { get; set; } = new();
   public int LikeCount { get; set; } = 0;
   public int CommentCount { get; set; } = 0;

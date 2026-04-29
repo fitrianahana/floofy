@@ -1,4 +1,6 @@
+using SQLite;
 using floofy.Models.Enums;
+
 namespace floofy.Models;
 
 public class Pet : Entity
@@ -11,6 +13,7 @@ public class Pet : Entity
   public decimal Weight { get; set; }
   public decimal Height { get; set; }
   public string Description { get; set; } = string.Empty;
+  [Ignore]
   public List<string> ImageUrls { get; set; } = new();
   public bool Vaccinated { get; set; } = false;
   public bool Neutered { get; set; } = false;
