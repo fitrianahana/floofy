@@ -5,8 +5,11 @@
              Title="Login"
              NavigationPage.HasNavigationBar="False">
   <Grid>
-    <Image Source="login_bg.jpg" Aspect="AspectFill" />
-    <BoxView Color="#2A1D57" Opacity="0.22" />
+    <Image Source="login_bg.jpg"
+           Aspect="AspectFill"
+           HorizontalOptions="Fill"
+           VerticalOptions="Fill"
+           Opacity="1" />
 
     <Grid Padding="24,22,24,20" RowDefinitions="Auto,*">
       <Image Grid.Row="0"
@@ -32,37 +35,44 @@
                LineBreakMode="NoWrap"
                Margin="0,0,0,8" />
 
-        <Border Stroke="#DDD2FF"
+        <Border Stroke="#5F687A"
                 StrokeThickness="1"
                 StrokeShape="RoundRectangle 18,18,18,18"
-                BackgroundColor="White"
+                BackgroundColor="#99121624"
                 Padding="16"
                 Margin="0,0,0,4">
           <VerticalStackLayout Spacing="10">
-            <Label Text="Email" FontSize="13" TextColor="#5B5872" />
-            <Border Stroke="#E4DDF9"
+            <Label Text="Email" FontSize="13" TextColor="#F2EEFF" />
+            <Border Stroke="#6F7789"
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 10,10,10,10"
+                    BackgroundColor="#6618212F"
                     Padding="10,4">
               <Entry Text="{Binding Email}"
                      Placeholder="you@example.com"
+                     TextColor="#F3F6FF"
+                     PlaceholderColor="#AEB7CC"
                      Keyboard="Email"
                      ClearButtonVisibility="WhileEditing" />
             </Border>
 
-            <Label Text="Password" FontSize="13" TextColor="#5B5872" />
-            <Border Stroke="#E4DDF9"
+            <Label Text="Password" FontSize="13" TextColor="#F2EEFF" />
+            <Border Stroke="#6F7789"
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 10,10,10,10"
+                    BackgroundColor="#6618212F"
                     Padding="10,4">
               <Entry Text="{Binding Password}"
                      Placeholder="Enter password"
+                     TextColor="#F3F6FF"
+                     PlaceholderColor="#AEB7CC"
                      IsPassword="True" />
             </Border>
 
             <Label Text="Forgot your password?"
                    FontSize="12"
-                   TextColor="{StaticResource Primary}"
+                   TextColor="#B6C3DB"
+                   FontFamily="OpenSansSemibold"
                    HorizontalOptions="End" />
 
             <Label Text="{Binding ErrorMessage}"
@@ -81,15 +91,16 @@
                     Margin="0,4,0,0" />
 
             <HorizontalStackLayout Spacing="4" HorizontalOptions="Center">
-              <Label Text="Don’t have an account?"
+              <Label Text="Don't have an account?"
                      FontSize="13"
-                     TextColor="#6B6882"
+                     TextColor="#C2CADB"
                      VerticalOptions="Center" />
-              <Button Text="Create one"
+              <Button Text="Sign up"
                       Command="{Binding GoToRegisterCommand}"
                       Clicked="OnGoToRegisterClicked"
                       BackgroundColor="Transparent"
-                      TextColor="{StaticResource Primary}"
+                      TextColor="#B6C3DB"
+                      FontFamily="OpenSansSemibold"
                       Padding="0"
                       FontSize="13"
                       VerticalOptions="Center" />
