@@ -49,7 +49,7 @@ namespace floofy
 
       // Register services
       builder.Services.AddSingleton<SessionService>();
-      builder.Services.AddSingleton<IAuthService, MockAuthService>();
+      builder.Services.AddScoped<IAuthService, AuthService>();
 
       // Register pages
       builder.Services.AddSingleton<AppShell>();

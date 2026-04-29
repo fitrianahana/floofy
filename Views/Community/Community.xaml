@@ -108,7 +108,7 @@
           <CollectionView ItemsSource="{Binding Events}"
                           SelectionMode="None">
             <CollectionView.ItemTemplate>
-              <DataTemplate x:DataType="models:Event">
+              <DataTemplate>
                 <Border Stroke="#DDDDDD"
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 10,10,10,10"
@@ -127,9 +127,10 @@
                     <Label Text="{Binding Location, StringFormat='Location: {0}'}"
                            FontSize="12"
                            TextColor="Gray"/>
-                    <Button Text="RSVP Attending"
+                    <Button Text="{Binding RsvpButtonText}"
+                            IsEnabled="{Binding CanRsvp}"
                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RSVPAttendingCommand}"
-                            CommandParameter="{Binding Id}"/>
+                            CommandParameter="{Binding EventId}"/>
                   </VerticalStackLayout>
                 </Border>
               </DataTemplate>

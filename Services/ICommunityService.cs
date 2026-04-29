@@ -11,5 +11,6 @@ public interface ICommunityService
   Task<Post> CreatePostAsync(Guid userId, string title, string content, PostVisibility visibility);
   Task<Event> GetEventByIdAsync(Guid eventId);
   Task<List<Event>> GetAllEventsAsync();
+  Task<List<EventRSVP>> GetUserEventRSVPsAsync(Guid userId);
   Task<EventRSVP> RSVPToEventAsync(Guid userId, Guid eventId, RSVPStatus status);
 }

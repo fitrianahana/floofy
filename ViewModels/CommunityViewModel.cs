@@ -11,10 +11,10 @@ public class CommunityViewModel : BaseViewModel
   private readonly SessionService _sessionService;
 
   private ObservableCollection<Post> _posts = new();
-  private ObservableCollection<Event> _events = new();
+  private ObservableCollection<CommunityEventItem> _events = new();
 
   private Post? _selectedPost;
-  private Event? _selectedEvent;
+  private CommunityEventItem? _selectedEvent;
   private string _newPostTitle = string.Empty;
   private string _newPostContent = string.Empty;
   private PostVisibility _postVisibility = PostVisibility.Public;
@@ -27,7 +27,7 @@ public class CommunityViewModel : BaseViewModel
     set => SetProperty(ref _posts, value);
   }
 
-  public ObservableCollection<Event> Events
+  public ObservableCollection<CommunityEventItem> Events
   {
     get => _events;
     set => SetProperty(ref _events, value);
@@ -39,7 +39,7 @@ public class CommunityViewModel : BaseViewModel
     set => SetProperty(ref _selectedPost, value);
   }
 
-  public Event? SelectedEvent
+  public CommunityEventItem? SelectedEvent
   {
     get => _selectedEvent;
     set => SetProperty(ref _selectedEvent, value);
@@ -104,8 +104,7 @@ public class CommunityViewModel : BaseViewModel
     IsLoading = true;
     try
     {
-      var events = await _communityService.GetAllEventsAsync();
-      Events = new ObservableCollection<Event>(events);
+      await ReloadEventsAsync();
     }
     catch (Exception ex)
     {
@@ -136,14 +135,44 @@ public class CommunityViewModel : BaseViewModel
       await _communityService.CreatePostAsync(userId.Value, NewPostTitle, NewPostContent, PostVisibility);
       NewPostTitle = string.Empty;
       NewPostContent = string.Empty;
-      await OnLoadPostsAsync();
+      var posts = await _communityService.GetAllPostsAsync();
+      Posts = new ObservableCollection<Post>(posts);
       ErrorMessage = "Post created successfully!";
     }
     catch (Exception ex)
     {
       ErrorMessage = $"Failed to create post: {ex.Message}";
+    }
+    finally
+    {
       IsLoading = false;
     }
+  }
+
+  private async Task ReloadEventsAsync()
+  {
+    var events = await _communityService.GetAllEventsAsync();
+    var currentUserId = _sessionService.CurrentUser?.Id;
+
+    HashSet<Guid> rsvpedEventIds = new();
+    if (currentUserId != null)
+    {
+      var rsvps = await _communityService.GetUserEventRSVPsAsync(currentUserId.Value);
+      rsvpedEventIds = rsvps
+          .Where(r => r.RSVPStatus == RSVPStatus.Attending || r.RSVPStatus == RSVPStatus.Pending)
+          .Select(r => r.EventId)
+          .ToHashSet();
+    }
+
+    var eventItems = events
+        .Select(e => new CommunityEventItem
+        {
+          Event = e,
+          IsRsvped = rsvpedEventIds.Contains(e.Id)
+        })
+        .ToList();
+
+    Events = new ObservableCollection<CommunityEventItem>(eventItems);
   }
 
   private async Task OnRSVPToEventAsync(Guid eventId, RSVPStatus status)
@@ -159,12 +188,30 @@ public class CommunityViewModel : BaseViewModel
         return;
       }
       await _communityService.RSVPToEventAsync(userId.Value, eventId, status);
-      await OnLoadEventsAsync();
+      await ReloadEventsAsync();
+      ErrorMessage = "RSVP submitted successfully!";
     }
     catch (Exception ex)
     {
       ErrorMessage = $"Failed to RSVP: {ex.Message}";
+    }
+    finally
+    {
       IsLoading = false;
     }
   }
+}
+
+public class CommunityEventItem
+{
+  public Event Event { get; set; } = new();
+  public bool IsRsvped { get; set; }
+
+  public Guid EventId => Event.Id;
+  public string Name => Event.Name;
+  public string Description => Event.Description;
+  public DateTime EventDate => Event.EventDate;
+  public string Location => Event.Location;
+  public string RsvpButtonText => IsRsvped ? "RSVP Submitted" : "RSVP Attending";
+  public bool CanRsvp => !IsRsvped;
 }

@@ -66,8 +66,27 @@ public class CommunityService : ICommunityService
     return allEvents.Where(e => !e.IsDeleted).ToList();
   }
 
+  public async Task<List<EventRSVP>> GetUserEventRSVPsAsync(Guid userId)
+  {
+    var allRsvps = await _eventRSVPRepository.GetAllAsync();
+    return allRsvps
+        .Where(r => r.AttendeeId == userId && !r.IsDeleted)
+        .ToList();
+  }
+
   public async Task<EventRSVP> RSVPToEventAsync(Guid userId, Guid eventId, RSVPStatus status)
   {
+    var allRsvps = await _eventRSVPRepository.GetAllAsync();
+    var existing = allRsvps.FirstOrDefault(r => r.AttendeeId == userId && r.EventId == eventId && !r.IsDeleted);
+
+    if (existing != null)
+    {
+      existing.RSVPStatus = status;
+      existing.RegistrationDate = DateTime.UtcNow;
+      await _eventRSVPRepository.UpdateAsync(existing);
+      return existing;
+    }
+
     var rsvp = new EventRSVP
     {
       AttendeeId = userId,
