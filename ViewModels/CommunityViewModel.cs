@@ -9,13 +9,17 @@ public class CommunityViewModel : BaseViewModel
 {
   private readonly ICommunityService _communityService;
   private readonly SessionService _sessionService;
+
   private ObservableCollection<Post> _posts = new();
   private ObservableCollection<Event> _events = new();
+
   private Post? _selectedPost;
   private Event? _selectedEvent;
   private string _newPostTitle = string.Empty;
   private string _newPostContent = string.Empty;
   private PostVisibility _postVisibility = PostVisibility.Public;
+
+  public ICommand RSVPAttendingCommand { get; }
 
   public ObservableCollection<Post> Posts
   {
@@ -72,6 +76,7 @@ public class CommunityViewModel : BaseViewModel
     LoadEventsCommand = new RelayCommand(async () => await OnLoadEventsAsync());
     CreatePostCommand = new RelayCommand(async () => await OnCreatePostAsync());
     RSVPToEventCommand = new RelayCommand<(Guid, RSVPStatus)>(async (param) => await OnRSVPToEventAsync(param.Item1, param.Item2));
+    RSVPAttendingCommand = new RelayCommand<Guid>(async (eventId) => await OnRSVPToEventAsync(eventId, RSVPStatus.Attending));
   }
 
   private async Task OnLoadPostsAsync()

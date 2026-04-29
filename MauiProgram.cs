@@ -57,7 +57,9 @@ namespace floofy
       builder.Services.AddTransient<Register>();
       builder.Services.AddTransient<Home>();
       builder.Services.AddTransient<Shop>();
+      builder.Services.AddTransient<Community>();
       builder.Services.AddTransient<FloofyPlus>();
+      builder.Services.AddTransient<Profile>();
 
 #if DEBUG
       builder.Logging.AddDebug();

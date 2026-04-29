@@ -16,6 +16,10 @@
       ContentTemplate="{DataTemplate views:Shop}"/>
 
     <ShellContent
+      Title="Community"
+      ContentTemplate="{DataTemplate views:Community}"/>
+
+    <ShellContent
       Title="Floofy+"
       ContentTemplate="{DataTemplate views:FloofyPlus}"/>
 
