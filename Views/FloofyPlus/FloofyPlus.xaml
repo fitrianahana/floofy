@@ -3,9 +3,133 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="floofy.Views.FloofyPlus"
              Title="Floofy+">
-  <VerticalStackLayout Padding="24"
-                       Spacing="12">
-    <Label Text="Floofy+ Screen"
-           FontSize="24"/>
-  </VerticalStackLayout>
+  <ScrollView>
+    <VerticalStackLayout Padding="16"
+        Spacing="16">
+      <!-- Hero -->
+      <Border Stroke="{StaticResource Primary}"
+              StrokeThickness="1"
+              StrokeShape="RoundRectangle 14,14,14,14"
+              BackgroundColor="#F8F8F8"
+              Padding="16">
+        <VerticalStackLayout Spacing="6">
+          <Label Text="Floofy+ Care Center"
+                 FontSize="26"
+                 FontAttributes="Bold"/>
+          <Label Text="24/7 pet healthcare with trusted veterinarians and emergency support."
+                 FontSize="14"
+                 TextColor="Gray"/>
+        </VerticalStackLayout>
+      </Border>
+      <!-- Emergency -->
+      <Border Stroke="#D32F2F"
+              StrokeThickness="1"
+              StrokeShape="RoundRectangle 14,14,14,14"
+              BackgroundColor="#FFF4F4"
+              Padding="16">
+        <VerticalStackLayout Spacing="10">
+          <Label Text="Emergency Support"
+                 FontSize="18"
+                 FontAttributes="Bold"
+                 TextColor="#B71C1C"/>
+          <Label Text="If your pet is in critical condition, contact our emergency team immediately."
+                 FontSize="13"
+                 TextColor="#7A1C1C"/>
+          <Button Text="Call Emergency Hotline"
+                  Clicked="OnCallEmergencyClicked"
+                  BackgroundColor="#D32F2F"
+                  TextColor="White"
+                  CornerRadius="10"/>
+        </VerticalStackLayout>
+      </Border>
+      <!-- Services -->
+      <VerticalStackLayout Spacing="10">
+        <Label Text="Veterinary Services"
+               FontSize="20"
+               FontAttributes="Bold"/>
+        <Border Stroke="#DDDDDD"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 10,10,10,10"
+                Padding="12">
+          <VerticalStackLayout Spacing="4">
+            <Label Text="Vet Consultation"
+                FontAttributes="Bold"
+                FontSize="16"/>
+            <Label Text="General checkups, diagnosis, and treatment plans."
+                   FontSize="13"
+                TextColor="Gray"/>
+          </VerticalStackLayout>
+        </Border>
+        <Border Stroke="#DDDDDD"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 10,10,10,10"
+                Padding="12">
+          <VerticalStackLayout Spacing="4">
+            <Label Text="Vaccination"
+                FontAttributes="Bold"
+                FontSize="16"/>
+            <Label Text="Core and optional vaccines for pets of all ages."
+                   FontSize="13"
+                TextColor="Gray"/>
+          </VerticalStackLayout>
+        </Border>
+        <Border Stroke="#DDDDDD"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 10,10,10,10"
+                Padding="12">
+          <VerticalStackLayout Spacing="4">
+            <Label Text="Health Checkup"
+                FontAttributes="Bold"
+                FontSize="16"/>
+            <Label Text="Routine exams, bloodwork, and preventive screenings."
+                   FontSize="13"
+                TextColor="Gray"/>
+          </VerticalStackLayout>
+        </Border>
+        <Border Stroke="#DDDDDD"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 10,10,10,10"
+                Padding="12">
+          <VerticalStackLayout Spacing="4">
+            <Label Text="Surgery and Treatment"
+                FontAttributes="Bold"
+                FontSize="16"/>
+            <Label Text="Minor and major procedures handled by qualified vets."
+                   FontSize="13"
+                TextColor="Gray"/>
+          </VerticalStackLayout>
+        </Border>
+      </VerticalStackLayout>
+      <!-- Hospital Info -->
+      <Border Stroke="#DDDDDD"
+              StrokeThickness="1"
+              StrokeShape="RoundRectangle 10,10,10,10"
+              Padding="12">
+        <VerticalStackLayout Spacing="6">
+          <Label Text="Hospital Information"
+                 FontSize="18"
+                 FontAttributes="Bold"/>
+          <Label Text="Address: 123 Floofy Street, Pet City"
+                 FontSize="13"/>
+          <Label Text="Open Hours: Mon-Sun, 24 Hours"
+                 FontSize="13"/>
+          <Label Text="Contact: +1-800-FLOOFY-VET"
+                 FontSize="13"/>
+        </VerticalStackLayout>
+      </Border>
+      <!-- Actions -->
+      <VerticalStackLayout Spacing="10">
+        <Button Text="Book Appointment"
+                Clicked="OnBookAppointmentClicked"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                CornerRadius="10"/>
+        <Button Text="View Medical Records"
+                Clicked="OnViewMedicalRecordsClicked"
+                BackgroundColor="#EEEEEE"
+                TextColor="#333333"
+                CornerRadius="10"/>
+      </VerticalStackLayout>
+    </VerticalStackLayout>
+  </ScrollView>
 </ContentPage>
