@@ -133,8 +133,8 @@ public class AppDatabase
       {
         Id = user1Id,
         FullName = "Frans Jesky",
-        Email = "frans@floofy.com",
-        Password = "admin",
+        Email = "jesky@floofy.com",
+        Password = "password",
         PhoneNumber = "+1-555-0001",
         ProfileImageUrl = "",
         Roles = new List<RoleType> { RoleType.Buyer, RoleType.Seller },

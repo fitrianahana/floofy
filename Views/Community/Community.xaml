@@ -367,18 +367,18 @@
                         </HorizontalStackLayout>
                       </VerticalStackLayout>
 
-                      <!-- Cancel RSVP Button -->
-                      <Button Text="Cancel RSVP"
-                              Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CancelRsvpCommand}"
-                              CommandParameter="{Binding EventId}"
-                              BackgroundColor="Transparent"
-                              TextColor="#FF6B6B"
-                              BorderColor="#FF6B6B"
-                              BorderWidth="1"
-                              FontAttributes="Bold"
-                              FontSize="12"
-                              CornerRadius="8"
-                              Padding="0,10" />
+                       <!-- Cancel RSVP Button -->
+                       <Button Text="Cancel RSVP"
+                               x:Name="CancelRsvpButton"
+                               Clicked="OnCancelRsvpButtonClicked"
+                               BackgroundColor="Transparent"
+                               TextColor="#FF6B6B"
+                               BorderColor="#FF6B6B"
+                               BorderWidth="1"
+                               FontAttributes="Bold"
+                               FontSize="12"
+                               CornerRadius="8"
+                               Padding="0,10" />
                     </VerticalStackLayout>
                   </Border>
                 </DataTemplate>

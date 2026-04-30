@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="floofy.Views.CancelRsvpDialog"
+             Title="Cancel RSVP"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#00000000">
+  <Grid BackgroundColor="#00000080"
+        Padding="0"
+        RowDefinitions="*,Auto,*">
+    
+    <!-- Dialog Content -->
+    <Border Grid.Row="1"
+            Stroke="#E8E0F5"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 16,16,16,16"
+            BackgroundColor="White"
+            Padding="24,32"
+            Margin="32,0">
+      <VerticalStackLayout Spacing="24">
+        
+        <!-- Icon -->
+        <Label Text="⚠️"
+               FontSize="56"
+               HorizontalOptions="Center"
+               VerticalOptions="Start" />
+        
+        <!-- Title -->
+        <Label Text="Cancel RSVP?"
+               FontSize="20"
+               FontAttributes="Bold"
+               TextColor="#2D1B4E"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center" />
+
+        <!-- Message -->
+        <Label Text="Are you sure you want to cancel your RSVP for this event? You can always join again later."
+               FontSize="13"
+               TextColor="#6B5B8C"
+               LineBreakMode="WordWrap"
+               HorizontalTextAlignment="Center" />
+
+        <!-- Buttons -->
+        <Grid ColumnDefinitions="*,Auto,Auto,*" ColumnSpacing="12" Padding="0,8">
+          <!-- Keep RSVP Button -->
+          <Button Grid.Column="1"
+                  Text="Keep RSVP"
+                  x:Name="KeepButton"
+                  Clicked="OnKeepClicked"
+                  BackgroundColor="Transparent"
+                  TextColor="#B19CD9"
+                  BorderColor="#B19CD9"
+                  BorderWidth="1.5"
+                  FontAttributes="Bold"
+                  FontSize="13"
+                  CornerRadius="8"
+                  Padding="24,12"
+                  CharacterSpacing="0.3" />
+          
+          <!-- Yes, Cancel Button -->
+          <Button Grid.Column="2"
+                  Text="Yes, Cancel"
+                  x:Name="CancelButton"
+                  Clicked="OnConfirmCancelClicked"
+                  BackgroundColor="#FF6B6B"
+                  TextColor="White"
+                  FontAttributes="Bold"
+                  FontSize="13"
+                  CornerRadius="8"
+                  Padding="24,12"
+                  CharacterSpacing="0.3" />
+        </Grid>
+      </VerticalStackLayout>
+    </Border>
+  </Grid>
+</ContentPage>
