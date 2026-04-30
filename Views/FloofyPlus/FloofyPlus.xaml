@@ -22,7 +22,7 @@
       <VerticalStackLayout Padding="24,20,24,12"
                            Spacing="4"
                            VerticalOptions="Center">
-        <Label Text="Floofy+ Care"
+        <Label Text="Floofy+"
                FontSize="28"
                FontAttributes="Bold"
                TextColor="White" />

@@ -51,21 +51,8 @@ public partial class FloofyPlus : ContentPage
   {
     try
     {
-      var action = await DisplayActionSheetAsync(
-          "Book Appointment",
-          "Cancel",
-          null,
-          "Vet Consultation",
-          "Vaccination",
-          "Health Checkup",
-          "Surgery & Treatment");
-
-      if (action != null && action != "Cancel")
-      {
-        await DisplayAlertAsync("Appointment Request",
-            $"You've selected: {action}\n\nOur team will contact you shortly to confirm your appointment.",
-            "OK");
-      }
+      var dialog = new BookAppointmentDialog();
+      await Navigation.PushAsync(dialog);
     }
     catch (Exception ex)
     {

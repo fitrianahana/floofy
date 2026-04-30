@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="floofy.Views.BookAppointmentDialog"
+             Title="Book Appointment"
+             BackgroundColor="#F8F7FC">
+  <Grid BackgroundColor="#F8F7FC"
+        RowDefinitions="Auto,*"
+        RowSpacing="0"
+        Padding="0">
+    
+    <!-- Header with Background Image -->
+    <Grid Grid.Row="0"
+          HeightRequest="150">
+      <!-- Background Image -->
+      <Image Source="appointment_bg.jpg"
+             Aspect="AspectFill"
+             VerticalOptions="Fill"
+             HorizontalOptions="Fill" />
+      
+        <!-- Header Content -->
+        <VerticalStackLayout Padding="24,20,24,12"
+                             Spacing="4"
+                             VerticalOptions="Center">
+          <Label Text="Reservations"
+                 FontSize="28"
+                 FontAttributes="Bold"
+                 TextColor="White" />
+          <Label Text="Schedule Your Pet's Appointment"
+                 FontSize="13"
+                 TextColor="#E8E0F5"
+                 LineBreakMode="WordWrap" />
+        </VerticalStackLayout>
+    </Grid>
+
+     <!-- Content Area with overlay and dialog -->
+     <Grid Grid.Row="1"
+           Padding="0"
+           VerticalOptions="Fill"
+           HorizontalOptions="Fill">
+      
+       <!-- Black overlay background -->
+       <BoxView BackgroundColor="#00000080"
+                VerticalOptions="Fill"
+                HorizontalOptions="Fill" />
+      
+       <!-- Dialog Content centered -->
+       <Border Margin="24"
+               Stroke="#E8E0F5"
+               StrokeThickness="1"
+               StrokeShape="RoundRectangle 20,20,20,20"
+               BackgroundColor="White"
+               Padding="0"
+               VerticalOptions="Center"
+               HorizontalOptions="Fill">
+        <VerticalStackLayout Padding="24" Spacing="16">
+          <!-- Header -->
+          <VerticalStackLayout Spacing="4">
+            <Label Text="📅 Book Appointment"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="#2D1B4E" />
+            <Label Text="Select the service you need"
+                   FontSize="13"
+                   TextColor="#6B5B8C" />
+          </VerticalStackLayout>
+
+          <!-- Services List -->
+          <VerticalStackLayout Spacing="10">
+            <!-- Vet Consultation -->
+            <Border Stroke="#DDD2FF"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12,12,12,12"
+                    BackgroundColor="#F8F7FC"
+                    Padding="12"
+                    x:Name="VetConsultationButton">
+              <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                <Label Grid.Column="0"
+                       Text="🏥"
+                       FontSize="20"
+                       VerticalOptions="Center" />
+                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                  <Label Text="Vet Consultation"
+                         FontSize="14"
+                         FontAttributes="Bold"
+                         TextColor="#2D1B4E" />
+                  <Label Text="Professional veterinary care"
+                         FontSize="12"
+                         TextColor="#6B5B8C" />
+                </VerticalStackLayout>
+              </Grid>
+            </Border>
+
+            <!-- Vaccination -->
+            <Border Stroke="#DDD2FF"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12,12,12,12"
+                    BackgroundColor="#F8F7FC"
+                    Padding="12"
+                    x:Name="VaccinationButton">
+              <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                <Label Grid.Column="0"
+                       Text="💉"
+                       FontSize="20"
+                       VerticalOptions="Center" />
+                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                  <Label Text="Vaccination"
+                         FontSize="14"
+                         FontAttributes="Bold"
+                         TextColor="#2D1B4E" />
+                  <Label Text="Keep your pet protected"
+                         FontSize="12"
+                         TextColor="#6B5B8C" />
+                </VerticalStackLayout>
+              </Grid>
+            </Border>
+
+            <!-- Health Checkup -->
+            <Border Stroke="#DDD2FF"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12,12,12,12"
+                    BackgroundColor="#F8F7FC"
+                    Padding="12"
+                    x:Name="HealthCheckupButton">
+              <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                <Label Grid.Column="0"
+                       Text="❤️"
+                       FontSize="20"
+                       VerticalOptions="Center" />
+                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                  <Label Text="Health Checkup"
+                         FontSize="14"
+                         FontAttributes="Bold"
+                         TextColor="#2D1B4E" />
+                  <Label Text="Preventive care and wellness"
+                         FontSize="12"
+                         TextColor="#6B5B8C" />
+                </VerticalStackLayout>
+              </Grid>
+            </Border>
+
+            <!-- Surgery & Treatment -->
+            <Border Stroke="#DDD2FF"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12,12,12,12"
+                    BackgroundColor="#F8F7FC"
+                    Padding="12"
+                    x:Name="SurgeryButton">
+              <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                <Label Grid.Column="0"
+                       Text="🔧"
+                       FontSize="20"
+                       VerticalOptions="Center" />
+                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                  <Label Text="Surgery &amp; Treatment"
+                         FontSize="14"
+                         FontAttributes="Bold"
+                         TextColor="#2D1B4E" />
+                  <Label Text="Expert surgical procedures"
+                         FontSize="12"
+                         TextColor="#6B5B8C" />
+                </VerticalStackLayout>
+              </Grid>
+            </Border>
+          </VerticalStackLayout>
+
+          <!-- Buttons -->
+          <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,8,0,0">
+            <Button Grid.Column="0"
+                    Text="Cancel"
+                    Clicked="OnCancelClicked"
+                    BackgroundColor="#F8F7FC"
+                    TextColor="#2D1B4E"
+                    BorderColor="#DDD2FF"
+                    BorderWidth="1"
+                    CornerRadius="12"
+                    Padding="0,12"
+                    FontAttributes="Bold"
+                    FontSize="13" />
+            <Button Grid.Column="1"
+                    Text="Continue"
+                    Clicked="OnContinueClicked"
+                    BackgroundColor="#B19CD9"
+                    TextColor="White"
+                    CornerRadius="12"
+                    Padding="0,12"
+                    FontAttributes="Bold"
+                    FontSize="13"
+                    x:Name="ContinueButton"
+                    IsEnabled="False" />
+          </Grid>
+        </VerticalStackLayout>
+      </Border>
+    </Grid>
+  </Grid>
+</ContentPage>

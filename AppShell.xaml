@@ -46,7 +46,7 @@
       <ShellContent.Icon>
         <FontImageSource 
           FontFamily="Arial"
-          Glyph="⭐"
+          Glyph="🏥"
           Size="24"/>
       </ShellContent.Icon>
     </ShellContent>
