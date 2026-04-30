@@ -223,7 +223,8 @@
           <!-- Available Events Section -->
           <VerticalStackLayout x:Name="AvailableEventsSection" Spacing="12">
             <CollectionView ItemsSource="{Binding Events}"
-                            SelectionMode="None">
+                            SelectionMode="None"
+                            HeightRequest="400">
               <CollectionView.ItemTemplate>
                 <DataTemplate>
                   <Border Stroke="#DDD2FF"
@@ -316,7 +317,8 @@
                                Spacing="12"
                                IsVisible="False">
             <CollectionView ItemsSource="{Binding MyRsvpEvents}"
-                            SelectionMode="None">
+                            SelectionMode="None"
+                            HeightRequest="400">
               <CollectionView.ItemTemplate>
                 <DataTemplate>
                   <Border Stroke="#DDD2FF"
