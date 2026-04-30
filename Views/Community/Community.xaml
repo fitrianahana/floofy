@@ -9,20 +9,31 @@
         RowDefinitions="Auto,Auto,Auto,*"
         RowSpacing="0"
         Padding="0">
-    
-    <!-- Header -->
-    <VerticalStackLayout Grid.Row="0"
-                         Padding="24,20,24,12"
-                         Spacing="8">
-      <Label Text="Community"
-             FontSize="28"
-             FontAttributes="Bold"
-             TextColor="#2D1B4E" />
-      <Label Text="Connect with pet lovers and join events"
-             FontSize="13"
-             TextColor="#6B5B8C"
-             LineBreakMode="WordWrap" />
-    </VerticalStackLayout>
+
+    <!-- Header with Background Image -->
+    <Grid Grid.Row="0"
+          HeightRequest="150">
+      <!-- Background Image -->
+      <Image Source="community_bg.jpg"
+             Aspect="AspectFill"
+             VerticalOptions="Fill"
+             HorizontalOptions="Fill"
+             Opacity="1"/>
+
+      <!-- Header Content -->
+      <VerticalStackLayout Padding="24,20,24,12"
+                           Spacing="4"
+                           VerticalOptions="Center">
+        <Label Text="Community"
+               FontSize="24"
+               FontAttributes="Bold"
+               TextColor="White"/>
+        <Label Text="Connect with pet lovers and join events"
+               FontSize="12"
+               TextColor="#E8E0F5"
+               LineBreakMode="WordWrap"/>
+      </VerticalStackLayout>
+    </Grid>
 
     <!-- Tab Selector with Indicator -->
     <Grid Grid.Row="1"
@@ -40,7 +51,7 @@
               FontAttributes="Bold"
               FontSize="14"
               Padding="0"
-              HorizontalOptions="Start" />
+              HorizontalOptions="Start"/>
       <Button Grid.Column="1"
               Grid.Row="0"
               Text="📅 Events"
@@ -50,8 +61,8 @@
               TextColor="#6B5B8C"
               FontSize="14"
               Padding="0"
-              HorizontalOptions="Start" />
-      
+              HorizontalOptions="Start"/>
+
       <!-- Tab Indicator Line -->
       <BoxView Grid.Column="0"
                Grid.Row="1"
@@ -60,7 +71,7 @@
                HeightRequest="3"
                WidthRequest="58"
                HorizontalOptions="Start"
-               Margin="0,8,0,0" />
+               Margin="0,8,0,0"/>
     </Grid>
 
     <!-- Fixed Create Post Section (Posts Tab Only) -->
@@ -78,7 +89,7 @@
                Text="{Binding NewPostTitle}"
                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
                FontSize="12"
-               TextColor="#2D1B4E" />
+               TextColor="#2D1B4E"/>
         <Editor Placeholder="Share something..."
                 PlaceholderColor="#6B5B8C"
                 AutoSize="TextChanges"
@@ -86,7 +97,7 @@
                 Text="{Binding NewPostContent}"
                 IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
                 FontSize="12"
-                TextColor="#2D1B4E" />
+                TextColor="#2D1B4E"/>
         <Button Text="Post"
                 Command="{Binding CreatePostCommand}"
                 IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
@@ -95,7 +106,7 @@
                 FontAttributes="Bold"
                 FontSize="12"
                 CornerRadius="8"
-                Padding="0,8" />
+                Padding="0,8"/>
       </VerticalStackLayout>
     </Border>
 
@@ -104,9 +115,10 @@
       <VerticalStackLayout x:Name="MainContent"
                            Padding="24,12,24,24"
                            Spacing="12">
-        
+
         <!-- Posts Tab Content -->
-        <VerticalStackLayout x:Name="PostsTab" Spacing="12">
+        <VerticalStackLayout x:Name="PostsTab"
+                             Spacing="12">
           <CollectionView ItemsSource="{Binding Posts}"
                           SelectionMode="None">
             <CollectionView.ItemTemplate>
@@ -123,33 +135,33 @@
                       <Label Text="{Binding Title}"
                              FontAttributes="Bold"
                              FontSize="16"
-                             TextColor="#2D1B4E" />
+                             TextColor="#2D1B4E"/>
                       <Label Text="{Binding AuthorName, StringFormat='by {0}'}"
                              FontSize="12"
-                             TextColor="#6B5B8C" />
+                             TextColor="#6B5B8C"/>
                     </VerticalStackLayout>
 
                     <!-- Post Content -->
                     <Label Text="{Binding Content}"
                            FontSize="13"
                            TextColor="#2D1B4E"
-                           LineBreakMode="WordWrap" />
+                           LineBreakMode="WordWrap"/>
 
                     <!-- Post Stats -->
                     <HorizontalStackLayout Spacing="16">
                       <HorizontalStackLayout Spacing="4">
                         <Label Text="❤️"
-                               FontSize="14" />
+                               FontSize="14"/>
                         <Label Text="{Binding LikeCount, StringFormat='{0}'}"
                                FontSize="12"
-                               TextColor="#6B5B8C" />
+                               TextColor="#6B5B8C"/>
                       </HorizontalStackLayout>
                       <HorizontalStackLayout Spacing="4">
                         <Label Text="💬"
-                               FontSize="14" />
+                               FontSize="14"/>
                         <Label Text="{Binding CommentCount, StringFormat='{0}'}"
                                FontSize="12"
-                               TextColor="#6B5B8C" />
+                               TextColor="#6B5B8C"/>
                       </HorizontalStackLayout>
                     </HorizontalStackLayout>
 
@@ -159,12 +171,12 @@
                               FontSize="12"
                               BackgroundColor="Transparent"
                               TextColor="#B19CD9"
-                              Padding="8,8" />
+                              Padding="8,8"/>
                       <Button Text="💬 Comment"
                               FontSize="12"
                               BackgroundColor="Transparent"
                               TextColor="#B19CD9"
-                              Padding="8,8" />
+                              Padding="8,8"/>
                     </HorizontalStackLayout>
                   </VerticalStackLayout>
                 </Border>
@@ -177,17 +189,17 @@
                                    Padding="24">
                 <Label Text="📝"
                        FontSize="48"
-                       HorizontalOptions="Center" />
+                       HorizontalOptions="Center"/>
                 <Label Text="No posts yet"
                        FontSize="16"
                        FontAttributes="Bold"
                        TextColor="#2D1B4E"
-                       HorizontalOptions="Center" />
+                       HorizontalOptions="Center"/>
                 <Label Text="Be the first to share something with the community!"
                        FontSize="12"
                        TextColor="#6B5B8C"
                        HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center" />
+                       HorizontalTextAlignment="Center"/>
               </VerticalStackLayout>
             </CollectionView.EmptyView>
           </CollectionView>
@@ -197,7 +209,7 @@
         <VerticalStackLayout x:Name="EventsTab"
                              Spacing="12"
                              IsVisible="False">
-          
+
           <!-- Event Filter Tabs -->
           <HorizontalStackLayout Spacing="8">
             <Button Text="Available"
@@ -207,7 +219,7 @@
                     TextColor="White"
                     FontSize="12"
                     Padding="12,8"
-                    CornerRadius="8" />
+                    CornerRadius="8"/>
             <Button Text="My RSVPs"
                     x:Name="MyRsvpButton"
                     Clicked="OnMyRsvpClicked"
@@ -217,11 +229,12 @@
                     BorderWidth="1"
                     FontSize="12"
                     Padding="12,8"
-                    CornerRadius="8" />
+                    CornerRadius="8"/>
           </HorizontalStackLayout>
 
           <!-- Available Events Section -->
-          <VerticalStackLayout x:Name="AvailableEventsSection" Spacing="12">
+          <VerticalStackLayout x:Name="AvailableEventsSection"
+                               Spacing="12">
             <CollectionView ItemsSource="{Binding Events}"
                             SelectionMode="None"
                             HeightRequest="400">
@@ -238,39 +251,39 @@
                       <Label Text="{Binding Name}"
                              FontAttributes="Bold"
                              FontSize="16"
-                             TextColor="#2D1B4E" />
+                             TextColor="#2D1B4E"/>
 
                       <!-- Event Description -->
                       <Label Text="{Binding Description}"
                              FontSize="12"
                              TextColor="#6B5B8C"
-                             LineBreakMode="WordWrap" />
+                             LineBreakMode="WordWrap"/>
 
                       <!-- Event Details -->
                       <VerticalStackLayout Spacing="6">
                         <HorizontalStackLayout Spacing="8">
                           <Label Text="📅"
                                  FontSize="12"
-                                 WidthRequest="20" />
+                                 WidthRequest="20"/>
                           <Label Text="{Binding EventDate, StringFormat='MMM dd, yyyy hh:mm tt'}"
                                  FontSize="12"
-                                 TextColor="#2D1B4E" />
+                                 TextColor="#2D1B4E"/>
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Spacing="8">
                           <Label Text="📍"
                                  FontSize="12"
-                                 WidthRequest="20" />
+                                 WidthRequest="20"/>
                           <Label Text="{Binding Location}"
                                  FontSize="12"
-                                 TextColor="#2D1B4E" />
+                                 TextColor="#2D1B4E"/>
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Spacing="8">
                           <Label Text="👥"
                                  FontSize="12"
-                                 WidthRequest="20" />
+                                 WidthRequest="20"/>
                           <Label Text="{Binding AttendeeCount, StringFormat='{0} attending'}"
                                  FontSize="12"
-                                 TextColor="#2D1B4E" />
+                                 TextColor="#2D1B4E"/>
                         </HorizontalStackLayout>
                       </VerticalStackLayout>
 
@@ -284,7 +297,7 @@
                               FontAttributes="Bold"
                               FontSize="12"
                               CornerRadius="8"
-                              Padding="0,10" />
+                              Padding="0,10"/>
                     </VerticalStackLayout>
                   </Border>
                 </DataTemplate>
@@ -296,17 +309,17 @@
                                      Padding="24">
                   <Label Text="🎪"
                          FontSize="48"
-                         HorizontalOptions="Center" />
+                         HorizontalOptions="Center"/>
                   <Label Text="No events available"
                          FontSize="16"
                          FontAttributes="Bold"
                          TextColor="#2D1B4E"
-                         HorizontalOptions="Center" />
+                         HorizontalOptions="Center"/>
                   <Label Text="Check back soon for upcoming events!"
                          FontSize="12"
                          TextColor="#6B5B8C"
                          HorizontalOptions="Center"
-                         HorizontalTextAlignment="Center" />
+                         HorizontalTextAlignment="Center"/>
                 </VerticalStackLayout>
               </CollectionView.EmptyView>
             </CollectionView>
@@ -334,51 +347,51 @@
                                FontAttributes="Bold"
                                FontSize="16"
                                TextColor="#2D1B4E"
-                               HorizontalOptions="Fill" />
+                               HorizontalOptions="Fill"/>
                         <Label Text="✓"
                                FontSize="14"
                                TextColor="#B19CD9"
-                               VerticalOptions="Center" />
+                               VerticalOptions="Center"/>
                       </HorizontalStackLayout>
 
                       <!-- Event Description -->
                       <Label Text="{Binding Description}"
                              FontSize="12"
                              TextColor="#6B5B8C"
-                             LineBreakMode="WordWrap" />
+                             LineBreakMode="WordWrap"/>
 
                       <!-- Event Details -->
                       <VerticalStackLayout Spacing="6">
                         <HorizontalStackLayout Spacing="8">
                           <Label Text="📅"
                                  FontSize="12"
-                                 WidthRequest="20" />
+                                 WidthRequest="20"/>
                           <Label Text="{Binding EventDate, StringFormat='MMM dd, yyyy hh:mm tt'}"
                                  FontSize="12"
-                                 TextColor="#2D1B4E" />
+                                 TextColor="#2D1B4E"/>
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Spacing="8">
                           <Label Text="📍"
                                  FontSize="12"
-                                 WidthRequest="20" />
+                                 WidthRequest="20"/>
                           <Label Text="{Binding Location}"
                                  FontSize="12"
-                                 TextColor="#2D1B4E" />
+                                 TextColor="#2D1B4E"/>
                         </HorizontalStackLayout>
                       </VerticalStackLayout>
 
-                       <!-- Cancel RSVP Button -->
-                       <Button Text="Cancel RSVP"
-                               x:Name="CancelRsvpButton"
-                               Clicked="OnCancelRsvpButtonClicked"
-                               BackgroundColor="Transparent"
-                               TextColor="#FF6B6B"
-                               BorderColor="#FF6B6B"
-                               BorderWidth="1"
-                               FontAttributes="Bold"
-                               FontSize="12"
-                               CornerRadius="8"
-                               Padding="0,10" />
+                      <!-- Cancel RSVP Button -->
+                      <Button Text="Cancel RSVP"
+                              x:Name="CancelRsvpButton"
+                              Clicked="OnCancelRsvpButtonClicked"
+                              BackgroundColor="Transparent"
+                              TextColor="#FF6B6B"
+                              BorderColor="#FF6B6B"
+                              BorderWidth="1"
+                              FontAttributes="Bold"
+                              FontSize="12"
+                              CornerRadius="8"
+                              Padding="0,10"/>
                     </VerticalStackLayout>
                   </Border>
                 </DataTemplate>
@@ -390,17 +403,17 @@
                                      Padding="24">
                   <Label Text="🎫"
                          FontSize="48"
-                         HorizontalOptions="Center" />
+                         HorizontalOptions="Center"/>
                   <Label Text="No upcoming RSVPs"
                          FontSize="16"
                          FontAttributes="Bold"
                          TextColor="#2D1B4E"
-                         HorizontalOptions="Center" />
+                         HorizontalOptions="Center"/>
                   <Label Text="RSVP to events to see them here"
                          FontSize="12"
                          TextColor="#6B5B8C"
                          HorizontalOptions="Center"
-                         HorizontalTextAlignment="Center" />
+                         HorizontalTextAlignment="Center"/>
                 </VerticalStackLayout>
               </CollectionView.EmptyView>
             </CollectionView>
