@@ -30,6 +30,7 @@ public partial class Community : ContentPage
     UpdateTabUI();
     PostsTab.IsVisible = true;
     EventsTab.IsVisible = false;
+    CreatePostSection.IsVisible = true;
   }
 
   private void OnEventsTabClicked(object? sender, EventArgs e)
@@ -38,6 +39,7 @@ public partial class Community : ContentPage
     UpdateTabUI();
     PostsTab.IsVisible = false;
     EventsTab.IsVisible = true;
+    CreatePostSection.IsVisible = false;
     AvailableEventsSection.IsVisible = true;
     MyRsvpsSection.IsVisible = false;
   }
