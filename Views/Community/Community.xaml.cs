@@ -142,47 +142,27 @@ public partial class Community : ContentPage
 
         System.Diagnostics.Debug.WriteLine("[CODE-BEHIND] Dialog created, about to push modal");
         
-        // Show the dialog and wait for it to close
-        System.Diagnostics.Debug.WriteLine("[CODE-BEHIND] About to AWAIT PushModalAsync");
+        // Show the dialog
+        System.Diagnostics.Debug.WriteLine("[CODE-BEHIND] About to PushModalAsync");
+        await Navigation.PushModalAsync(dialog);
+        System.Diagnostics.Debug.WriteLine("[CODE-BEHIND] PushModalAsync completed");
         
-        var pushTask = Navigation.PushModalAsync(dialog);
-        var timeoutTask = Task.Delay(5000); // 5 second timeout
-        var completedTask = await Task.WhenAny(pushTask, timeoutTask);
-        
-        if (completedTask == timeoutTask)
-        {
-          System.Diagnostics.Debug.WriteLine("[CODE-BEHIND] *** TIMEOUT: PushModalAsync did not complete in 5 seconds ***");
-          // Continue anyway, the dialog should be closed by now
-        }
-        else
-        {
-          System.Diagnostics.Debug.WriteLine("[CODE-BEHIND] ======================== PushModalAsync COMPLETED NORMALLY ========================");
-        }
-        
-        // Add a small delay to ensure property is set
-        await Task.Delay(100);
-        System.Diagnostics.Debug.WriteLine("[CODE-BEHIND] Delay completed");
+        // Wait for the dialog to close and get the result
+        System.Diagnostics.Debug.WriteLine("[CODE-BEHIND] Waiting for dialog result...");
+        var userConfirmedCancel = await dialog.WaitForResultAsync();
+        System.Diagnostics.Debug.WriteLine($"[CODE-BEHIND] Dialog result received: ConfirmedCancel = {userConfirmedCancel}");
         
         // Check the result
-        if (dialog != null)
+        if (userConfirmedCancel)
         {
-          System.Diagnostics.Debug.WriteLine($"[CODE-BEHIND] Dialog.ConfirmedCancel = {dialog.ConfirmedCancel}");
-
-          if (dialog.ConfirmedCancel)
-          {
-            System.Diagnostics.Debug.WriteLine($"[CODE-BEHIND] ✓ User CONFIRMED cancel for event: {eventId}");
-            System.Diagnostics.Debug.WriteLine($"[CODE-BEHIND] About to call CancelRsvpDirectAsync");
-            await _viewModel.CancelRsvpDirectAsync(eventId);
-            System.Diagnostics.Debug.WriteLine($"[CODE-BEHIND] CancelRsvpDirectAsync completed successfully");
-          }
-          else
-          {
-            System.Diagnostics.Debug.WriteLine($"[CODE-BEHIND] ✗ User kept their RSVP (ConfirmedCancel=false)");
-          }
+          System.Diagnostics.Debug.WriteLine($"[CODE-BEHIND] ✓ User CONFIRMED cancel for event: {eventId}");
+          System.Diagnostics.Debug.WriteLine($"[CODE-BEHIND] About to call CancelRsvpDirectAsync");
+          await _viewModel.CancelRsvpDirectAsync(eventId);
+          System.Diagnostics.Debug.WriteLine($"[CODE-BEHIND] CancelRsvpDirectAsync completed successfully");
         }
         else
         {
-          System.Diagnostics.Debug.WriteLine("[CODE-BEHIND] ERROR: dialog is null!");
+          System.Diagnostics.Debug.WriteLine($"[CODE-BEHIND] ✗ User kept their RSVP (ConfirmedCancel=false)");
         }
       }
       catch (Exception ex)
