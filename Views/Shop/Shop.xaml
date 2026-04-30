@@ -2,87 +2,99 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="floofy.Views.Shop"
-             Title="Shop">
+             Title="Shop"
+             NavigationPage.HasNavigationBar="False">
 
   <Grid RowDefinitions="Auto,Auto,Auto,*"
+        BackgroundColor="#F8F7FC"
         Padding="0"
         RowSpacing="0">
 
-
     <!-- Header Section -->
     <VerticalStackLayout Grid.Row="0"
-                         Padding="0"
-                         Spacing="0">
+                         Padding="24,20,24,0"
+                         Spacing="8">
       <Label Text="Shop"
-             FontSize="24"
-             FontAttributes="Bold"/>
+             FontSize="28"
+             FontAttributes="Bold"
+             TextColor="#2D1B4E"/>
+      <Label Text="Browse and discover amazing products"
+             FontSize="13"
+             TextColor="#6B5B8C"
+             LineBreakMode="WordWrap"/>
     </VerticalStackLayout>
 
     <!-- Search Bar -->
     <VerticalStackLayout Grid.Row="1"
-                         Padding="16,12"
+                         Padding="24,16,24,0"
                          Spacing="8">
       <SearchBar x:Name="SearchBar"
-                 Placeholder="Search in current section..."
+                 Placeholder="Search products or pets..."
                  Text="{Binding SearchQuery}"
                  SearchButtonPressed="OnSearchButtonPressed"
-                 IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"/>
+                 IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+                 PlaceholderColor="#A89BBB"
+                 TextColor="#2D1B4E"
+                 BackgroundColor="White"
+                 CancelButtonColor="#6B5B8C"/>
       <Label Text="{Binding ErrorMessage}"
              IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
-             TextColor="Red"
+             TextColor="#FF6B6B"
              FontAttributes="Bold"
-             FontSize="14"/>
+             FontSize="12"/>
     </VerticalStackLayout>
 
     <!-- Section Toggle -->
     <Grid Grid.Row="2"
-          Padding="16,0,16,12"
+          Padding="24,16,24,12"
           ColumnDefinitions="*,*"
           ColumnSpacing="10">
-      <Button Grid.Column="0"
-              Text="Pets"
-              Command="{Binding SwitchToPetsCommand}">
-        <Button.Triggers>
-          <DataTrigger TargetType="Button"
-                       Binding="{Binding IsPetsSectionActive}"
-                       Value="True">
-            <Setter Property="BackgroundColor"
-                    Value="{StaticResource Primary}"/>
-            <Setter Property="TextColor"
-                    Value="White"/>
-          </DataTrigger>
-          <DataTrigger TargetType="Button"
-                       Binding="{Binding IsPetsSectionActive}"
-                       Value="False">
-            <Setter Property="BackgroundColor"
-                    Value="#EAEAEA"/>
-            <Setter Property="TextColor"
-                    Value="#333333"/>
-          </DataTrigger>
-        </Button.Triggers>
-      </Button>
-      <Button Grid.Column="1"
-              Text="Products"
-              Command="{Binding SwitchToProductsCommand}">
-        <Button.Triggers>
-          <DataTrigger TargetType="Button"
-                       Binding="{Binding IsProductsSectionActive}"
-                       Value="True">
-            <Setter Property="BackgroundColor"
-                    Value="{StaticResource Primary}"/>
-            <Setter Property="TextColor"
-                    Value="White"/>
-          </DataTrigger>
-          <DataTrigger TargetType="Button"
-                       Binding="{Binding IsProductsSectionActive}"
-                       Value="False">
-            <Setter Property="BackgroundColor"
-                    Value="#EAEAEA"/>
-            <Setter Property="TextColor"
-                    Value="#333333"/>
-          </DataTrigger>
-        </Button.Triggers>
-      </Button>
+      <Border Grid.Column="0"
+              Stroke="#DDD2FF"
+              StrokeThickness="1"
+              StrokeShape="RoundRectangle 10,10,10,10"
+              BackgroundColor="White"
+              Padding="0">
+        <Button Text="🐾 Pets"
+                Command="{Binding SwitchToPetsCommand}"
+                BackgroundColor="White"
+                TextColor="#2D1B4E"
+                BorderWidth="0"
+                FontSize="13"
+                FontAttributes="Bold">
+          <Button.Triggers>
+            <DataTrigger TargetType="Button"
+                         Binding="{Binding IsPetsSectionActive}"
+                         Value="True">
+              <Setter Property="BackgroundColor" Value="#B19CD9"/>
+              <Setter Property="TextColor" Value="White"/>
+            </DataTrigger>
+          </Button.Triggers>
+        </Button>
+      </Border>
+      <Border Grid.Column="1"
+              Stroke="#DDD2FF"
+              StrokeThickness="1"
+              StrokeShape="RoundRectangle 10,10,10,10"
+              BackgroundColor="White"
+              Padding="0">
+        <Button Text="🛍️ Products"
+                Command="{Binding SwitchToProductsCommand}"
+                BackgroundColor="White"
+                TextColor="#2D1B4E"
+                BorderWidth="0"
+                FontSize="13"
+                FontAttributes="Bold">
+          <Button.Triggers>
+            <DataTrigger TargetType="Button"
+                         Binding="{Binding IsProductsSectionActive}"
+                         Value="True">
+              <Setter Property="BackgroundColor" Value="#B19CD9"/>
+              <Setter Property="TextColor" Value="White"/>
+            </DataTrigger>
+          </Button.Triggers>
+        </Button>
+      </Border>
     </Grid>
 
     <!-- Content -->
@@ -90,15 +102,15 @@
 
       <ActivityIndicator IsRunning="{Binding IsLoading}"
                          IsVisible="{Binding IsLoading}"
-                         Color="{StaticResource Primary}"
+                         Color="#B19CD9"
                          VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Margin="0,20,0,0"/>
 
-      <!-- Pets Grid -->
+      <!-- Pets List -->
       <CollectionView ItemsSource="{Binding Pets}"
                       IsVisible="{Binding IsPetsSectionActive}"
-                      Margin="12,0,12,12">
+                      Margin="24,12,24,12">
         <CollectionView.ItemsLayout>
           <LinearItemsLayout Orientation="Vertical"
                              ItemSpacing="12"/>
@@ -106,42 +118,73 @@
         <CollectionView.ItemTemplate>
           <DataTemplate>
             <Border StrokeShape="RoundRectangle 12,12,12,12"
-                    Stroke="{StaticResource Primary}"
+                    Stroke="#DDD2FF"
                     StrokeThickness="1"
-                    Padding="12">
-              <VerticalStackLayout Spacing="8">
-                <Image Source="dotnet_bot.png"
-                       HeightRequest="160"
+                    BackgroundColor="White"
+                    Padding="0">
+              <Grid ColumnDefinitions="100,*" ColumnSpacing="12" Padding="12">
+                <!-- Pet Image -->
+                <Image Grid.Column="0"
+                       Source="dotnet_bot.png"
+                       HeightRequest="100"
+                       WidthRequest="100"
                        Aspect="AspectFill"/>
-                <Label Text="{Binding Name}"
-                       FontSize="18"
-                       FontAttributes="Bold"/>
-                <Label Text="{Binding Species}"
-                       FontSize="13"
-                       TextColor="Gray"/>
-                <Label Text="{Binding Breed}"
-                       FontSize="13"
-                       TextColor="Gray"/>
-                <Label Text="{Binding Age, StringFormat='Age: {0} year(s)'}"
-                       FontSize="13"
-                       TextColor="Gray"/>
-                <Label Text="{Binding Description}"
-                       FontSize="13"
-                       LineBreakMode="TailTruncation"
-                       MaxLines="2"/>
-              </VerticalStackLayout>
+                
+                <!-- Pet Details -->
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                  <Label Text="{Binding Name}"
+                         FontSize="15"
+                         FontAttributes="Bold"
+                         TextColor="#2D1B4E"/>
+                  <Label Text="{Binding Species}"
+                         FontSize="11"
+                         TextColor="#6B5B8C"/>
+                  <Label Text="{Binding Breed}"
+                         FontSize="11"
+                         TextColor="#6B5B8C"/>
+                  <Label Text="{Binding Age, StringFormat='Age: {0} year(s)'}"
+                         FontSize="11"
+                         TextColor="#6B5B8C"/>
+                  <Label Text="{Binding Description}"
+                         FontSize="11"
+                         TextColor="#6B5B8C"
+                         LineBreakMode="TailTruncation"
+                         MaxLines="1"/>
+                </VerticalStackLayout>
+              </Grid>
             </Border>
           </DataTemplate>
         </CollectionView.ItemTemplate>
+        
+        <!-- Empty State -->
+        <CollectionView.EmptyView>
+          <VerticalStackLayout Padding="20"
+                               Spacing="12"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center">
+            <Label Text="🐾"
+                   FontSize="48"
+                   HorizontalOptions="Center"/>
+            <Label Text="No pets found"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   TextColor="#2D1B4E"
+                   HorizontalOptions="Center"/>
+            <Label Text="Try adjusting your search"
+                   FontSize="12"
+                   TextColor="#6B5B8C"
+                   HorizontalOptions="Center"/>
+          </VerticalStackLayout>
+        </CollectionView.EmptyView>
       </CollectionView>
 
       <!-- Products Grid -->
       <CollectionView ItemsSource="{Binding Products}"
                       IsVisible="{Binding IsProductsSectionActive}"
-                      Margin="8">
+                      Margin="12,12,12,12">
         <CollectionView.ItemsLayout>
           <GridItemsLayout Orientation="Vertical"
-                           HorizontalItemSpacing="8"
+                           HorizontalItemSpacing="10"
                            VerticalItemSpacing="12"
                            Span="2"/>
         </CollectionView.ItemsLayout>
@@ -150,42 +193,40 @@
           <DataTemplate>
             <VerticalStackLayout Spacing="0">
               <Border StrokeShape="RoundRectangle 12,12,12,12"
-                      Stroke="{StaticResource Primary}"
+                      Stroke="#DDD2FF"
                       StrokeThickness="1"
-                      Padding="0"
-                      Margin="0">
-                <VerticalStackLayout Spacing="0"
-                                     Padding="0">
+                      BackgroundColor="White"
+                      Padding="0">
+                <VerticalStackLayout Spacing="0" Padding="0">
                   <!-- Product Image -->
                   <Image Source="dotnet_bot.png"
                          Aspect="AspectFill"
-                         HeightRequest="150"
-                         WidthRequest="170"/>
+                         HeightRequest="140"/>
 
                   <!-- Product Details -->
-                  <VerticalStackLayout Padding="12"
-                                       Spacing="8">
+                  <VerticalStackLayout Padding="12" Spacing="6">
                     <!-- Product Name -->
                     <Label Text="{Binding Name}"
-                           FontSize="14"
+                           FontSize="13"
                            FontAttributes="Bold"
                            LineBreakMode="TailTruncation"
                            MaxLines="2"
-                           VerticalTextAlignment="Start"/>
+                           TextColor="#2D1B4E"/>
 
                     <!-- Product Price -->
                     <Label Text="{Binding Price, StringFormat='${0:F2}'}"
-                           FontSize="16"
+                           FontSize="15"
                            FontAttributes="Bold"
-                           TextColor="{StaticResource Primary}"/>
+                           TextColor="#B19CD9"/>
 
                     <!-- View Details Button -->
-                    <Button Text="View"
-                            BackgroundColor="{StaticResource Primary}"
+                    <Button Text="View Details"
+                            BackgroundColor="#B19CD9"
                             TextColor="White"
-                            CornerRadius="6"
-                            Padding="8,6"
-                            FontSize="12"
+                            CornerRadius="8"
+                            Padding="0,8"
+                            FontSize="11"
+                            FontAttributes="Bold"
                             Margin="0,4,0,0"/>
                   </VerticalStackLayout>
                 </VerticalStackLayout>
@@ -200,13 +241,17 @@
                                Spacing="12"
                                HorizontalOptions="Center"
                                VerticalOptions="Center">
+            <Label Text="🛍️"
+                   FontSize="48"
+                   HorizontalOptions="Center"/>
             <Label Text="No products found"
-                   FontSize="18"
+                   FontSize="16"
                    FontAttributes="Bold"
+                   TextColor="#2D1B4E"
                    HorizontalOptions="Center"/>
             <Label Text="Try adjusting your search"
-                   FontSize="14"
-                   TextColor="Gray"
+                   FontSize="12"
+                   TextColor="#6B5B8C"
                    HorizontalOptions="Center"/>
           </VerticalStackLayout>
         </CollectionView.EmptyView>

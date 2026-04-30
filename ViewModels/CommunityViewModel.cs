@@ -12,14 +12,13 @@ public class CommunityViewModel : BaseViewModel
 
   private ObservableCollection<Post> _posts = new();
   private ObservableCollection<CommunityEventItem> _events = new();
+  private ObservableCollection<CommunityEventItem> _myRsvpEvents = new();
 
   private Post? _selectedPost;
   private CommunityEventItem? _selectedEvent;
   private string _newPostTitle = string.Empty;
   private string _newPostContent = string.Empty;
   private PostVisibility _postVisibility = PostVisibility.Public;
-
-  public ICommand RSVPAttendingCommand { get; }
 
   public ObservableCollection<Post> Posts
   {
@@ -31,6 +30,12 @@ public class CommunityViewModel : BaseViewModel
   {
     get => _events;
     set => SetProperty(ref _events, value);
+  }
+
+  public ObservableCollection<CommunityEventItem> MyRsvpEvents
+  {
+    get => _myRsvpEvents;
+    set => SetProperty(ref _myRsvpEvents, value);
   }
 
   public Post? SelectedPost
@@ -67,6 +72,8 @@ public class CommunityViewModel : BaseViewModel
   public ICommand LoadEventsCommand { get; }
   public ICommand CreatePostCommand { get; }
   public ICommand RSVPToEventCommand { get; }
+  public ICommand RSVPAttendingCommand { get; }
+  public ICommand CancelRsvpCommand { get; }
 
   public CommunityViewModel()
   {
@@ -77,6 +84,7 @@ public class CommunityViewModel : BaseViewModel
     CreatePostCommand = new RelayCommand(async () => await OnCreatePostAsync());
     RSVPToEventCommand = new RelayCommand<(Guid, RSVPStatus)>(async (param) => await OnRSVPToEventAsync(param.Item1, param.Item2));
     RSVPAttendingCommand = new RelayCommand<Guid>(async (eventId) => await OnRSVPToEventAsync(eventId, RSVPStatus.Attending));
+    CancelRsvpCommand = new RelayCommand<Guid>(async (eventId) => await OnCancelRsvpAsync(eventId));
   }
 
   private async Task OnLoadPostsAsync()
@@ -86,7 +94,9 @@ public class CommunityViewModel : BaseViewModel
     try
     {
       var posts = await _communityService.GetAllPostsAsync();
-      Posts = new ObservableCollection<Post>(posts);
+      // Sort by latest (most recent first)
+      var sortedPosts = posts.OrderByDescending(p => p.CreatedAt).ToList();
+      Posts = new ObservableCollection<Post>(sortedPosts);
     }
     catch (Exception ex)
     {
@@ -115,6 +125,7 @@ public class CommunityViewModel : BaseViewModel
       IsLoading = false;
     }
   }
+
   private async Task OnCreatePostAsync()
   {
     if (string.IsNullOrWhiteSpace(NewPostTitle) || string.IsNullOrWhiteSpace(NewPostContent))
@@ -136,7 +147,9 @@ public class CommunityViewModel : BaseViewModel
       NewPostTitle = string.Empty;
       NewPostContent = string.Empty;
       var posts = await _communityService.GetAllPostsAsync();
-      Posts = new ObservableCollection<Post>(posts);
+      // Sort by latest (most recent first)
+      var sortedPosts = posts.OrderByDescending(p => p.CreatedAt).ToList();
+      Posts = new ObservableCollection<Post>(sortedPosts);
       ErrorMessage = "Post created successfully!";
     }
     catch (Exception ex)
@@ -164,15 +177,27 @@ public class CommunityViewModel : BaseViewModel
           .ToHashSet();
     }
 
-    var eventItems = events
+    // Separate events into available events and user's RSVP'd events
+    var availableEventItems = events
+        .Where(e => !rsvpedEventIds.Contains(e.Id))
         .Select(e => new CommunityEventItem
         {
           Event = e,
-          IsRsvped = rsvpedEventIds.Contains(e.Id)
+          IsRsvped = false
         })
         .ToList();
 
-    Events = new ObservableCollection<CommunityEventItem>(eventItems);
+    var myRsvpEventItems = events
+        .Where(e => rsvpedEventIds.Contains(e.Id))
+        .Select(e => new CommunityEventItem
+        {
+          Event = e,
+          IsRsvped = true
+        })
+        .ToList();
+
+    Events = new ObservableCollection<CommunityEventItem>(availableEventItems);
+    MyRsvpEvents = new ObservableCollection<CommunityEventItem>(myRsvpEventItems);
   }
 
   private async Task OnRSVPToEventAsync(Guid eventId, RSVPStatus status)
@@ -200,6 +225,34 @@ public class CommunityViewModel : BaseViewModel
       IsLoading = false;
     }
   }
+
+  private async Task OnCancelRsvpAsync(Guid eventId)
+  {
+    ErrorMessage = string.Empty;
+    IsLoading = true;
+    try
+    {
+      var userId = _sessionService.CurrentUser?.Id;
+      if (userId == null)
+      {
+        ErrorMessage = "User not logged in";
+        return;
+      }
+      // You may need to add a CancelRSVPAsync method to ICommunityService
+      // For now, we'll treat canceling as changing status to Cancelled
+      await _communityService.RSVPToEventAsync(userId.Value, eventId, RSVPStatus.Cancelled);
+      await ReloadEventsAsync();
+      ErrorMessage = "RSVP cancelled successfully!";
+    }
+    catch (Exception ex)
+    {
+      ErrorMessage = $"Failed to cancel RSVP: {ex.Message}";
+    }
+    finally
+    {
+      IsLoading = false;
+    }
+  }
 }
 
 public class CommunityEventItem
@@ -212,6 +265,7 @@ public class CommunityEventItem
   public string Description => Event.Description;
   public DateTime EventDate => Event.EventDate;
   public string Location => Event.Location;
+  public int AttendeeCount => Event.CurrentAttendees;
   public string RsvpButtonText => IsRsvped ? "RSVP Submitted" : "RSVP Attending";
   public bool CanRsvp => !IsRsvped;
 }

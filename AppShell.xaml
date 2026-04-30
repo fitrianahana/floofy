@@ -5,28 +5,61 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
   xmlns:views="clr-namespace:floofy.Views"
   Title="floofy"
-  Shell.NavBarIsVisible="False">
+  Shell.NavBarIsVisible="False"
+  Shell.TabBarBackgroundColor="White"
+  Shell.TabBarForegroundColor="#B19CD9"
+  Shell.TabBarUnselectedColor="#A89BBB">
 
   <TabBar>
     <ShellContent
-      Title="Home"
-      ContentTemplate="{DataTemplate views:Home}"/>
+      ContentTemplate="{DataTemplate views:Home}">
+      <ShellContent.Icon>
+        <FontImageSource 
+          FontFamily="Arial"
+          Glyph="🏠"
+          Size="24"/>
+      </ShellContent.Icon>
+    </ShellContent>
 
     <ShellContent
-      Title="Shop"
-      ContentTemplate="{DataTemplate views:Shop}"/>
+      ContentTemplate="{DataTemplate views:Shop}">
+      <ShellContent.Icon>
+        <FontImageSource 
+          FontFamily="Arial"
+          Glyph="🛍️"
+          Size="24"/>
+      </ShellContent.Icon>
+    </ShellContent>
 
     <ShellContent
-      Title="Community"
-      ContentTemplate="{DataTemplate views:Community}"/>
+      ContentTemplate="{DataTemplate views:Community}">
+      <ShellContent.Icon>
+        <FontImageSource 
+          FontFamily="Arial"
+          Glyph="👥"
+          Size="24"/>
+      </ShellContent.Icon>
+    </ShellContent>
 
     <ShellContent
-      Title="Floofy+"
-      ContentTemplate="{DataTemplate views:FloofyPlus}"/>
+      ContentTemplate="{DataTemplate views:FloofyPlus}">
+      <ShellContent.Icon>
+        <FontImageSource 
+          FontFamily="Arial"
+          Glyph="⭐"
+          Size="24"/>
+      </ShellContent.Icon>
+    </ShellContent>
 
     <ShellContent
-      Title="Profile"
-      ContentTemplate="{DataTemplate views:Profile}"/>
+      ContentTemplate="{DataTemplate views:Profile}">
+      <ShellContent.Icon>
+        <FontImageSource 
+          FontFamily="Arial"
+          Glyph="👤"
+          Size="24"/>
+      </ShellContent.Icon>
+    </ShellContent>
   </TabBar>
 
 </Shell>

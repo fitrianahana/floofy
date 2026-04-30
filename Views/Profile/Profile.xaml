@@ -2,48 +2,225 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="floofy.Views.Profile"
-             Title="Profile">
-  <VerticalStackLayout Padding="24"
-      Spacing="16">
-    <Label Text="Profile"
-           FontSize="28"
-           FontAttributes="Bold"/>
-    <Border StrokeShape="RoundRectangle 8"
-        Stroke="Gray"
-        StrokeThickness="1"
-        Padding="16"
-        Margin="0,16,0,0">
-      <VerticalStackLayout Spacing="12">
-        <Label Text="User Information"
-            FontAttributes="Bold"
-            FontSize="16"/>
+             Title="Profile"
+             NavigationPage.HasNavigationBar="False">
+  <Grid BackgroundColor="#F8F7FC">
+    <ScrollView>
+      <VerticalStackLayout Spacing="0" Padding="0">
+        <!-- Header -->
+        <VerticalStackLayout Padding="24,20,24,0" Spacing="8">
+          <Label Text="My Profile"
+                 FontSize="28"
+                 FontAttributes="Bold"
+                 TextColor="#2D1B4E" />
+          <Label Text="Manage your account and preferences"
+                 FontSize="13"
+                 TextColor="#6B5B8C"
+                 LineBreakMode="WordWrap" />
+        </VerticalStackLayout>
 
-        <VerticalStackLayout Spacing="4">
-          <Label Text="Name:"
-              FontAttributes="Bold"
-              FontSize="12"/>
-          <Label x:Name="FullNameLabel"
-              FontSize="14"/>
+        <!-- Profile Card -->
+        <VerticalStackLayout Padding="24,20,24,0" Spacing="12">
+          <Border Stroke="#DDD2FF"
+                  StrokeThickness="1"
+                  StrokeShape="RoundRectangle 16,16,16,16"
+                  BackgroundColor="White"
+                  Padding="20">
+            <VerticalStackLayout Spacing="16" VerticalOptions="Center">
+              <!-- Profile Avatar -->
+              <Border CornerRadius="50"
+                      StrokeThickness="0"
+                      BackgroundColor="#E4DDF9"
+                      Padding="0"
+                      WidthRequest="100"
+                      HeightRequest="100"
+                      HorizontalOptions="Center" />
+              
+
+              <!-- User Name -->
+              <Label x:Name="FullNameLabel"
+                     FontSize="20"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     HorizontalOptions="Center" />
+
+              <!-- User Email -->
+              <Label x:Name="EmailLabel"
+                     FontSize="13"
+                     TextColor="#6B5B8C"
+                     HorizontalOptions="Center" />
+
+              <!-- User Roles -->
+              <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Label x:Name="RolesLabel"
+                       FontSize="12"
+                       TextColor="#B19CD9"
+                       FontAttributes="Bold" />
+              </HorizontalStackLayout>
+            </VerticalStackLayout>
+          </Border>
         </VerticalStackLayout>
-        <VerticalStackLayout Spacing="4">
-          <Label Text="Email:"
-              FontAttributes="Bold"
-              FontSize="12"/>
-          <Label x:Name="EmailLabel"
-              FontSize="14"/>
+
+        <!-- Account Settings Section -->
+        <VerticalStackLayout Padding="24,24,24,0" Spacing="12">
+          <Label Text="Account Settings"
+                 FontSize="14"
+                 FontAttributes="Bold"
+                 TextColor="#2D1B4E" />
+
+          <!-- Edit Profile Option -->
+          <Border Stroke="#DDD2FF"
+                  StrokeThickness="1"
+                  StrokeShape="RoundRectangle 12,12,12,12"
+                  BackgroundColor="White"
+                  Padding="16">
+            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+              <Label Text="✏️"
+                     FontSize="20"
+                     WidthRequest="30" />
+              <VerticalStackLayout Spacing="2" HorizontalOptions="Fill">
+                <Label Text="Edit Profile"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E" />
+                <Label Text="Update your personal information"
+                       FontSize="11"
+                       TextColor="#6B5B8C" />
+              </VerticalStackLayout>
+              <Label Text="→"
+                     FontSize="16"
+                     TextColor="#6B5B8C"
+                     VerticalOptions="Center" />
+            </HorizontalStackLayout>
+          </Border>
+
+          <!-- Change Password Option -->
+          <Border Stroke="#DDD2FF"
+                  StrokeThickness="1"
+                  StrokeShape="RoundRectangle 12,12,12,12"
+                  BackgroundColor="White"
+                  Padding="16">
+            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+              <Label Text="🔐"
+                     FontSize="20"
+                     WidthRequest="30" />
+              <VerticalStackLayout Spacing="2" HorizontalOptions="Fill">
+                <Label Text="Change Password"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E" />
+                <Label Text="Update your password"
+                       FontSize="11"
+                       TextColor="#6B5B8C" />
+              </VerticalStackLayout>
+              <Label Text="→"
+                     FontSize="16"
+                     TextColor="#6B5B8C"
+                     VerticalOptions="Center" />
+            </HorizontalStackLayout>
+          </Border>
+
+          <!-- Notifications Option -->
+          <Border Stroke="#DDD2FF"
+                  StrokeThickness="1"
+                  StrokeShape="RoundRectangle 12,12,12,12"
+                  BackgroundColor="White"
+                  Padding="16">
+            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+              <Label Text="🔔"
+                     FontSize="20"
+                     WidthRequest="30" />
+              <VerticalStackLayout Spacing="2" HorizontalOptions="Fill">
+                <Label Text="Notifications"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E" />
+                <Label Text="Manage notification preferences"
+                       FontSize="11"
+                       TextColor="#6B5B8C" />
+              </VerticalStackLayout>
+              <Label Text="→"
+                     FontSize="16"
+                     TextColor="#6B5B8C"
+                     VerticalOptions="Center" />
+            </HorizontalStackLayout>
+          </Border>
         </VerticalStackLayout>
-        <VerticalStackLayout Spacing="4">
-          <Label Text="Roles:"
-              FontAttributes="Bold"
-              FontSize="12"/>
-          <Label x:Name="RolesLabel"
-              FontSize="14"/>
+
+        <!-- Other Section -->
+        <VerticalStackLayout Padding="24,24,24,0" Spacing="12">
+          <Label Text="Other"
+                 FontSize="14"
+                 FontAttributes="Bold"
+                 TextColor="#2D1B4E" />
+
+           <!-- Help &amp; Support Option -->
+           <Border Stroke="#DDD2FF"
+                   StrokeThickness="1"
+                   StrokeShape="RoundRectangle 12,12,12,12"
+                   BackgroundColor="White"
+                   Padding="16">
+             <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+               <Label Text="❓"
+                      FontSize="20"
+                      WidthRequest="30" />
+               <VerticalStackLayout Spacing="2" HorizontalOptions="Fill">
+                 <Label Text="Help &amp; Support"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        TextColor="#2D1B4E" />
+                 <Label Text="Get help and contact support"
+                        FontSize="11"
+                        TextColor="#6B5B8C" />
+               </VerticalStackLayout>
+               <Label Text="→"
+                      FontSize="16"
+                      TextColor="#6B5B8C"
+                      VerticalOptions="Center" />
+             </HorizontalStackLayout>
+           </Border>
+
+          <!-- About Option -->
+          <Border Stroke="#DDD2FF"
+                  StrokeThickness="1"
+                  StrokeShape="RoundRectangle 12,12,12,12"
+                  BackgroundColor="White"
+                  Padding="16">
+            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+              <Label Text="ℹ️"
+                     FontSize="20"
+                     WidthRequest="30" />
+              <VerticalStackLayout Spacing="2" HorizontalOptions="Fill">
+                <Label Text="About Floofy"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E" />
+                <Label Text="Learn about the app"
+                       FontSize="11"
+                       TextColor="#6B5B8C" />
+              </VerticalStackLayout>
+              <Label Text="→"
+                     FontSize="16"
+                     TextColor="#6B5B8C"
+                     VerticalOptions="Center" />
+            </HorizontalStackLayout>
+          </Border>
+        </VerticalStackLayout>
+
+        <!-- Logout Button -->
+        <VerticalStackLayout Padding="24,24,24,24">
+          <Button Text="🚪 Logout"
+                  Clicked="OnLogoutClicked"
+                  BackgroundColor="Transparent"
+                  TextColor="#FF6B6B"
+                  BorderColor="#FF6B6B"
+                  BorderWidth="1"
+                  FontSize="14"
+                  FontAttributes="Bold"
+                  CornerRadius="10"
+                  Padding="0,12" />
         </VerticalStackLayout>
       </VerticalStackLayout>
-    </Border>
-    <Button Text="Logout"
-            Clicked="OnLogoutClicked"
-            BackgroundColor="Red"
-            Margin="0,32,0,0"/>
-  </VerticalStackLayout>
+    </ScrollView>
+  </Grid>
 </ContentPage>
