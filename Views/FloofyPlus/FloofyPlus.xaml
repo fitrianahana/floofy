@@ -2,134 +2,243 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="floofy.Views.FloofyPlus"
-             Title="Floofy+">
-  <ScrollView>
-    <VerticalStackLayout Padding="16"
-        Spacing="16">
-      <!-- Hero -->
-      <Border Stroke="{StaticResource Primary}"
-              StrokeThickness="1"
-              StrokeShape="RoundRectangle 14,14,14,14"
-              BackgroundColor="#F8F8F8"
-              Padding="16">
-        <VerticalStackLayout Spacing="6">
-          <Label Text="Floofy+ Care Center"
-                 FontSize="26"
-                 FontAttributes="Bold"/>
-          <Label Text="24/7 pet healthcare with trusted veterinarians and emergency support."
-                 FontSize="14"
-                 TextColor="Gray"/>
-        </VerticalStackLayout>
-      </Border>
-      <!-- Emergency -->
-      <Border Stroke="#D32F2F"
-              StrokeThickness="1"
-              StrokeShape="RoundRectangle 14,14,14,14"
-              BackgroundColor="#FFF4F4"
-              Padding="16">
-        <VerticalStackLayout Spacing="10">
-          <Label Text="Emergency Support"
+             Title="Floofy Plus"
+             NavigationPage.HasNavigationBar="False">
+  <Grid BackgroundColor="#F8F7FC"
+        RowDefinitions="Auto,*"
+        RowSpacing="0"
+        Padding="0">
+    
+    <!-- Header with Background Image -->
+    <Grid Grid.Row="0"
+          HeightRequest="150">
+      <!-- Background Image -->
+      <Image Source="floofyplus_bg.jpg"
+             Aspect="AspectFill"
+             VerticalOptions="Fill"
+             HorizontalOptions="Fill" />
+      
+      <!-- Header Content -->
+      <VerticalStackLayout Padding="24,20,24,12"
+                           Spacing="4"
+                           VerticalOptions="Center">
+        <Label Text="Floofy+ Care"
+               FontSize="28"
+               FontAttributes="Bold"
+               TextColor="White" />
+        <Label Text="24/7 Veterinary Care &amp; Emergency Support"
+               FontSize="13"
+               TextColor="#E8E0F5"
+               LineBreakMode="WordWrap" />
+      </VerticalStackLayout>
+    </Grid>
+
+    <!-- Content Area -->
+    <ScrollView Grid.Row="1">
+      <VerticalStackLayout Padding="24,20,24,24"
+                           Spacing="16">
+        
+        <!-- Emergency Alert Card -->
+        <Border Stroke="#FF6B6B"
+                StrokeThickness="2"
+                StrokeShape="RoundRectangle 16,16,16,16"
+                BackgroundColor="#FFF5F5"
+                Padding="20">
+          <VerticalStackLayout Spacing="12">
+            <VerticalStackLayout Spacing="4">
+              <Label Text="🚨 Emergency Support"
+                     FontSize="18"
+                     FontAttributes="Bold"
+                     TextColor="#FF6B6B" />
+              <Label Text="Available 24/7 for critical situations"
+                     FontSize="12"
+                     TextColor="#A84646"
+                     LineBreakMode="WordWrap" />
+            </VerticalStackLayout>
+            <Button Text="Call Emergency Hotline"
+                    Clicked="OnCallEmergencyClicked"
+                    BackgroundColor="#FF6B6B"
+                    TextColor="White"
+                    CornerRadius="12"
+                    Padding="0,12"
+                    FontAttributes="Bold"
+                    FontSize="13" />
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Quick Services Grid -->
+        <VerticalStackLayout Spacing="12">
+          <Label Text="Quick Services"
                  FontSize="18"
                  FontAttributes="Bold"
-                 TextColor="#B71C1C"/>
-          <Label Text="If your pet is in critical condition, contact our emergency team immediately."
-                 FontSize="13"
-                 TextColor="#7A1C1C"/>
-          <Button Text="Call Emergency Hotline"
-                  Clicked="OnCallEmergencyClicked"
-                  BackgroundColor="#D32F2F"
+                 TextColor="#2D1B4E"
+                 Margin="0,4,0,0" />
+          
+          <!-- Service Cards Grid -->
+          <Grid ColumnDefinitions="*,*"
+                RowDefinitions="Auto,Auto"
+                ColumnSpacing="12"
+                RowSpacing="12">
+            
+            <!-- Vet Consultation Card -->
+            <Border Grid.Row="0"
+                    Grid.Column="0"
+                    Stroke="#E8E0F5"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 14,14,14,14"
+                    BackgroundColor="White"
+                    Padding="16">
+              <VerticalStackLayout Spacing="8">
+                <Label Text="🏥"
+                       FontSize="24"
+                       HorizontalOptions="Start" />
+                <Label Text="Vet Consultation"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E" />
+                <Label Text="Professional care"
+                       FontSize="11"
+                       TextColor="#6B5B8C" />
+              </VerticalStackLayout>
+            </Border>
+
+            <!-- Vaccination Card -->
+            <Border Grid.Row="0"
+                    Grid.Column="1"
+                    Stroke="#E8E0F5"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 14,14,14,14"
+                    BackgroundColor="White"
+                    Padding="16">
+              <VerticalStackLayout Spacing="8">
+                <Label Text="💉"
+                       FontSize="24"
+                       HorizontalOptions="Start" />
+                <Label Text="Vaccination"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E" />
+                <Label Text="Stay protected"
+                       FontSize="11"
+                       TextColor="#6B5B8C" />
+              </VerticalStackLayout>
+            </Border>
+
+            <!-- Health Checkup Card -->
+            <Border Grid.Row="1"
+                    Grid.Column="0"
+                    Stroke="#E8E0F5"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 14,14,14,14"
+                    BackgroundColor="White"
+                    Padding="16">
+              <VerticalStackLayout Spacing="8">
+                <Label Text="❤️"
+                       FontSize="24"
+                       HorizontalOptions="Start" />
+                <Label Text="Health Checkup"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E" />
+                <Label Text="Preventive care"
+                       FontSize="11"
+                       TextColor="#6B5B8C" />
+              </VerticalStackLayout>
+            </Border>
+
+            <!-- Surgery & Treatment Card -->
+            <Border Grid.Row="1"
+                    Grid.Column="1"
+                    Stroke="#E8E0F5"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 14,14,14,14"
+                    BackgroundColor="White"
+                    Padding="16">
+              <VerticalStackLayout Spacing="8">
+                <Label Text="🔧"
+                       FontSize="24"
+                       HorizontalOptions="Start" />
+                <Label Text="Surgery"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E" />
+                <Label Text="Expert procedures"
+                       FontSize="11"
+                       TextColor="#6B5B8C" />
+              </VerticalStackLayout>
+            </Border>
+          </Grid>
+        </VerticalStackLayout>
+
+        <!-- Hospital Info Card -->
+        <Border Stroke="#DDD2FF"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 16,16,16,16"
+                BackgroundColor="White"
+                Padding="20">
+          <VerticalStackLayout Spacing="12">
+            <Label Text="Hospital Information"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   TextColor="#2D1B4E" />
+            
+            <VerticalStackLayout Spacing="8">
+              <VerticalStackLayout Spacing="2">
+                <Label Text="📍 Location"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E" />
+                <Label Text="123 Floofy Street, Pet City"
+                       FontSize="12"
+                       TextColor="#6B5B8C" />
+              </VerticalStackLayout>
+              
+              <VerticalStackLayout Spacing="2">
+                <Label Text="🕐 Hours"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E" />
+                <Label Text="Open 24 Hours, 7 Days a Week"
+                       FontSize="12"
+                       TextColor="#6B5B8C" />
+              </VerticalStackLayout>
+              
+              <VerticalStackLayout Spacing="2">
+                <Label Text="📞 Contact"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E" />
+                <Label Text="+1-800-FLOOFY-VET"
+                       FontSize="12"
+                       TextColor="#6B5B8C" />
+              </VerticalStackLayout>
+            </VerticalStackLayout>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Action Buttons -->
+        <VerticalStackLayout Spacing="12">
+          <Button Text="📅 Book Appointment"
+                  Clicked="OnBookAppointmentClicked"
+                  BackgroundColor="#B19CD9"
                   TextColor="White"
-                  CornerRadius="10"/>
+                  CornerRadius="12"
+                  Padding="0,14"
+                  FontAttributes="Bold"
+                  FontSize="14" />
+          
+          <Button Text="📋 View Medical Records"
+                  Clicked="OnViewMedicalRecordsClicked"
+                  BackgroundColor="#F8F7FC"
+                  TextColor="#2D1B4E"
+                  BorderColor="#DDD2FF"
+                  BorderWidth="1"
+                  CornerRadius="12"
+                  Padding="0,14"
+                  FontAttributes="Bold"
+                  FontSize="14" />
         </VerticalStackLayout>
-      </Border>
-      <!-- Services -->
-      <VerticalStackLayout Spacing="10">
-        <Label Text="Veterinary Services"
-               FontSize="20"
-               FontAttributes="Bold"/>
-        <Border Stroke="#DDDDDD"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 10,10,10,10"
-                Padding="12">
-          <VerticalStackLayout Spacing="4">
-            <Label Text="Vet Consultation"
-                FontAttributes="Bold"
-                FontSize="16"/>
-            <Label Text="General checkups, diagnosis, and treatment plans."
-                   FontSize="13"
-                TextColor="Gray"/>
-          </VerticalStackLayout>
-        </Border>
-        <Border Stroke="#DDDDDD"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 10,10,10,10"
-                Padding="12">
-          <VerticalStackLayout Spacing="4">
-            <Label Text="Vaccination"
-                FontAttributes="Bold"
-                FontSize="16"/>
-            <Label Text="Core and optional vaccines for pets of all ages."
-                   FontSize="13"
-                TextColor="Gray"/>
-          </VerticalStackLayout>
-        </Border>
-        <Border Stroke="#DDDDDD"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 10,10,10,10"
-                Padding="12">
-          <VerticalStackLayout Spacing="4">
-            <Label Text="Health Checkup"
-                FontAttributes="Bold"
-                FontSize="16"/>
-            <Label Text="Routine exams, bloodwork, and preventive screenings."
-                   FontSize="13"
-                TextColor="Gray"/>
-          </VerticalStackLayout>
-        </Border>
-        <Border Stroke="#DDDDDD"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 10,10,10,10"
-                Padding="12">
-          <VerticalStackLayout Spacing="4">
-            <Label Text="Surgery and Treatment"
-                FontAttributes="Bold"
-                FontSize="16"/>
-            <Label Text="Minor and major procedures handled by qualified vets."
-                   FontSize="13"
-                TextColor="Gray"/>
-          </VerticalStackLayout>
-        </Border>
       </VerticalStackLayout>
-      <!-- Hospital Info -->
-      <Border Stroke="#DDDDDD"
-              StrokeThickness="1"
-              StrokeShape="RoundRectangle 10,10,10,10"
-              Padding="12">
-        <VerticalStackLayout Spacing="6">
-          <Label Text="Hospital Information"
-                 FontSize="18"
-                 FontAttributes="Bold"/>
-          <Label Text="Address: 123 Floofy Street, Pet City"
-                 FontSize="13"/>
-          <Label Text="Open Hours: Mon-Sun, 24 Hours"
-                 FontSize="13"/>
-          <Label Text="Contact: +1-800-FLOOFY-VET"
-                 FontSize="13"/>
-        </VerticalStackLayout>
-      </Border>
-      <!-- Actions -->
-      <VerticalStackLayout Spacing="10">
-        <Button Text="Book Appointment"
-                Clicked="OnBookAppointmentClicked"
-                BackgroundColor="{StaticResource Primary}"
-                TextColor="White"
-                CornerRadius="10"/>
-        <Button Text="View Medical Records"
-                Clicked="OnViewMedicalRecordsClicked"
-                BackgroundColor="#EEEEEE"
-                TextColor="#333333"
-                CornerRadius="10"/>
-      </VerticalStackLayout>
-    </VerticalStackLayout>
-  </ScrollView>
+    </ScrollView>
+  </Grid>
 </ContentPage>
