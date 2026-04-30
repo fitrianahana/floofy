@@ -13,9 +13,19 @@ public partial class Community : ContentPage
     InitializeComponent();
     _viewModel = viewModel;
     BindingContext = viewModel;
-  }
+    
+     // Subscribe to RSVP success callback to show My RSVPs tab
+     _viewModel.OnRsvpSuccessful += ShowMyRsvpsSection;
+   }
 
-  protected override void OnAppearing()
+   ~Community()
+   {
+     // Unsubscribe to avoid memory leaks
+     if (_viewModel?.OnRsvpSuccessful != null)
+       _viewModel.OnRsvpSuccessful -= ShowMyRsvpsSection;
+   }
+
+   protected override void OnAppearing()
   {
     base.OnAppearing();
     if (_viewModel.LoadPostsCommand is ICommand postsCmd && postsCmd.CanExecute(null))
@@ -54,15 +64,32 @@ public partial class Community : ContentPage
     MyRsvpButton.TextColor = Color.FromArgb("#6B5B8C");
   }
 
-  private void OnMyRsvpClicked(object? sender, EventArgs e)
-  {
-    AvailableEventsSection.IsVisible = false;
-    MyRsvpsSection.IsVisible = true;
-    AvailableEventsButton.BackgroundColor = Colors.Transparent;
-    AvailableEventsButton.TextColor = Color.FromArgb("#6B5B8C");
-    MyRsvpButton.BackgroundColor = Color.FromArgb("#B19CD9");
-    MyRsvpButton.TextColor = Colors.White;
-  }
+   private void OnMyRsvpClicked(object? sender, EventArgs e)
+   {
+     ShowMyRsvpsSection();
+   }
+
+   /// <summary>
+   /// Public method to switch to My RSVPs tab (called after successful RSVP)
+   /// </summary>
+   public void ShowMyRsvpsSection()
+   {
+     AvailableEventsSection.IsVisible = false;
+     MyRsvpsSection.IsVisible = true;
+     AvailableEventsButton.BackgroundColor = Colors.Transparent;
+     AvailableEventsButton.TextColor = Color.FromArgb("#6B5B8C");
+     MyRsvpButton.BackgroundColor = Color.FromArgb("#B19CD9");
+     MyRsvpButton.TextColor = Colors.White;
+     
+     // Force reload of data to ensure CollectionView shows latest RSVPs
+     MainThread.BeginInvokeOnMainThread(async () =>
+     {
+       if (_viewModel?.LoadEventsCommand is ICommand cmd && cmd.CanExecute(null))
+       {
+         cmd.Execute(null);
+       }
+     });
+   }
 
    private void UpdateTabUI()
    {

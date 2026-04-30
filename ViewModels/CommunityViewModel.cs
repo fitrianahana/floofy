@@ -10,6 +10,9 @@ public class CommunityViewModel : BaseViewModel
   private readonly ICommunityService _communityService;
   private readonly SessionService _sessionService;
 
+  // Callback for when RSVP is successful - code-behind can subscribe to this
+  public Action? OnRsvpSuccessful { get; set; }
+
   private ObservableCollection<Post> _posts = new();
   private ObservableCollection<CommunityEventItem> _events = new();
   private ObservableCollection<CommunityEventItem> _myRsvpEvents = new();
@@ -218,31 +221,34 @@ public class CommunityViewModel : BaseViewModel
     System.Diagnostics.Debug.WriteLine("[VIEWMODEL] ========== ReloadEventsAsync FINISHED ==========");
   }
 
-  private async Task OnRSVPToEventAsync(Guid eventId, RSVPStatus status)
-  {
-    ErrorMessage = string.Empty;
-    IsLoading = true;
-    try
-    {
-      var userId = _sessionService.CurrentUser?.Id;
-      if (userId == null)
-      {
-        ErrorMessage = "User not logged in";
-        return;
-      }
-      await _communityService.RSVPToEventAsync(userId.Value, eventId, status);
-      await ReloadEventsAsync();
-      ErrorMessage = "RSVP submitted successfully!";
-    }
-    catch (Exception ex)
-    {
-      ErrorMessage = $"Failed to RSVP: {ex.Message}";
-    }
-    finally
-    {
-      IsLoading = false;
-    }
-  }
+   private async Task OnRSVPToEventAsync(Guid eventId, RSVPStatus status)
+   {
+     ErrorMessage = string.Empty;
+     IsLoading = true;
+     try
+     {
+       var userId = _sessionService.CurrentUser?.Id;
+       if (userId == null)
+       {
+         ErrorMessage = "User not logged in";
+         return;
+       }
+       await _communityService.RSVPToEventAsync(userId.Value, eventId, status);
+       await ReloadEventsAsync();
+       ErrorMessage = "RSVP submitted successfully!";
+       
+       // Notify UI to show My RSVPs tab
+       OnRsvpSuccessful?.Invoke();
+     }
+     catch (Exception ex)
+     {
+       ErrorMessage = $"Failed to RSVP: {ex.Message}";
+     }
+     finally
+     {
+       IsLoading = false;
+     }
+   }
 
    private async Task OnCancelRsvpAsync(Guid eventId)
    {
