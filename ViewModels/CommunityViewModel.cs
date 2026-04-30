@@ -164,17 +164,30 @@ public class CommunityViewModel : BaseViewModel
 
   private async Task ReloadEventsAsync()
   {
+    System.Diagnostics.Debug.WriteLine("[VIEWMODEL] ========== ReloadEventsAsync STARTED ==========");
     var events = await _communityService.GetAllEventsAsync();
+    System.Diagnostics.Debug.WriteLine($"[VIEWMODEL] Retrieved {events.Count} events from service");
+    
     var currentUserId = _sessionService.CurrentUser?.Id;
+    System.Diagnostics.Debug.WriteLine($"[VIEWMODEL] Current user ID: {currentUserId}");
 
     HashSet<Guid> rsvpedEventIds = new();
     if (currentUserId != null)
     {
       var rsvps = await _communityService.GetUserEventRSVPsAsync(currentUserId.Value);
+      System.Diagnostics.Debug.WriteLine($"[VIEWMODEL] Retrieved {rsvps.Count} RSVPs for user");
+      
+      foreach (var rsvp in rsvps)
+      {
+        System.Diagnostics.Debug.WriteLine($"[VIEWMODEL]   RSVP: eventId={rsvp.EventId}, status={rsvp.RSVPStatus}, isDeleted={rsvp.IsDeleted}");
+      }
+      
       rsvpedEventIds = rsvps
           .Where(r => r.RSVPStatus == RSVPStatus.Attending || r.RSVPStatus == RSVPStatus.Pending)
           .Select(r => r.EventId)
           .ToHashSet();
+      
+      System.Diagnostics.Debug.WriteLine($"[VIEWMODEL] Filtered to {rsvpedEventIds.Count} Attending/Pending RSVPs");
     }
 
     // Separate events into available events and user's RSVP'd events
@@ -196,8 +209,13 @@ public class CommunityViewModel : BaseViewModel
         })
         .ToList();
 
+    System.Diagnostics.Debug.WriteLine($"[VIEWMODEL] Available events: {availableEventItems.Count}");
+    System.Diagnostics.Debug.WriteLine($"[VIEWMODEL] My RSVP events: {myRsvpEventItems.Count}");
+
     Events = new ObservableCollection<CommunityEventItem>(availableEventItems);
     MyRsvpEvents = new ObservableCollection<CommunityEventItem>(myRsvpEventItems);
+    
+    System.Diagnostics.Debug.WriteLine("[VIEWMODEL] ========== ReloadEventsAsync FINISHED ==========");
   }
 
   private async Task OnRSVPToEventAsync(Guid eventId, RSVPStatus status)

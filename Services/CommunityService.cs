@@ -68,25 +68,47 @@ public class CommunityService : ICommunityService
 
   public async Task<List<EventRSVP>> GetUserEventRSVPsAsync(Guid userId)
   {
+    System.Diagnostics.Debug.WriteLine($"[SERVICE] GetUserEventRSVPsAsync called for userId: {userId}");
     var allRsvps = await _eventRSVPRepository.GetAllAsync();
-    return allRsvps
+    System.Diagnostics.Debug.WriteLine($"[SERVICE] Total RSVPs in database: {allRsvps.Count}");
+    
+    var result = allRsvps
         .Where(r => r.AttendeeId == userId && !r.IsDeleted)
         .ToList();
+    
+    System.Diagnostics.Debug.WriteLine($"[SERVICE] Returning {result.Count} RSVPs for user {userId}");
+    foreach (var rsvp in result)
+    {
+      System.Diagnostics.Debug.WriteLine($"[SERVICE]   - RSVP ID: {rsvp.Id}, EventId: {rsvp.EventId}, Status: {rsvp.RSVPStatus}");
+    }
+    
+    return result;
   }
 
   public async Task<EventRSVP> RSVPToEventAsync(Guid userId, Guid eventId, RSVPStatus status)
   {
+    System.Diagnostics.Debug.WriteLine($"[SERVICE] RSVPToEventAsync called: userId={userId}, eventId={eventId}, status={status}");
+    
     var allRsvps = await _eventRSVPRepository.GetAllAsync();
+    System.Diagnostics.Debug.WriteLine($"[SERVICE] Retrieved {allRsvps.Count} RSVPs from database");
+    
     var existing = allRsvps.FirstOrDefault(r => r.AttendeeId == userId && r.EventId == eventId && !r.IsDeleted);
+    System.Diagnostics.Debug.WriteLine($"[SERVICE] Found existing RSVP: {(existing != null ? "YES" : "NO")}");
 
     if (existing != null)
     {
+      System.Diagnostics.Debug.WriteLine($"[SERVICE] Updating existing RSVP");
+      System.Diagnostics.Debug.WriteLine($"[SERVICE] Old status: {existing.RSVPStatus}, New status: {status}");
       existing.RSVPStatus = status;
       existing.RegistrationDate = DateTime.UtcNow;
+      System.Diagnostics.Debug.WriteLine($"[SERVICE] About to call UpdateAsync");
       await _eventRSVPRepository.UpdateAsync(existing);
+      System.Diagnostics.Debug.WriteLine($"[SERVICE] UpdateAsync completed");
+      System.Diagnostics.Debug.WriteLine($"[SERVICE] RSVP after update - Status: {existing.RSVPStatus}, UpdatedAt: {existing.UpdatedAt}");
       return existing;
     }
 
+    System.Diagnostics.Debug.WriteLine($"[SERVICE] Creating new RSVP");
     var rsvp = new EventRSVP
     {
       AttendeeId = userId,
@@ -95,6 +117,7 @@ public class CommunityService : ICommunityService
       RegistrationDate = DateTime.UtcNow
     };
     await _eventRSVPRepository.InsertAsync(rsvp);
+    System.Diagnostics.Debug.WriteLine($"[SERVICE] New RSVP created with ID: {rsvp.Id}");
     return rsvp;
   }
 }
