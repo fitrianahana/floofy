@@ -124,9 +124,9 @@
                   Padding="12">
                 <!-- Pet Image -->
                 <Image Grid.Column="0"
-                       Source="dotnet_bot.png"
-                       HeightRequest="100"
-                       WidthRequest="100"
+                       Source="{Binding Thumbnail}"
+                       HeightRequest="120"
+                       WidthRequest="110"
                        Aspect="AspectFill"/>
 
                 <!-- Pet Details -->
