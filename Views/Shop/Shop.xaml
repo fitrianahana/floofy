@@ -5,28 +5,78 @@
              Title="Shop"
              NavigationPage.HasNavigationBar="False">
 
-  <Grid RowDefinitions="Auto,Auto,Auto,*"
-        BackgroundColor="#F8F7FC"
-        Padding="0"
-        RowSpacing="0">
+  <Grid BackgroundColor="#F8F7FC"
+        RowDefinitions="Auto,Auto,Auto,*"
+        RowSpacing="0"
+        Padding="0">
 
-    <!-- Header Section -->
-    <VerticalStackLayout Grid.Row="0"
-                         Padding="24,20,24,0"
-                         Spacing="8">
-      <Label Text="Shop"
-             FontSize="28"
-             FontAttributes="Bold"
-             TextColor="#2D1B4E"/>
-      <Label Text="Browse and discover amazing products"
-             FontSize="13"
-             TextColor="#6B5B8C"
-             LineBreakMode="WordWrap"/>
-    </VerticalStackLayout>
+    <!-- Header with Background Image -->
+    <Grid Grid.Row="0"
+          HeightRequest="150">
+      <!-- Background Image -->
+      <Image Source="shop_bg.jpg"
+             Aspect="AspectFill"
+             VerticalOptions="Fill"
+             HorizontalOptions="Fill"
+             Opacity="1"/>
+
+      <!-- Header Content -->
+      <VerticalStackLayout Padding="24,20,24,12"
+                           Spacing="4"
+                           VerticalOptions="Center">
+        <Label Text="Shop"
+               FontSize="24"
+               FontAttributes="Bold"
+               TextColor="White"/>
+        <Label Text="Browse and discover amazing products"
+               FontSize="12"
+               TextColor="#E8E0F5"
+               LineBreakMode="WordWrap"/>
+      </VerticalStackLayout>
+    </Grid>
+
+    <!-- Tab Selector with Indicator -->
+    <Grid Grid.Row="1"
+          Padding="24,12,24,0"
+          ColumnDefinitions="Auto,Auto,*"
+          RowDefinitions="Auto,Auto"
+          ColumnSpacing="24">
+      <Button Grid.Column="0"
+              Grid.Row="0"
+              Text="🐾 Pets"
+              x:Name="PetsTabButton"
+              Clicked="OnPetsTabClicked"
+              BackgroundColor="Transparent"
+              TextColor="#2D1B4E"
+              FontAttributes="Bold"
+              FontSize="14"
+              Padding="0"
+              HorizontalOptions="Start"/>
+      <Button Grid.Column="1"
+              Grid.Row="0"
+              Text="🛍️ Products"
+              x:Name="ProductsTabButton"
+              Clicked="OnProductsTabClicked"
+              BackgroundColor="Transparent"
+              TextColor="#6B5B8C"
+              FontSize="14"
+              Padding="0"
+              HorizontalOptions="Start"/>
+
+      <!-- Tab Indicator Line -->
+      <BoxView Grid.Column="0"
+               Grid.Row="1"
+               x:Name="TabIndicator"
+               Color="#B19CD9"
+               HeightRequest="3"
+               WidthRequest="58"
+               HorizontalOptions="Start"
+               Margin="0,8,0,0"/>
+    </Grid>
 
     <!-- Search Bar -->
-    <VerticalStackLayout Grid.Row="1"
-                         Padding="24,16,24,0"
+    <VerticalStackLayout Grid.Row="2"
+                         Padding="24,12,24,0"
                          Spacing="8">
       <SearchBar x:Name="SearchBar"
                  Placeholder="Search products or pets..."
@@ -43,59 +93,6 @@
              FontAttributes="Bold"
              FontSize="12"/>
     </VerticalStackLayout>
-
-    <!-- Section Toggle -->
-    <Grid Grid.Row="2"
-          Padding="24,16,24,12"
-          ColumnDefinitions="*,*"
-          ColumnSpacing="10">
-      <Border Grid.Column="0"
-              Stroke="#DDD2FF"
-              StrokeThickness="1"
-              StrokeShape="RoundRectangle 10,10,10,10"
-              BackgroundColor="White"
-              Padding="0">
-        <Button Text="🐾 Pets"
-                Command="{Binding SwitchToPetsCommand}"
-                BackgroundColor="White"
-                TextColor="#2D1B4E"
-                BorderWidth="0"
-                FontSize="13"
-                FontAttributes="Bold">
-          <Button.Triggers>
-            <DataTrigger TargetType="Button"
-                         Binding="{Binding IsPetsSectionActive}"
-                         Value="True">
-              <Setter Property="BackgroundColor" Value="#B19CD9"/>
-              <Setter Property="TextColor" Value="White"/>
-            </DataTrigger>
-          </Button.Triggers>
-        </Button>
-      </Border>
-      <Border Grid.Column="1"
-              Stroke="#DDD2FF"
-              StrokeThickness="1"
-              StrokeShape="RoundRectangle 10,10,10,10"
-              BackgroundColor="White"
-              Padding="0">
-        <Button Text="🛍️ Products"
-                Command="{Binding SwitchToProductsCommand}"
-                BackgroundColor="White"
-                TextColor="#2D1B4E"
-                BorderWidth="0"
-                FontSize="13"
-                FontAttributes="Bold">
-          <Button.Triggers>
-            <DataTrigger TargetType="Button"
-                         Binding="{Binding IsProductsSectionActive}"
-                         Value="True">
-              <Setter Property="BackgroundColor" Value="#B19CD9"/>
-              <Setter Property="TextColor" Value="White"/>
-            </DataTrigger>
-          </Button.Triggers>
-        </Button>
-      </Border>
-    </Grid>
 
     <!-- Content -->
     <Grid Grid.Row="3">
@@ -129,7 +126,7 @@
                        HeightRequest="100"
                        WidthRequest="100"
                        Aspect="AspectFill"/>
-                
+
                 <!-- Pet Details -->
                 <VerticalStackLayout Grid.Column="1" Spacing="4">
                   <Label Text="{Binding Name}"
@@ -155,7 +152,7 @@
             </Border>
           </DataTemplate>
         </CollectionView.ItemTemplate>
-        
+
         <!-- Empty State -->
         <CollectionView.EmptyView>
           <VerticalStackLayout Padding="20"
