@@ -46,6 +46,7 @@ namespace floofy
       builder.Services.AddTransient<BookingViewModel>();
       builder.Services.AddTransient<CommunityViewModel>();
       builder.Services.AddTransient<ShopViewModel>();
+      builder.Services.AddTransient<PetDetailViewModel>();
 
       // Register services
       builder.Services.AddSingleton<SessionService>();
@@ -60,6 +61,7 @@ namespace floofy
       builder.Services.AddTransient<Community>();
       builder.Services.AddTransient<FloofyPlus>();
       builder.Services.AddTransient<Profile>();
+      builder.Services.AddTransient<PetDetail>();
 
 #if DEBUG
       builder.Logging.AddDebug();

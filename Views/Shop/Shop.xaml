@@ -119,35 +119,59 @@
                     StrokeThickness="1"
                     BackgroundColor="White"
                     Padding="0">
-              <Grid ColumnDefinitions="100,*" ColumnSpacing="12" Padding="12">
-                <!-- Pet Image -->
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnPetCardTapped"/>
+              </Border.GestureRecognizers>
+              <Grid ColumnDefinitions="110,*,Auto"
+                    ColumnSpacing="0"
+                    Padding="0">
+                <!-- Pet Image (full card height) -->
                 <Image Grid.Column="0"
                        Source="dotnet_bot.png"
-                       HeightRequest="100"
-                       WidthRequest="100"
-                       Aspect="AspectFill"/>
+                       Aspect="AspectFill"
+                       HeightRequest="120"
+                       WidthRequest="110"/>
 
                 <!-- Pet Details -->
-                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                <VerticalStackLayout Grid.Column="1"
+                                     Spacing="4"
+                                     Padding="14,12,8,12"
+                                     VerticalOptions="Center">
                   <Label Text="{Binding Name}"
-                         FontSize="15"
+                         FontSize="16"
                          FontAttributes="Bold"
                          TextColor="#2D1B4E"/>
-                  <Label Text="{Binding Species}"
+                  <HorizontalStackLayout Spacing="6">
+                    <Label Text="{Binding Species}"
+                           FontSize="11"
+                           TextColor="#6B5B8C"/>
+                    <Label Text="·"
+                           FontSize="11"
+                           TextColor="#6B5B8C"/>
+                    <Label Text="{Binding Breed}"
+                           FontSize="11"
+                           TextColor="#6B5B8C"/>
+                  </HorizontalStackLayout>
+                  <Label Text="{Binding Age, StringFormat='{0} year(s) old'}"
                          FontSize="11"
-                         TextColor="#6B5B8C"/>
-                  <Label Text="{Binding Breed}"
-                         FontSize="11"
-                         TextColor="#6B5B8C"/>
-                  <Label Text="{Binding Age, StringFormat='Age: {0} year(s)'}"
-                         FontSize="11"
-                         TextColor="#6B5B8C"/>
+                         FontAttributes="Bold"
+                         TextColor="#B19CD9"/>
                   <Label Text="{Binding Description}"
                          FontSize="11"
                          TextColor="#6B5B8C"
                          LineBreakMode="TailTruncation"
-                         MaxLines="1"/>
+                         MaxLines="2"
+                         Margin="0,2,0,0"/>
                 </VerticalStackLayout>
+
+                <!-- Chevron Indicator -->
+                <Label Grid.Column="2"
+                       Text="›"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="#B19CD9"
+                       VerticalOptions="Center"
+                       Margin="0,0,16,0"/>
               </Grid>
             </Border>
           </DataTemplate>
@@ -194,14 +218,16 @@
                       StrokeThickness="1"
                       BackgroundColor="White"
                       Padding="0">
-                <VerticalStackLayout Spacing="0" Padding="0">
+                <VerticalStackLayout Spacing="0"
+                                     Padding="0">
                   <!-- Product Image -->
                   <Image Source="dotnet_bot.png"
                          Aspect="AspectFill"
                          HeightRequest="140"/>
 
                   <!-- Product Details -->
-                  <VerticalStackLayout Padding="12" Spacing="6">
+                  <VerticalStackLayout Padding="12"
+                                       Spacing="6">
                     <!-- Product Name -->
                     <Label Text="{Binding Name}"
                            FontSize="13"

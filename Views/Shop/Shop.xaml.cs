@@ -1,3 +1,4 @@
+using floofy.Models;
 using floofy.ViewModels;
 using System.Windows.Input;
 
@@ -76,6 +77,14 @@ public partial class Shop : ContentPage
     if (_viewModel.SearchCommand is ICommand cmd && cmd.CanExecute(null))
     {
       cmd.Execute(null);
+    }
+  }
+
+  private async void OnPetCardTapped(object? sender, EventArgs e)
+  {
+    if (sender is Element element && element.BindingContext is Pet pet)
+    {
+      await Shell.Current.GoToAsync($"petDetail?petId={pet.Id}");
     }
   }
 }

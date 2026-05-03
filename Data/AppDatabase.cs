@@ -178,6 +178,9 @@ public class AppDatabase
       var pet1Id = Guid.NewGuid();
       var pet2Id = Guid.NewGuid();
       var pet3Id = Guid.NewGuid();
+      var pet4Id = Guid.NewGuid();
+      var pet5Id = Guid.NewGuid();
+      var pet6Id = Guid.NewGuid();
       var pets = new[]
       {
       new Pet
@@ -191,6 +194,7 @@ public class AppDatabase
         Weight = 30m,
         Height = 55m,
         Description = "Friendly and energetic golden retriever looking for a loving home",
+        Thumbnail = "https://images.unsplash.com/photo-1523480717984-24cba35ae1ef?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         ImageUrls = new List<string>(),
         Vaccinated = true,
         Neutered = true,
@@ -209,6 +213,7 @@ public class AppDatabase
         Weight = 4m,
         Height = 25m,
         Description = "Soft and gentle Persian cat, perfect companion",
+        Thumbnail = "https://images.pexels.com/photos/11453438/pexels-photo-11453438.jpeg?_gl=1*in39sw*_ga*MTkxMTk1ODI3NC4xNzc3ODIwMTc1*_ga_8JE65Q40S6*czE3Nzc4MjAxNzQkbzEkZzEkdDE3Nzc4MjAzOTYkajIkbDAkaDA.",
         ImageUrls = new List<string>(),
         Vaccinated = true,
         Neutered = false,
@@ -227,11 +232,69 @@ public class AppDatabase
         Weight = 2m,
         Height = 20m,
         Description = "Sweet little rabbit ready to hop into your heart",
+        Thumbnail = "https://images.pexels.com/photos/35891267/pexels-photo-35891267.jpeg?_gl=1*ee04hc*_ga*MTkxMTk1ODI3NC4xNzc3ODIwMTc1*_ga_8JE65Q40S6*czE3Nzc4MjAxNzQkbzEkZzEkdDE3Nzc4MjAyNzUkajU5JGwwJGgw",
         ImageUrls = new List<string>(),
         Vaccinated = true,
         Neutered = true,
         HealthCertificate = "VET789",
         SellerId = user1Id,
+        PetCategoryId = petCat3Id
+      },
+      new Pet
+      {
+        Id = pet4Id,
+        Name = "Carnel",
+        Species = "Dog",
+        Breed = "Siberian Husky",
+        Age = 3,
+        Gender = Gender.Male,
+        Weight = 25m,
+        Height = 60m,
+        Description = "Beautiful Siberian Husky with striking blue eyes, loves outdoor activities.",
+        Thumbnail = "https://images.unsplash.com/photo-1550973078-ce53733d6117?q=80&w=685&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        ImageUrls = new List<string>(),
+        Vaccinated = true,
+        Neutered = true,
+        HealthCertificate = "VET321",
+        SellerId = user2Id,
+        PetCategoryId = petCat1Id
+      },
+      new Pet
+      {
+        Id = pet5Id,
+        Name = "Shilphy",
+        Species = "Cat",
+        Breed = "Siamese",
+        Age = 2,
+        Gender = Gender.Female,
+        Weight = 3.5m,
+        Height = 28m,
+        Description = "Vocal and affectionate Siamese cat who loves to cuddle on your lap.",
+        Thumbnail = "https://images.unsplash.com/photo-1732429802639-17277d7b94d5?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        ImageUrls = new List<string>(),
+        Vaccinated = true,
+        Neutered = false,
+        HealthCertificate = "VET654",
+        SellerId = user1Id,
+        PetCategoryId = petCat2Id
+      },
+      new Pet
+      {
+        Id = pet6Id,
+        Name = "Oreo",
+        Species = "Rabbit",
+        Breed = "Lionhead",
+        Age = 1,
+        Gender = Gender.Male,
+        Weight = 2m,
+        Height = 21m,
+        Description = "Adorable lionhead rabbit with fluffy mane and active behavior",
+        Thumbnail = "https://images.unsplash.com/photo-1675237831299-6ad7a332f8fc?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        ImageUrls = new List<string>(),
+        Vaccinated = true,
+        Neutered = false,
+        HealthCertificate = "RAB003",
+        SellerId = user3Id,
         PetCategoryId = petCat3Id
       }
     };
