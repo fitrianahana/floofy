@@ -106,7 +106,7 @@
 
       <!-- Pets List -->
       <CollectionView ItemsSource="{Binding Pets}"
-                      IsVisible="{Binding IsPetsSectionActive}"
+                      IsVisible="{Binding ShowPetsList}"
                       Margin="24,12,24,12">
         <CollectionView.ItemsLayout>
           <LinearItemsLayout Orientation="Vertical"
@@ -201,60 +201,113 @@
 
       <!-- Products Grid -->
       <CollectionView ItemsSource="{Binding Products}"
-                      IsVisible="{Binding IsProductsSectionActive}"
-                      Margin="12,12,12,12">
+                      IsVisible="{Binding ShowProductsList}"
+                      Margin="18,12,18,12">
         <CollectionView.ItemsLayout>
           <GridItemsLayout Orientation="Vertical"
-                           HorizontalItemSpacing="10"
-                           VerticalItemSpacing="12"
+                           HorizontalItemSpacing="12"
+                           VerticalItemSpacing="14"
                            Span="2"/>
         </CollectionView.ItemsLayout>
 
         <CollectionView.ItemTemplate>
           <DataTemplate>
-            <VerticalStackLayout Spacing="0">
-              <Border StrokeShape="RoundRectangle 12,12,12,12"
-                      Stroke="#DDD2FF"
-                      StrokeThickness="1"
-                      BackgroundColor="White"
-                      Padding="0">
-                <VerticalStackLayout Spacing="0"
-                                     Padding="0">
-                  <!-- Product Image -->
-                  <Image Source="Binding Thumbnail"
+            <Border StrokeShape="RoundRectangle 14,14,14,14"
+                    Stroke="#E5DCFB"
+                    StrokeThickness="1"
+                    BackgroundColor="White"
+                    Padding="0">
+              <Border.Shadow>
+                <Shadow Brush="#15000000"
+                        Offset="0,2"
+                        Radius="8"/>
+              </Border.Shadow>
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnProductCardTapped"/>
+              </Border.GestureRecognizers>
+              <VerticalStackLayout Spacing="0"
+                                   Padding="0">
+                <!-- Product Image with overlays -->
+                <Grid HeightRequest="150">
+                  <Image Source="{Binding Thumbnail}"
                          Aspect="AspectFill"
-                         HeightRequest="140"/>
+                         HorizontalOptions="Fill"
+                         VerticalOptions="Fill"/>
 
-                  <!-- Product Details -->
-                  <VerticalStackLayout Padding="12"
-                                       Spacing="6">
-                    <!-- Product Name -->
-                    <Label Text="{Binding Name}"
-                           FontSize="13"
+                  <!-- Discount badge -->
+                  <Border IsVisible="{Binding HasDiscount}"
+                          StrokeShape="RoundRectangle 8,8,8,8"
+                          BackgroundColor="#FF6B6B"
+                          Stroke="Transparent"
+                          Padding="6,2"
+                          Margin="8,8,0,0"
+                          HorizontalOptions="Start"
+                          VerticalOptions="Start">
+                    <Label Text="{Binding Discount, StringFormat='-{0:F0}%'}"
+                           FontSize="10"
                            FontAttributes="Bold"
-                           LineBreakMode="TailTruncation"
-                           MaxLines="2"
-                           TextColor="#2D1B4E"/>
+                           TextColor="White"/>
+                  </Border>
 
-                    <!-- Product Price -->
-                    <Label Text="{Binding Price, StringFormat='${0:F2}'}"
+                  <!-- Out of stock veil -->
+                  <Grid IsVisible="{Binding InStock, Converter={StaticResource InvertedBoolConverter}}"
+                        BackgroundColor="#80000000">
+                    <Label Text="Out of stock"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                  </Grid>
+                </Grid>
+
+                <!-- Product Details -->
+                <VerticalStackLayout Padding="12,10,12,12"
+                                     Spacing="4">
+                  <!-- Product Name -->
+                  <Label Text="{Binding Name}"
+                         FontSize="13"
+                         FontAttributes="Bold"
+                         LineBreakMode="TailTruncation"
+                         MaxLines="2"
+                         TextColor="#2D1B4E"/>
+
+                  <!-- Rating -->
+                  <HorizontalStackLayout Spacing="4">
+                    <Label Text="{Binding Rating, Converter={StaticResource RatingToStarsConverter}}"
+                           FontSize="11"
+                           TextColor="#F5B301"/>
+                    <Label Text="{Binding Rating, StringFormat='({0})'}"
+                           FontSize="10"
+                           TextColor="#A89BBB"
+                           VerticalOptions="Center"/>
+                  </HorizontalStackLayout>
+
+                  <!-- Price row -->
+                  <HorizontalStackLayout Spacing="6"
+                                         Margin="0,2,0,0">
+                    <Label Text="{Binding DiscountedPrice, StringFormat='${0:F2}'}"
                            FontSize="15"
                            FontAttributes="Bold"
-                           TextColor="#B19CD9"/>
+                           TextColor="#B19CD9"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding Price, StringFormat='${0:F2}'}"
+                           FontSize="11"
+                           TextColor="#A89BBB"
+                           TextDecorations="Strikethrough"
+                           VerticalOptions="Center"
+                           IsVisible="{Binding HasDiscount}"/>
+                  </HorizontalStackLayout>
 
-                    <!-- View Details Button -->
-                    <Button Text="View Details"
-                            BackgroundColor="#B19CD9"
-                            TextColor="White"
-                            CornerRadius="8"
-                            Padding="0,8"
-                            FontSize="11"
-                            FontAttributes="Bold"
-                            Margin="0,4,0,0"/>
-                  </VerticalStackLayout>
+                  <!-- Stock label -->
+                  <Label Text="{Binding StockQuantity, Converter={StaticResource StockToLabelConverter}}"
+                         TextColor="{Binding StockQuantity, Converter={StaticResource StockToColorConverter}}"
+                         FontSize="10"
+                         FontAttributes="Bold"
+                         Margin="0,2,0,0"/>
                 </VerticalStackLayout>
-              </Border>
-            </VerticalStackLayout>
+              </VerticalStackLayout>
+            </Border>
           </DataTemplate>
         </CollectionView.ItemTemplate>
 

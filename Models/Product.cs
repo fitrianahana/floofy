@@ -20,6 +20,15 @@ public class Product : Entity
   public Guid SellerId { get; set; }
   public Guid ProductCategoryId { get; set; }
 
+  [Ignore]
+  public decimal DiscountedPrice => GetDiscountedPrice();
+
+  [Ignore]
+  public bool HasDiscount => Discount > 0;
+
+  [Ignore]
+  public bool InStock => StockQuantity > 0;
+
   public decimal GetDiscountedPrice()
   {
     return Price - (Price * (Discount / 100));

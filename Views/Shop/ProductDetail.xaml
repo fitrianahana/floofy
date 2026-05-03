@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="floofy.Views.PetDetail"
-             Title="Pet Details"
+             x:Class="floofy.Views.ProductDetail"
+             Title="Product Details"
              NavigationPage.HasNavigationBar="False"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">
@@ -11,7 +11,7 @@
         RowDefinitions="*,Auto"
         RowSpacing="0">
 
-    <!-- Scrollable content -->
+    <!-- Scrollable content (image + details) -->
     <ScrollView Grid.Row="0">
       <Grid RowDefinitions="Auto,Auto"
             RowSpacing="0">
@@ -19,7 +19,7 @@
         <!-- Hero image with overlays -->
         <Grid Grid.Row="0"
               HeightRequest="300">
-          <Image Source="{Binding Pet.Thumbnail}"
+          <Image Source="{Binding Product.Thumbnail}"
                  Aspect="AspectFill"
                  VerticalOptions="Fill"
                  HorizontalOptions="Fill"/>
@@ -40,16 +40,16 @@
                   HorizontalOptions="Start"
                   VerticalOptions="Start"/>
 
-          <!-- Vaccinated badge -->
-          <Border IsVisible="{Binding Pet.Vaccinated}"
+          <!-- Discount ribbon -->
+          <Border IsVisible="{Binding Product.HasDiscount}"
                   StrokeShape="RoundRectangle 10,10,10,10"
-                  BackgroundColor="#4CAF93"
+                  BackgroundColor="#FF6B6B"
                   Stroke="Transparent"
                   Padding="10,4"
                   Margin="0,16,16,0"
                   HorizontalOptions="End"
                   VerticalOptions="Start">
-            <Label Text="💉 Vaccinated"
+            <Label Text="{Binding Product.Discount, StringFormat='-{0:F0}% OFF'}"
                    FontSize="11"
                    FontAttributes="Bold"
                    TextColor="White"/>
@@ -67,7 +67,7 @@
                              HorizontalOptions="Center"
                              Margin="0,40,0,0"/>
 
-          <VerticalStackLayout Padding="20,18,20,28"
+          <VerticalStackLayout Padding="20,18,20,24"
                                Spacing="16"
                                IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
 
@@ -78,130 +78,93 @@
                    FontAttributes="Bold"
                    FontSize="13"/>
 
-            <!-- Title + species/breed chips -->
-            <VerticalStackLayout Spacing="8">
-              <Label Text="{Binding Pet.Name}"
+            <!-- Title + rating -->
+            <VerticalStackLayout Spacing="6">
+              <Label Text="{Binding Product.Name}"
                      FontSize="22"
                      FontAttributes="Bold"
                      TextColor="#2D1B4E"
                      LineBreakMode="WordWrap"/>
 
               <HorizontalStackLayout Spacing="6">
-                <Border StrokeShape="RoundRectangle 10,10,10,10"
-                        Stroke="#DDD2FF"
-                        StrokeThickness="1"
-                        BackgroundColor="#F0EAFB"
-                        Padding="10,4">
-                  <Label Text="{Binding Pet.Species}"
-                         FontSize="11"
-                         FontAttributes="Bold"
-                         TextColor="#6B5B8C"/>
-                </Border>
-                <Border StrokeShape="RoundRectangle 10,10,10,10"
-                        Stroke="#DDD2FF"
-                        StrokeThickness="1"
-                        BackgroundColor="#F0EAFB"
-                        Padding="10,4">
-                  <Label Text="{Binding Pet.Breed}"
-                         FontSize="11"
-                         FontAttributes="Bold"
-                         TextColor="#6B5B8C"/>
-                </Border>
+                <Label Text="{Binding Product.Rating, Converter={StaticResource RatingToStarsConverter}}"
+                       FontSize="13"
+                       TextColor="#F5B301"/>
+                <Label Text="{Binding Product.Rating, StringFormat='{0}.0 rating'}"
+                       FontSize="11"
+                       TextColor="#6B5B8C"
+                       VerticalOptions="Center"/>
               </HorizontalStackLayout>
             </VerticalStackLayout>
 
-            <!-- Quick stats card -->
+            <!-- Price card -->
             <Border StrokeShape="RoundRectangle 14,14,14,14"
                     Stroke="#DDD2FF"
                     StrokeThickness="1"
                     BackgroundColor="White"
                     Padding="16,14">
-              <Border.Shadow>
-                <Shadow Brush="#10000000"
-                        Offset="0,2"
-                        Radius="6"/>
-              </Border.Shadow>
-              <Grid ColumnDefinitions="*,*,*"
-                    ColumnSpacing="8">
+              <Grid ColumnDefinitions="*,Auto"
+                    ColumnSpacing="12">
                 <VerticalStackLayout Grid.Column="0"
-                                     Spacing="4"
-                                     HorizontalOptions="Center">
-                  <Label Text="📅"
-                         FontSize="22"
-                         HorizontalOptions="Center"/>
-                  <Label Text="{Binding Pet.Age, StringFormat='{0} yr'}"
-                         FontSize="14"
-                         FontAttributes="Bold"
-                         TextColor="#2D1B4E"
-                         HorizontalOptions="Center"/>
-                  <Label Text="Age"
+                                     Spacing="2">
+                  <Label Text="Price"
                          FontSize="11"
                          TextColor="#6B5B8C"
-                         HorizontalOptions="Center"/>
+                         FontAttributes="Bold"/>
+                  <HorizontalStackLayout Spacing="8">
+                    <Label Text="{Binding Product.DiscountedPrice, StringFormat='${0:F2}'}"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="#B19CD9"/>
+                    <Label Text="{Binding Product.Price, StringFormat='${0:F2}'}"
+                           FontSize="13"
+                           TextColor="#A89BBB"
+                           TextDecorations="Strikethrough"
+                           VerticalOptions="Center"
+                           IsVisible="{Binding Product.HasDiscount}"/>
+                  </HorizontalStackLayout>
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Grid.Column="1"
-                                     Spacing="4"
-                                     HorizontalOptions="Center">
-                  <Label Text="⚧"
-                         FontSize="22"
-                         HorizontalOptions="Center"/>
-                  <Label Text="{Binding Pet.Gender}"
-                         FontSize="14"
-                         FontAttributes="Bold"
-                         TextColor="#2D1B4E"
-                         HorizontalOptions="Center"/>
-                  <Label Text="Gender"
+                <Border Grid.Column="1"
+                        StrokeShape="RoundRectangle 10,10,10,10"
+                        BackgroundColor="#F0EAFB"
+                        Stroke="Transparent"
+                        Padding="10,6"
+                        VerticalOptions="Center">
+                  <Label Text="{Binding Product.StockQuantity, Converter={StaticResource StockToLabelConverter}}"
+                         TextColor="{Binding Product.StockQuantity, Converter={StaticResource StockToColorConverter}}"
                          FontSize="11"
-                         TextColor="#6B5B8C"
-                         HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-
-                <VerticalStackLayout Grid.Column="2"
-                                     Spacing="4"
-                                     HorizontalOptions="Center">
-                  <Label Text="⚖️"
-                         FontSize="22"
-                         HorizontalOptions="Center"/>
-                  <Label Text="{Binding Pet.Weight, StringFormat='{0} kg'}"
-                         FontSize="14"
-                         FontAttributes="Bold"
-                         TextColor="#2D1B4E"
-                         HorizontalOptions="Center"/>
-                  <Label Text="Weight"
-                         FontSize="11"
-                         TextColor="#6B5B8C"
-                         HorizontalOptions="Center"/>
-                </VerticalStackLayout>
+                         FontAttributes="Bold"/>
+                </Border>
               </Grid>
             </Border>
 
-            <!-- About card -->
+            <!-- Description -->
             <Border StrokeShape="RoundRectangle 14,14,14,14"
                     Stroke="#DDD2FF"
                     StrokeThickness="1"
                     BackgroundColor="White"
                     Padding="16,14">
               <VerticalStackLayout Spacing="8">
-                <Label Text="About"
+                <Label Text="Description"
                        FontSize="14"
                        FontAttributes="Bold"
                        TextColor="#2D1B4E"/>
-                <Label Text="{Binding Pet.Description}"
+                <Label Text="{Binding Product.Description}"
                        FontSize="13"
                        TextColor="#6B5B8C"
                        LineBreakMode="WordWrap"/>
               </VerticalStackLayout>
             </Border>
 
-            <!-- Health & Details card -->
+            <!-- Details -->
             <Border StrokeShape="RoundRectangle 14,14,14,14"
                     Stroke="#DDD2FF"
                     StrokeThickness="1"
                     BackgroundColor="White"
                     Padding="16,14">
               <VerticalStackLayout Spacing="10">
-                <Label Text="Health &amp; Details"
+                <Label Text="Product Details"
                        FontSize="14"
                        FontAttributes="Bold"
                        TextColor="#2D1B4E"/>
@@ -209,16 +172,16 @@
                 <Grid ColumnDefinitions="Auto,*,Auto"
                       ColumnSpacing="10">
                   <Label Grid.Column="0"
-                         Text="📏"
+                         Text="🏷️"
                          FontSize="14"
                          VerticalOptions="Center"/>
                   <Label Grid.Column="1"
-                         Text="Height"
+                         Text="SKU"
                          FontSize="13"
                          TextColor="#6B5B8C"
                          VerticalOptions="Center"/>
                   <Label Grid.Column="2"
-                         Text="{Binding Pet.Height, StringFormat='{0} cm'}"
+                         Text="{Binding Product.Sku}"
                          FontSize="13"
                          FontAttributes="Bold"
                          TextColor="#2D1B4E"
@@ -228,59 +191,40 @@
                 <Grid ColumnDefinitions="Auto,*,Auto"
                       ColumnSpacing="10">
                   <Label Grid.Column="0"
-                         Text="💉"
+                         Text="📦"
                          FontSize="14"
                          VerticalOptions="Center"/>
                   <Label Grid.Column="1"
-                         Text="Vaccinated"
+                         Text="Available stock"
                          FontSize="13"
                          TextColor="#6B5B8C"
                          VerticalOptions="Center"/>
                   <Label Grid.Column="2"
-                         Text="{Binding Pet.Vaccinated}"
+                         Text="{Binding Product.StockQuantity, StringFormat='{0} units'}"
                          FontSize="13"
                          FontAttributes="Bold"
-                         TextColor="#B19CD9"
+                         TextColor="#2D1B4E"
                          VerticalOptions="Center"/>
                 </Grid>
 
                 <Grid ColumnDefinitions="Auto,*,Auto"
-                      ColumnSpacing="10">
+                      ColumnSpacing="10"
+                      IsVisible="{Binding Product.HasDiscount}">
                   <Label Grid.Column="0"
-                         Text="🩺"
+                         Text="💸"
                          FontSize="14"
                          VerticalOptions="Center"/>
                   <Label Grid.Column="1"
-                         Text="Neutered"
+                         Text="You save"
                          FontSize="13"
                          TextColor="#6B5B8C"
                          VerticalOptions="Center"/>
                   <Label Grid.Column="2"
-                         Text="{Binding Pet.Neutered}"
+                         Text="{Binding Product.Discount, StringFormat='{0:F0}%'}"
                          FontSize="13"
                          FontAttributes="Bold"
-                         TextColor="#B19CD9"
+                         TextColor="#FF6B6B"
                          VerticalOptions="Center"/>
-                </Grid>
-
-                <Grid ColumnDefinitions="Auto,*"
-                      ColumnSpacing="10"
-                      IsVisible="{Binding Pet.HealthCertificate, Converter={StaticResource StringBoolConverter}}">
-                  <Label Grid.Column="0"
-                         Text="📄"
-                         FontSize="14"
-                         VerticalOptions="Start"/>
-                  <VerticalStackLayout Grid.Column="1"
-                                       Spacing="2">
-                    <Label Text="Health Certificate"
-                           FontSize="13"
-                           TextColor="#6B5B8C"/>
-                    <Label Text="{Binding Pet.HealthCertificate}"
-                           FontSize="13"
-                           FontAttributes="Bold"
-                           TextColor="#2D1B4E"
-                           LineBreakMode="WordWrap"/>
-                  </VerticalStackLayout>
                 </Grid>
               </VerticalStackLayout>
             </Border>
@@ -297,7 +241,7 @@
       </Grid>
     </ScrollView>
 
-    <!-- Sticky Adopt-Pet bar -->
+    <!-- Sticky Add-to-Cart bar -->
     <Border Grid.Row="1"
             BackgroundColor="White"
             Stroke="#E5DCFB"
@@ -305,24 +249,64 @@
             StrokeShape="RoundRectangle 0,0,0,0"
             Padding="16,12"
             IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
-      <Grid ColumnDefinitions="*,Auto"
+      <Grid ColumnDefinitions="Auto,*,Auto"
             ColumnSpacing="12">
 
-        <VerticalStackLayout Grid.Column="0"
+        <!-- Quantity stepper -->
+        <Border Grid.Column="0"
+                StrokeShape="RoundRectangle 12,12,12,12"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="#F0EAFB"
+                Padding="0"
+                VerticalOptions="Center">
+          <Grid ColumnDefinitions="36,Auto,36"
+                HeightRequest="40">
+            <Button Grid.Column="0"
+                    Text="−"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    BackgroundColor="Transparent"
+                    TextColor="#6B5B8C"
+                    Padding="0"
+                    BorderWidth="0"
+                    Command="{Binding DecrementQuantityCommand}"/>
+            <Label Grid.Column="1"
+                   Text="{Binding Quantity}"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   TextColor="#2D1B4E"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   MinimumWidthRequest="22"/>
+            <Button Grid.Column="2"
+                    Text="+"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    BackgroundColor="Transparent"
+                    TextColor="#6B5B8C"
+                    Padding="0"
+                    BorderWidth="0"
+                    Command="{Binding IncrementQuantityCommand}"/>
+          </Grid>
+        </Border>
+
+        <!-- Total -->
+        <VerticalStackLayout Grid.Column="1"
                              Spacing="0"
                              VerticalOptions="Center">
-          <Label Text="Looking for a home"
+          <Label Text="Total"
                  FontSize="10"
                  TextColor="#6B5B8C"/>
-          <Label Text="{Binding Pet.Name}"
+          <Label Text="{Binding LineTotal, StringFormat='${0:F2}'}"
                  FontSize="16"
                  FontAttributes="Bold"
-                 TextColor="#2D1B4E"
-                 LineBreakMode="TailTruncation"/>
+                 TextColor="#2D1B4E"/>
         </VerticalStackLayout>
 
-        <Button Grid.Column="1"
-                Text="Adopt Pet"
+        <!-- Add to cart -->
+        <Button Grid.Column="2"
+                Text="Add to Cart"
                 BackgroundColor="#B19CD9"
                 TextColor="White"
                 CornerRadius="12"
@@ -330,8 +314,8 @@
                 FontAttributes="Bold"
                 Padding="20,0"
                 HeightRequest="44"
-                Command="{Binding AdoptCommand}"
-                IsEnabled="{Binding CanAdopt}"/>
+                Command="{Binding AddToCartCommand}"
+                IsEnabled="{Binding CanAddToCart}"/>
       </Grid>
     </Border>
 

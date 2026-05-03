@@ -14,6 +14,9 @@
       <!-- Value Converters -->
       <converters:StringBoolConverter x:Key="StringBoolConverter"/>
       <converters:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
+      <converters:RatingToStarsConverter x:Key="RatingToStarsConverter"/>
+      <converters:StockToLabelConverter x:Key="StockToLabelConverter"/>
+      <converters:StockToColorConverter x:Key="StockToColorConverter"/>
     </ResourceDictionary>
   </Application.Resources>
 </Application>

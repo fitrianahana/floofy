@@ -7,6 +7,7 @@ namespace floofy
     {
       InitializeComponent();
       Routing.RegisterRoute("petDetail", typeof(PetDetail));
+      Routing.RegisterRoute("productDetail", typeof(ProductDetail));
     }
   }
 }

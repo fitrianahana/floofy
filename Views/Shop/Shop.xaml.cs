@@ -87,4 +87,12 @@ public partial class Shop : ContentPage
       await Shell.Current.GoToAsync($"petDetail?petId={pet.Id}");
     }
   }
+
+  private async void OnProductCardTapped(object? sender, EventArgs e)
+  {
+    if (sender is Element element && element.BindingContext is Product product)
+    {
+      await Shell.Current.GoToAsync($"productDetail?productId={product.Id}");
+    }
+  }
 }

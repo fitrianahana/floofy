@@ -28,11 +28,16 @@ public class ShopViewModel : BaseViewModel
       SetProperty(ref _activeSection, value);
       OnPropertyChanged(nameof(IsPetsSectionActive));
       OnPropertyChanged(nameof(IsProductsSectionActive));
+      OnPropertyChanged(nameof(ShowPetsList));
+      OnPropertyChanged(nameof(ShowProductsList));
     }
   }
 
   public bool IsPetsSectionActive => ActiveSection == ShopSection.Pets;
   public bool IsProductsSectionActive => ActiveSection == ShopSection.Products;
+
+  public bool ShowPetsList => IsPetsSectionActive && !IsLoading;
+  public bool ShowProductsList => IsProductsSectionActive && !IsLoading;
 
   public string SearchQuery
   {
@@ -61,6 +66,15 @@ public class ShopViewModel : BaseViewModel
   {
     _petService = App.Services.GetRequiredService<IPetService>();
     _productService = App.Services.GetRequiredService<IProductService>();
+
+    PropertyChanged += (_, e) =>
+    {
+      if (e.PropertyName == nameof(IsLoading))
+      {
+        OnPropertyChanged(nameof(ShowPetsList));
+        OnPropertyChanged(nameof(ShowProductsList));
+      }
+    };
 
     SwitchToPetsCommand = new RelayCommand(async () =>
     {
