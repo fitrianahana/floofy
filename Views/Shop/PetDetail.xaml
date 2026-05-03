@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="floofy.Views.PetDetail"
+             Title="Pet Details"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+
+  <Grid BackgroundColor="#F8F7FC"
+        RowDefinitions="Auto,*"
+        RowSpacing="0">
+
+    <!-- Hero Header -->
+    <Grid Grid.Row="0"
+          HeightRequest="240">
+      <Image Source="dotnet_bot.png"
+             Aspect="AspectFill"
+             VerticalOptions="Fill"
+             HorizontalOptions="Fill"/>
+
+      <!-- Back Button Overlay -->
+      <Button Text="←"
+              Clicked="OnBackClicked"
+              BackgroundColor="#FFFFFFCC"
+              TextColor="#2D1B4E"
+              FontSize="20"
+              FontAttributes="Bold"
+              WidthRequest="40"
+              HeightRequest="40"
+              CornerRadius="20"
+              Padding="0"
+              Margin="16,16,0,0"
+              HorizontalOptions="Start"
+              VerticalOptions="Start"/>
+    </Grid>
+
+    <!-- Scrollable Content -->
+    <ScrollView Grid.Row="1">
+      <Grid>
+        <!-- Loading Indicator -->
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Color="#B19CD9"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           Margin="0,40,0,0"/>
+
+        <VerticalStackLayout Padding="24,20,24,24"
+                             Spacing="16"
+                             IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
+
+          <!-- Error Message -->
+          <Label Text="{Binding ErrorMessage}"
+                 IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
+                 TextColor="#FF6B6B"
+                 FontAttributes="Bold"
+                 FontSize="13"/>
+
+          <!-- Title Block -->
+          <VerticalStackLayout Spacing="10">
+            <Label Text="{Binding Pet.Name}"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="#2D1B4E"/>
+
+            <HorizontalStackLayout Spacing="8">
+              <Border StrokeShape="RoundRectangle 12,12,12,12"
+                      Stroke="#DDD2FF"
+                      StrokeThickness="1"
+                      BackgroundColor="#F0EAFB"
+                      Padding="10,4">
+                <Label Text="{Binding Pet.Species}"
+                       FontSize="11"
+                       TextColor="#6B5B8C"
+                       FontAttributes="Bold"/>
+              </Border>
+              <Border StrokeShape="RoundRectangle 12,12,12,12"
+                      Stroke="#DDD2FF"
+                      StrokeThickness="1"
+                      BackgroundColor="#F0EAFB"
+                      Padding="10,4">
+                <Label Text="{Binding Pet.Breed}"
+                       FontSize="11"
+                       TextColor="#6B5B8C"
+                       FontAttributes="Bold"/>
+              </Border>
+            </HorizontalStackLayout>
+          </VerticalStackLayout>
+
+          <!-- Quick Stats Card -->
+          <Border StrokeShape="RoundRectangle 12,12,12,12"
+                  Stroke="#DDD2FF"
+                  StrokeThickness="1"
+                  BackgroundColor="White"
+                  Padding="16">
+            <Grid ColumnDefinitions="*,*,*"
+                  ColumnSpacing="8">
+              <VerticalStackLayout Grid.Column="0"
+                                   Spacing="4"
+                                   HorizontalOptions="Center">
+                <Label Text="📅"
+                       FontSize="22"
+                       HorizontalOptions="Center"/>
+                <Label Text="{Binding Pet.Age, StringFormat='{0} yr'}"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"
+                       HorizontalOptions="Center"/>
+                <Label Text="Age"
+                       FontSize="11"
+                       TextColor="#6B5B8C"
+                       HorizontalOptions="Center"/>
+              </VerticalStackLayout>
+
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="4"
+                                   HorizontalOptions="Center">
+                <Label Text="⚧"
+                       FontSize="22"
+                       HorizontalOptions="Center"/>
+                <Label Text="{Binding Pet.Gender}"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"
+                       HorizontalOptions="Center"/>
+                <Label Text="Gender"
+                       FontSize="11"
+                       TextColor="#6B5B8C"
+                       HorizontalOptions="Center"/>
+              </VerticalStackLayout>
+
+              <VerticalStackLayout Grid.Column="2"
+                                   Spacing="4"
+                                   HorizontalOptions="Center">
+                <Label Text="⚖️"
+                       FontSize="22"
+                       HorizontalOptions="Center"/>
+                <Label Text="{Binding Pet.Weight, StringFormat='{0} kg'}"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"
+                       HorizontalOptions="Center"/>
+                <Label Text="Weight"
+                       FontSize="11"
+                       TextColor="#6B5B8C"
+                       HorizontalOptions="Center"/>
+              </VerticalStackLayout>
+            </Grid>
+          </Border>
+
+          <!-- About Card -->
+          <Border StrokeShape="RoundRectangle 12,12,12,12"
+                  Stroke="#DDD2FF"
+                  StrokeThickness="1"
+                  BackgroundColor="White"
+                  Padding="16">
+            <VerticalStackLayout Spacing="8">
+              <Label Text="About"
+                     FontSize="15"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"/>
+              <Label Text="{Binding Pet.Description}"
+                     FontSize="13"
+                     TextColor="#6B5B8C"
+                     LineBreakMode="WordWrap"/>
+            </VerticalStackLayout>
+          </Border>
+
+          <!-- Health & Details Card -->
+          <Border StrokeShape="RoundRectangle 12,12,12,12"
+                  Stroke="#DDD2FF"
+                  StrokeThickness="1"
+                  BackgroundColor="White"
+                  Padding="16">
+            <VerticalStackLayout Spacing="12">
+              <Label Text="Health &amp; Details"
+                     FontSize="15"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"/>
+
+              <Grid ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="10">
+                <Label Grid.Column="0"
+                    Text="📏"
+                    FontSize="14"
+                    VerticalOptions="Center"/>
+                <Label Grid.Column="1"
+                    Text="Height"
+                    FontSize="13"
+                    TextColor="#6B5B8C"
+                    VerticalOptions="Center"/>
+                <Label Grid.Column="2"
+                       Text="{Binding Pet.Height, StringFormat='{0} cm'}"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"
+                       VerticalOptions="Center"/>
+              </Grid>
+
+              <Grid ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="10">
+                <Label Grid.Column="0"
+                    Text="💉"
+                    FontSize="14"
+                    VerticalOptions="Center"/>
+                <Label Grid.Column="1"
+                    Text="Vaccinated"
+                    FontSize="13"
+                    TextColor="#6B5B8C"
+                    VerticalOptions="Center"/>
+                <Label Grid.Column="2"
+                       Text="{Binding Pet.Vaccinated}"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#B19CD9"
+                       VerticalOptions="Center"/>
+              </Grid>
+
+              <Grid ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="10">
+                <Label Grid.Column="0"
+                    Text="🩺"
+                    FontSize="14"
+                    VerticalOptions="Center"/>
+                <Label Grid.Column="1"
+                    Text="Neutered"
+                    FontSize="13"
+                    TextColor="#6B5B8C"
+                    VerticalOptions="Center"/>
+                <Label Grid.Column="2"
+                       Text="{Binding Pet.Neutered}"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#B19CD9"
+                       VerticalOptions="Center"/>
+              </Grid>
+
+              <Grid ColumnDefinitions="Auto,*"
+                    ColumnSpacing="10"
+                    IsVisible="{Binding Pet.HealthCertificate, Converter={StaticResource StringBoolConverter}}">
+                <Label Grid.Column="0"
+                    Text="📄"
+                    FontSize="14"
+                    VerticalOptions="Start"/>
+                <VerticalStackLayout Grid.Column="1"
+                    Spacing="2">
+                  <Label Text="Health Certificate"
+                      FontSize="13"
+                      TextColor="#6B5B8C"/>
+                  <Label Text="{Binding Pet.HealthCertificate}"
+                         FontSize="13"
+                         FontAttributes="Bold"
+                         TextColor="#2D1B4E"
+                         LineBreakMode="WordWrap"/>
+                </VerticalStackLayout>
+              </Grid>
+            </VerticalStackLayout>
+          </Border>
+
+        </VerticalStackLayout>
+      </Grid>
+    </ScrollView>
+
+  </Grid>
+</ContentPage>

@@ -119,7 +119,9 @@
                     StrokeThickness="1"
                     BackgroundColor="White"
                     Padding="0">
-              <Grid ColumnDefinitions="100,*" ColumnSpacing="12" Padding="12">
+              <Grid ColumnDefinitions="100,*"
+                  ColumnSpacing="12"
+                  Padding="12">
                 <!-- Pet Image -->
                 <Image Grid.Column="0"
                        Source="dotnet_bot.png"
@@ -128,7 +130,8 @@
                        Aspect="AspectFill"/>
 
                 <!-- Pet Details -->
-                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                <VerticalStackLayout Grid.Column="1"
+                    Spacing="4">
                   <Label Text="{Binding Name}"
                          FontSize="15"
                          FontAttributes="Bold"
@@ -148,6 +151,17 @@
                          LineBreakMode="TailTruncation"
                          MaxLines="1"/>
                 </VerticalStackLayout>
+
+                <!-- View Details Button -->
+                <Button Grid.Row="1"
+                        Text="View Details"
+                        Clicked="OnPetViewDetailsClicked"
+                        BackgroundColor="#B19CD9"
+                        TextColor="White"
+                        CornerRadius="8"
+                        Padding="0,8"
+                        FontSize="11"
+                        FontAttributes="Bold"/>
               </Grid>
             </Border>
           </DataTemplate>
@@ -194,14 +208,16 @@
                       StrokeThickness="1"
                       BackgroundColor="White"
                       Padding="0">
-                <VerticalStackLayout Spacing="0" Padding="0">
+                <VerticalStackLayout Spacing="0"
+                    Padding="0">
                   <!-- Product Image -->
                   <Image Source="dotnet_bot.png"
                          Aspect="AspectFill"
                          HeightRequest="140"/>
 
                   <!-- Product Details -->
-                  <VerticalStackLayout Padding="12" Spacing="6">
+                  <VerticalStackLayout Padding="12"
+                      Spacing="6">
                     <!-- Product Name -->
                     <Label Text="{Binding Name}"
                            FontSize="13"

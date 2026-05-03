@@ -1,3 +1,4 @@
+using floofy.Models;
 using floofy.ViewModels;
 using System.Windows.Input;
 
@@ -78,4 +79,12 @@ public partial class Shop : ContentPage
       cmd.Execute(null);
     }
   }
+
+  private async void OnPetViewDetailsClicked(object? sender, EventArgs e)
+    {
+      if (sender is Button btn && btn.BindingContext is Pet pet)
+      {
+        await Shell.Current.GoToAsync($"petDetail?petId={pet.Id}");
+      }
+    }
 }
