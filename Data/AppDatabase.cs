@@ -178,6 +178,9 @@ public class AppDatabase
       var pet1Id = Guid.NewGuid();
       var pet2Id = Guid.NewGuid();
       var pet3Id = Guid.NewGuid();
+      var pet4Id = Guid.NewGuid();
+      var pet5Id = Guid.NewGuid();
+      var pet6Id = Guid.NewGuid();
       var pets = new[]
       {
       new Pet
