@@ -19,7 +19,7 @@ public partial class Profile : ContentPage
     var currentUser = _sessionService.CurrentUser;
     if (currentUser is null)
     {
-      FullNameLabel.Text = "Not Signed In";
+      FullNameLabel.Text = "Not logged in";
       EmailLabel.Text = "N/A";
       RolesLabel.Text = "N/A";
       return;
