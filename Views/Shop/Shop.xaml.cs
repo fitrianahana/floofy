@@ -80,11 +80,11 @@ public partial class Shop : ContentPage
     }
   }
 
-  private async void OnPetViewDetailsClicked(object? sender, EventArgs e)
+  private async void OnPetCardTapped(object? sender, EventArgs e)
+  {
+    if (sender is Element element && element.BindingContext is Pet pet)
     {
-      if (sender is Button btn && btn.BindingContext is Pet pet)
-      {
-        await Shell.Current.GoToAsync($"petDetail?petId={pet.Id}");
-      }
+      await Shell.Current.GoToAsync($"petDetail?petId={pet.Id}");
     }
+  }
 }

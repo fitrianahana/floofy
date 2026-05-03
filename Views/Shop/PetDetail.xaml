@@ -20,19 +20,17 @@
              HorizontalOptions="Fill"/>
 
       <!-- Back Button Overlay -->
-      <Button Text="←"
-              Clicked="OnBackClicked"
-              BackgroundColor="#FFFFFFCC"
-              TextColor="#2D1B4E"
-              FontSize="20"
-              FontAttributes="Bold"
-              WidthRequest="40"
-              HeightRequest="40"
-              CornerRadius="20"
-              Padding="0"
-              Margin="16,16,0,0"
-              HorizontalOptions="Start"
-              VerticalOptions="Start"/>
+      <Label Text="←"
+             TextColor="#2D1B4E"
+             FontSize="28"
+             FontAttributes="Bold"
+             Margin="20,20,0,0"
+             HorizontalOptions="Start"
+             VerticalOptions="Start">
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Tapped="OnBackClicked"/>
+        </Label.GestureRecognizers>
+      </Label>
     </Grid>
 
     <!-- Scrollable Content -->
