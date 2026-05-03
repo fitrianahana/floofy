@@ -178,6 +178,9 @@ public class AppDatabase
       var pet1Id = Guid.NewGuid();
       var pet2Id = Guid.NewGuid();
       var pet3Id = Guid.NewGuid();
+      var pet4Id = Guid.NewGuid();
+      var pet5Id = Guid.NewGuid();
+      var pet6Id = Guid.NewGuid();
       var pets = new[]
       {
       new Pet
@@ -357,6 +360,7 @@ public class AppDatabase
         Price = 45m,
         StockQuantity = 50,
         Sku = "PET-FOOD-001",
+        Thumbnail = "https://images.unsplash.com/photo-1597843786271-1027c561c6ff?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         ImageUrls = new List<string>(),
         IsActive = true,
         Discount = 10m,
@@ -372,6 +376,7 @@ public class AppDatabase
         Price = 89.99m,
         StockQuantity = 30,
         Sku = "PET-BED-001",
+        Thumbnail = "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         ImageUrls = new List<string>(),
         IsActive = true,
         Discount = 5m,
@@ -387,6 +392,7 @@ public class AppDatabase
         Price = 25m,
         StockQuantity = 100,
         Sku = "PET-TOY-001",
+        Thumbnail = "https://images.unsplash.com/photo-1767503262975-0228be764a6d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         ImageUrls = new List<string>(),
         IsActive = true,
         Discount = 0m,
@@ -402,6 +408,7 @@ public class AppDatabase
         Price = 65m,
         StockQuantity = 20,
         Sku = "PET-HEALTH-001",
+        Thumbnail = "https://images.unsplash.com/photo-1600091474842-83bb9c05a723?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         ImageUrls = new List<string>(),
         IsActive = true,
         Discount = 15m,

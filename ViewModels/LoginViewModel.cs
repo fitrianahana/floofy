@@ -41,12 +41,14 @@ public class LoginViewModel : BaseViewModel
     GoToRegisterCommand = new RelayCommand(OnGoToRegister);
   }
 
+
   private void OnGoToRegister()
   {
     // Navigation handled by Login.xaml.cs code-behind
   }
 
-  private bool CanLogin() => !IsLoading && !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password);
+  private bool CanLogin() => !IsLoading;
+
 
   private async Task OnLoginAsync()
   {
