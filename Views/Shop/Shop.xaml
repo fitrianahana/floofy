@@ -221,7 +221,7 @@
                 <VerticalStackLayout Spacing="0"
                                      Padding="0">
                   <!-- Product Image -->
-                  <Image Source="dotnet_bot.png"
+                  <Image Source="Binding Thumbnail"
                          Aspect="AspectFill"
                          HeightRequest="140"/>
 
