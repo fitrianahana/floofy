@@ -15,6 +15,7 @@ public class PetDetailViewModel : BaseViewModel
   private bool _isInCart;
   private string _statusMessage = string.Empty;
   private bool _isSubmittingAdoption;
+  private bool _isOwner;
 
   public Pet? Pet
   {
@@ -23,6 +24,7 @@ public class PetDetailViewModel : BaseViewModel
     {
       SetProperty(ref _pet, value);
       OnPropertyChanged(nameof(CanAdopt));
+      OnPropertyChanged(nameof(IsOwner));
     }
   }
 
@@ -59,10 +61,17 @@ public class PetDetailViewModel : BaseViewModel
     }
   }
 
-  public bool CanAdopt => Pet is not null && !_isSubmittingAdoption && !_isInCart;
+  public bool IsOwner
+  {
+    get => _isOwner;
+    set => SetProperty(ref _isOwner, value);
+  }
+
+  public bool CanAdopt => Pet is not null && !_isSubmittingAdoption && !_isInCart && !IsOwner;
   public string AdoptButtonText => _isInCart ? "In Cart" : "Adopt Pet";
 
   public ICommand AdoptCommand { get; }
+  public ICommand CancelListingCommand { get; }
 
   public PetDetailViewModel()
   {
@@ -71,6 +80,7 @@ public class PetDetailViewModel : BaseViewModel
     _sessionService = App.Services.GetRequiredService<SessionService>();
 
     AdoptCommand = new RelayCommand(async () => await OnAdoptAsync());
+    CancelListingCommand = new RelayCommand(async () => await OnCancelListingAsync());
   }
 
   public async Task LoadPetAsync(Guid petId)
@@ -95,6 +105,7 @@ public class PetDetailViewModel : BaseViewModel
 
       var user = _sessionService.CurrentUser;
       IsInCart = user is not null && await _cartService.IsPetInCartAsync(user.Id, pet.Id);
+      IsOwner = user is not null && pet.SellerId == user.Id;
     }
     catch (Exception ex)
     {
@@ -142,6 +153,34 @@ public class PetDetailViewModel : BaseViewModel
     finally
     {
       IsSubmittingAdoption = false;
+    }
+  }
+
+  public async Task OnCancelListingAsync()
+  {
+    if (Pet is null) return;
+
+    var user = _sessionService.CurrentUser;
+    if (user is null)
+    {
+      ErrorMessage = "Please sign in to cancel your listing.";
+      return;
+    }
+
+    if (Pet.SellerId != user.Id)
+    {
+      ErrorMessage = "You can only cancel your own listings.";
+      return;
+    }
+
+    try
+    {
+      await _petService.CancelListingAsync(Pet.Id);
+      StatusMessage = $"{Pet.Name}'s listing has been cancelled.";
+    }
+    catch (Exception ex)
+    {
+      ErrorMessage = $"Failed to cancel listing: {ex.Message}";
     }
   }
 }

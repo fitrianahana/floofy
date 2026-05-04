@@ -297,7 +297,7 @@
       </Grid>
     </ScrollView>
 
-    <!-- Sticky Adopt-Pet bar -->
+    <!-- Sticky Adopt-Pet bar or Cancel Listing bar -->
     <Border Grid.Row="1"
             BackgroundColor="White"
             Stroke="#E5DCFB"
@@ -320,7 +320,9 @@
                  TextColor="#2D1B4E"/>
         </VerticalStackLayout>
 
+        <!-- Adopt Pet Button (shown when not owner) -->
         <Button Grid.Column="1"
+                IsVisible="{Binding IsOwner, Converter={StaticResource InvertedBoolConverter}}"
                 Text="{Binding AdoptButtonText}"
                 BackgroundColor="#B19CD9"
                 TextColor="White"
@@ -331,6 +333,19 @@
                 HeightRequest="44"
                 Command="{Binding AdoptCommand}"
                 IsEnabled="{Binding CanAdopt}"/>
+
+        <!-- Cancel Listing Button (shown when owner) -->
+        <Button Grid.Column="1"
+                IsVisible="{Binding IsOwner}"
+                Text="✕  Cancel Rehoming"
+                Clicked="OnCancelListingClicked"
+                BackgroundColor="#FF6B6B"
+                TextColor="White"
+                CornerRadius="12"
+                FontSize="13"
+                FontAttributes="Bold"
+                Padding="20,0"
+                HeightRequest="44"/>
       </Grid>
     </Border>
 
