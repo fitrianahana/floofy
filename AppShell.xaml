@@ -6,60 +6,33 @@
   xmlns:views="clr-namespace:floofy.Views"
   Title="floofy"
   Shell.NavBarIsVisible="False"
-  Shell.TabBarBackgroundColor="White"
-  Shell.TabBarForegroundColor="#B19CD9"
-  Shell.TabBarUnselectedColor="#A89BBB">
+  Shell.TabBarIsVisible="False">
 
   <TabBar>
     <ShellContent
-      ContentTemplate="{DataTemplate views:Home}">
-      <ShellContent.Icon>
-        <FontImageSource 
-          FontFamily="Arial"
-          Glyph="🏠"
-          Size="24"/>
-      </ShellContent.Icon>
-    </ShellContent>
+      Route="home"
+      Title="Home"
+      ContentTemplate="{DataTemplate views:Home}"/>
 
     <ShellContent
-      ContentTemplate="{DataTemplate views:Shop}">
-      <ShellContent.Icon>
-        <FontImageSource 
-          FontFamily="Arial"
-          Glyph="🛍️"
-          Size="24"/>
-      </ShellContent.Icon>
-    </ShellContent>
+      Route="shop"
+      Title="Shop"
+      ContentTemplate="{DataTemplate views:Shop}"/>
 
     <ShellContent
-      ContentTemplate="{DataTemplate views:Community}">
-      <ShellContent.Icon>
-        <FontImageSource 
-          FontFamily="Arial"
-          Glyph="👥"
-          Size="24"/>
-      </ShellContent.Icon>
-    </ShellContent>
+      Route="community"
+      Title="Community"
+      ContentTemplate="{DataTemplate views:Community}"/>
 
     <ShellContent
-      ContentTemplate="{DataTemplate views:FloofyPlus}">
-      <ShellContent.Icon>
-        <FontImageSource 
-          FontFamily="Arial"
-          Glyph="🏥"
-          Size="24"/>
-      </ShellContent.Icon>
-    </ShellContent>
+      Route="plus"
+      Title="Plus"
+      ContentTemplate="{DataTemplate views:FloofyPlus}"/>
 
     <ShellContent
-      ContentTemplate="{DataTemplate views:Profile}">
-      <ShellContent.Icon>
-        <FontImageSource 
-          FontFamily="Arial"
-          Glyph="👤"
-          Size="24"/>
-      </ShellContent.Icon>
-    </ShellContent>
+      Route="profile"
+      Title="Profile"
+      ContentTemplate="{DataTemplate views:Profile}"/>
   </TabBar>
 
 </Shell>

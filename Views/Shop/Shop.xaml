@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:floofy.Controls"
              x:Class="floofy.Views.Shop"
              Title="Shop"
              NavigationPage.HasNavigationBar="False">
@@ -140,7 +141,10 @@
       <!-- Pets List -->
       <CollectionView ItemsSource="{Binding Pets}"
                       IsVisible="{Binding ShowPetsList}"
-                      Margin="24,12,24,12">
+                      Margin="24,12,24,0">
+        <CollectionView.Footer>
+          <Grid HeightRequest="96"/>
+        </CollectionView.Footer>
         <CollectionView.ItemsLayout>
           <LinearItemsLayout Orientation="Vertical"
                              ItemSpacing="12"/>
@@ -235,7 +239,10 @@
       <!-- Products Grid -->
       <CollectionView ItemsSource="{Binding Products}"
                       IsVisible="{Binding ShowProductsList}"
-                      Margin="18,12,18,12">
+                      Margin="18,12,18,0">
+        <CollectionView.Footer>
+          <Grid HeightRequest="96"/>
+        </CollectionView.Footer>
         <CollectionView.ItemsLayout>
           <GridItemsLayout Orientation="Vertical"
                            HorizontalItemSpacing="12"
@@ -366,5 +373,10 @@
         </CollectionView.EmptyView>
       </CollectionView>
     </Grid>
+
+    <controls:BottomNav Grid.Row="0"
+                        Grid.RowSpan="4"
+                        ActiveTab="shop"
+                        VerticalOptions="End"/>
   </Grid>
 </ContentPage>

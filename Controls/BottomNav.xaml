@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="floofy.Controls.BottomNav"
+             x:Name="NavRoot">
+
+  <Border Stroke="#E5DCFB"
+          StrokeThickness="1"
+          StrokeShape="RoundRectangle 28,28,28,28"
+          BackgroundColor="White"
+          Padding="6,6"
+          Margin="14,0,14,14"
+          HorizontalOptions="Fill"
+          VerticalOptions="End">
+    <Border.Shadow>
+      <Shadow Brush="#1A2D1B4E"
+              Offset="0,4"
+              Radius="14"/>
+    </Border.Shadow>
+
+    <Grid ColumnDefinitions="*,*,*,*,*"
+          ColumnSpacing="2">
+
+      <!-- Home -->
+      <Border Grid.Column="0"
+              x:Name="HomeChip"
+              StrokeShape="RoundRectangle 22,22,22,22"
+              Stroke="Transparent"
+              BackgroundColor="Transparent"
+              Padding="0">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Tapped="OnHomeTapped"/>
+        </Border.GestureRecognizers>
+        <VerticalStackLayout HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Spacing="2"
+                             Padding="0,8">
+          <Label x:Name="HomeIcon"
+                 Text="🏠"
+                 FontSize="18"
+                 HorizontalOptions="Center"/>
+          <Label x:Name="HomeLabel"
+                 Text="Home"
+                 FontSize="10"
+                 FontAttributes="Bold"
+                 TextColor="#A89BBB"
+                 HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+      </Border>
+
+      <!-- Shop -->
+      <Border Grid.Column="1"
+              x:Name="ShopChip"
+              StrokeShape="RoundRectangle 22,22,22,22"
+              Stroke="Transparent"
+              BackgroundColor="Transparent"
+              Padding="0">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Tapped="OnShopTapped"/>
+        </Border.GestureRecognizers>
+        <VerticalStackLayout HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Spacing="2"
+                             Padding="0,8">
+          <Label x:Name="ShopIcon"
+                 Text="🛍️"
+                 FontSize="18"
+                 HorizontalOptions="Center"/>
+          <Label x:Name="ShopLabel"
+                 Text="Shop"
+                 FontSize="10"
+                 FontAttributes="Bold"
+                 TextColor="#A89BBB"
+                 HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+      </Border>
+
+      <!-- Community -->
+      <Border Grid.Column="2"
+              x:Name="CommunityChip"
+              StrokeShape="RoundRectangle 22,22,22,22"
+              Stroke="Transparent"
+              BackgroundColor="Transparent"
+              Padding="0">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Tapped="OnCommunityTapped"/>
+        </Border.GestureRecognizers>
+        <VerticalStackLayout HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Spacing="2"
+                             Padding="0,8">
+          <Label x:Name="CommunityIcon"
+                 Text="👥"
+                 FontSize="18"
+                 HorizontalOptions="Center"/>
+          <Label x:Name="CommunityLabel"
+                 Text="Community"
+                 FontSize="10"
+                 FontAttributes="Bold"
+                 TextColor="#A89BBB"
+                 HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+      </Border>
+
+      <!-- Plus -->
+      <Border Grid.Column="3"
+              x:Name="PlusChip"
+              StrokeShape="RoundRectangle 22,22,22,22"
+              Stroke="Transparent"
+              BackgroundColor="Transparent"
+              Padding="0">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Tapped="OnPlusTapped"/>
+        </Border.GestureRecognizers>
+        <VerticalStackLayout HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Spacing="2"
+                             Padding="0,8">
+          <Label x:Name="PlusIcon"
+                 Text="🏥"
+                 FontSize="18"
+                 HorizontalOptions="Center"/>
+          <Label x:Name="PlusLabel"
+                 Text="Plus"
+                 FontSize="10"
+                 FontAttributes="Bold"
+                 TextColor="#A89BBB"
+                 HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+      </Border>
+
+      <!-- Profile -->
+      <Border Grid.Column="4"
+              x:Name="ProfileChip"
+              StrokeShape="RoundRectangle 22,22,22,22"
+              Stroke="Transparent"
+              BackgroundColor="Transparent"
+              Padding="0">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Tapped="OnProfileTapped"/>
+        </Border.GestureRecognizers>
+        <VerticalStackLayout HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Spacing="2"
+                             Padding="0,8">
+          <Label x:Name="ProfileIcon"
+                 Text="👤"
+                 FontSize="18"
+                 HorizontalOptions="Center"/>
+          <Label x:Name="ProfileLabel"
+                 Text="Profile"
+                 FontSize="10"
+                 FontAttributes="Bold"
+                 TextColor="#A89BBB"
+                 HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+      </Border>
+    </Grid>
+  </Border>
+</ContentView>

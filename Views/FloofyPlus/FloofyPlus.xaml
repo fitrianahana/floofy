@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:floofy.Controls"
              x:Class="floofy.Views.FloofyPlus"
              Title="Floofy Plus"
              NavigationPage.HasNavigationBar="False">
@@ -35,7 +36,7 @@
 
     <!-- Content Area -->
     <ScrollView Grid.Row="1">
-      <VerticalStackLayout Padding="24,20,24,24"
+      <VerticalStackLayout Padding="24,20,24,108"
                            Spacing="16">
         
         <!-- Emergency Alert Card -->
@@ -240,5 +241,10 @@
         </VerticalStackLayout>
       </VerticalStackLayout>
     </ScrollView>
+
+    <controls:BottomNav Grid.Row="0"
+                        Grid.RowSpan="2"
+                        ActiveTab="plus"
+                        VerticalOptions="End"/>
   </Grid>
 </ContentPage>
