@@ -2,206 +2,736 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:floofy.Controls"
+             x:Name="HomeRoot"
              x:Class="floofy.Views.Home"
              Title="Home"
              NavigationPage.HasNavigationBar="False">
   <Grid BackgroundColor="#F8F7FC">
-    <ScrollView Padding="0,0,0,96">
-      <VerticalStackLayout Spacing="0" Padding="0">
-        <!-- Header with greeting -->
-        <VerticalStackLayout Padding="24,20,24,0" Spacing="8" BackgroundColor="#F8F7FC">
-          <Label Text="Welcome back!"
-                 FontSize="28"
-                 FontAttributes="Bold"
-                 TextColor="#2D1B4E" />
-          <Label Text="Discover pets, products, and services"
-                 FontSize="13"
-                 TextColor="#6B5B8C"
-                 LineBreakMode="WordWrap" />
+
+    <ScrollView>
+      <VerticalStackLayout Spacing="0"
+                           Padding="0,0,0,108">
+
+        <!-- Hero header -->
+        <Grid Padding="20,18,20,20"
+              ColumnDefinitions="*,Auto"
+              ColumnSpacing="12"
+              BackgroundColor="#F8F7FC">
+
+          <VerticalStackLayout Grid.Column="0"
+                               Spacing="4"
+                               VerticalOptions="Center">
+            <Label Text="{Binding Greeting}"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   TextColor="#2D1B4E"/>
+            <Label Text="{Binding Subtitle}"
+                   FontSize="12"
+                   TextColor="#6B5B8C"
+                   LineBreakMode="WordWrap"/>
+          </VerticalStackLayout>
+
+          <!-- Cart button with badge -->
+          <Grid Grid.Column="1"
+                IsVisible="{Binding IsBuyer}">
+            <Border StrokeShape="RoundRectangle 22,22,22,22"
+                    Stroke="#E5DCFB"
+                    StrokeThickness="1"
+                    BackgroundColor="White"
+                    WidthRequest="44"
+                    HeightRequest="44"
+                    Padding="0">
+              <Border.Shadow>
+                <Shadow Brush="#10000000"
+                        Offset="0,2"
+                        Radius="6"/>
+              </Border.Shadow>
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCartTapped"/>
+              </Border.GestureRecognizers>
+              <Label Text="🛒"
+                     FontSize="18"
+                     HorizontalOptions="Center"
+                     VerticalOptions="Center"/>
+            </Border>
+
+            <Border IsVisible="{Binding HasCartItems}"
+                    StrokeShape="RoundRectangle 10,10,10,10"
+                    Stroke="White"
+                    StrokeThickness="2"
+                    BackgroundColor="#FF6B6B"
+                    WidthRequest="20"
+                    HeightRequest="20"
+                    Padding="0"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start"
+                    Margin="0,-4,-4,0"
+                    InputTransparent="True">
+              <Label Text="{Binding CartBadgeText}"
+                     FontSize="9"
+                     FontAttributes="Bold"
+                     TextColor="White"
+                     HorizontalOptions="Fill"
+                     VerticalOptions="Fill"
+                     HorizontalTextAlignment="Center"
+                     VerticalTextAlignment="Center"/>
+            </Border>
+          </Grid>
+        </Grid>
+
+        <!-- Tap-to-shop search -->
+        <Border Margin="20,0,20,0"
+                StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#E5DCFB"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="14,10">
+          <Border.Shadow>
+            <Shadow Brush="#10000000"
+                    Offset="0,2"
+                    Radius="6"/>
+          </Border.Shadow>
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnSearchTapped"/>
+          </Border.GestureRecognizers>
+          <Grid ColumnDefinitions="Auto,*"
+                ColumnSpacing="10">
+            <Label Grid.Column="0"
+                   Text="🔍"
+                   FontSize="16"
+                   VerticalOptions="Center"/>
+            <Label Grid.Column="1"
+                   Text="Search pets, products, and more"
+                   FontSize="13"
+                   TextColor="#A89BBB"
+                   VerticalOptions="Center"/>
+          </Grid>
+        </Border>
+
+        <!-- Articles (top position) -->
+        <VerticalStackLayout Padding="20,20,0,0"
+                             Spacing="10"
+                             IsVisible="{Binding HasArticles}">
+          <Grid ColumnDefinitions="*,Auto"
+                Padding="0,0,20,0">
+            <VerticalStackLayout Grid.Column="0"
+                                 Spacing="2">
+              <Label Text="Reads for pet parents"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"/>
+              <Label Text="Curated guides &amp; tips"
+                     FontSize="11"
+                     TextColor="#6B5B8C"/>
+            </VerticalStackLayout>
+            <Label Grid.Column="1"
+                   Text="See all ›"
+                   FontSize="11"
+                   FontAttributes="Bold"
+                   TextColor="#B19CD9"
+                   VerticalOptions="Center"/>
+          </Grid>
+
+          <CollectionView ItemsSource="{Binding Articles}"
+                          HeightRequest="240">
+            <CollectionView.ItemsLayout>
+              <LinearItemsLayout Orientation="Horizontal"
+                                 ItemSpacing="12"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+              <DataTemplate>
+                <Border WidthRequest="260"
+                        StrokeShape="RoundRectangle 16,16,16,16"
+                        Stroke="#E5DCFB"
+                        StrokeThickness="1"
+                        BackgroundColor="White"
+                        Padding="0">
+                  <Border.Shadow>
+                    <Shadow Brush="#10000000"
+                            Offset="0,2"
+                            Radius="6"/>
+                  </Border.Shadow>
+                  <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnArticleTapped"/>
+                  </Border.GestureRecognizers>
+                  <VerticalStackLayout Spacing="0">
+                    <!-- Image with category chip -->
+                    <Grid HeightRequest="120">
+                      <Image Source="{Binding Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
+                             Aspect="AspectFill"
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Fill"/>
+                      <Border StrokeShape="RoundRectangle 10,10,10,10"
+                              BackgroundColor="#E6FFFFFF"
+                              Stroke="Transparent"
+                              Padding="8,3"
+                              Margin="10,10,0,0"
+                              HorizontalOptions="Start"
+                              VerticalOptions="Start">
+                        <Label Text="{Binding Category}"
+                               FontSize="10"
+                               FontAttributes="Bold"
+                               TextColor="#6B4FAA"/>
+                      </Border>
+                    </Grid>
+
+                    <!-- Body -->
+                    <VerticalStackLayout Padding="14,12,14,14"
+                                         Spacing="6">
+                      <Label Text="{Binding Title}"
+                             FontSize="13"
+                             FontAttributes="Bold"
+                             TextColor="#2D1B4E"
+                             LineBreakMode="TailTruncation"
+                             MaxLines="2"/>
+                      <HorizontalStackLayout Spacing="6">
+                        <Label Text="{Binding Author}"
+                               FontSize="10"
+                               TextColor="#6B5B8C"
+                               LineBreakMode="TailTruncation"/>
+                        <Label Text="·"
+                               FontSize="10"
+                               TextColor="#6B5B8C"/>
+                        <Label Text="{Binding ReadTime}"
+                               FontSize="10"
+                               FontAttributes="Bold"
+                               TextColor="#B19CD9"/>
+                      </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                  </VerticalStackLayout>
+                </Border>
+              </DataTemplate>
+            </CollectionView.ItemTemplate>
+          </CollectionView>
         </VerticalStackLayout>
 
-        <!-- Search Bar -->
-        <VerticalStackLayout Padding="24,16,24,0">
-          <SearchBar Placeholder="Search for pets or services..."
-                     PlaceholderColor="#A89BBB"
-                     TextColor="#2D1B4E"
-                     BackgroundColor="White" 
-                     CancelButtonColor="#6B5B8C" />
-        </VerticalStackLayout>
-
-        <!-- Quick Categories -->
-        <VerticalStackLayout Padding="24,16,24,0" Spacing="8">
-          <Label Text="Quick Categories"
+        <!-- Quick actions -->
+        <VerticalStackLayout Padding="20,20,20,0"
+                             Spacing="10">
+          <Label Text="Quick actions"
                  FontSize="14"
                  FontAttributes="Bold"
-                 TextColor="#2D1B4E" />
-          <Grid ColumnDefinitions="*,*" ColumnSpacing="10" RowSpacing="10">
-            <!-- Find Pets Card -->
+                 TextColor="#2D1B4E"/>
+
+          <Grid ColumnDefinitions="*,*"
+                RowDefinitions="Auto,Auto"
+                ColumnSpacing="10"
+                RowSpacing="10">
+
+            <!-- Find Pets -->
             <Border Grid.Row="0" Grid.Column="0"
-                    Stroke="#DDD2FF"
-                    StrokeThickness="1"
                     StrokeShape="RoundRectangle 14,14,14,14"
+                    Stroke="#E5DCFB"
+                    StrokeThickness="1"
                     BackgroundColor="White"
-                    Padding="16">
-              <VerticalStackLayout Spacing="8" VerticalOptions="Center">
-                <Label Text="🐾"
-                       FontSize="28"
-                       HorizontalOptions="Center" />
-                <Label Text="Find Pets"
-                       FontSize="13"
-                       FontAttributes="Bold"
-                       TextColor="#2D1B4E"
-                       HorizontalTextAlignment="Center" />
-              </VerticalStackLayout>
+                    Padding="14">
+              <Border.Shadow>
+                <Shadow Brush="#10000000"
+                        Offset="0,2"
+                        Radius="6"/>
+              </Border.Shadow>
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnFindPetsTapped"/>
+              </Border.GestureRecognizers>
+              <Grid ColumnDefinitions="Auto,*"
+                    ColumnSpacing="10">
+                <Border Grid.Column="0"
+                        StrokeShape="RoundRectangle 12,12,12,12"
+                        BackgroundColor="#F0EAFB"
+                        Stroke="Transparent"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        Padding="0">
+                  <Label Text="🐾"
+                         FontSize="20"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"/>
+                </Border>
+                <VerticalStackLayout Grid.Column="1"
+                                     Spacing="2"
+                                     VerticalOptions="Center">
+                  <Label Text="Find Pets"
+                         FontSize="13"
+                         FontAttributes="Bold"
+                         TextColor="#2D1B4E"/>
+                  <Label Text="Browse adoptables"
+                         FontSize="10"
+                         TextColor="#6B5B8C"/>
+                </VerticalStackLayout>
+              </Grid>
             </Border>
 
-            <!-- Veterinary Card -->
+            <!-- Products -->
             <Border Grid.Row="0" Grid.Column="1"
-                    Stroke="#DDD2FF"
-                    StrokeThickness="1"
                     StrokeShape="RoundRectangle 14,14,14,14"
+                    Stroke="#E5DCFB"
+                    StrokeThickness="1"
                     BackgroundColor="White"
-                    Padding="16">
-              <VerticalStackLayout Spacing="8" VerticalOptions="Center">
-                <Label Text="🏥"
-                       FontSize="28"
-                       HorizontalOptions="Center" />
-                <Label Text="Veterinary"
-                       FontSize="13"
-                       FontAttributes="Bold"
-                       TextColor="#2D1B4E"
-                       HorizontalTextAlignment="Center" />
-              </VerticalStackLayout>
+                    Padding="14">
+              <Border.Shadow>
+                <Shadow Brush="#10000000"
+                        Offset="0,2"
+                        Radius="6"/>
+              </Border.Shadow>
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnProductsTapped"/>
+              </Border.GestureRecognizers>
+              <Grid ColumnDefinitions="Auto,*"
+                    ColumnSpacing="10">
+                <Border Grid.Column="0"
+                        StrokeShape="RoundRectangle 12,12,12,12"
+                        BackgroundColor="#FFF1E0"
+                        Stroke="Transparent"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        Padding="0">
+                  <Label Text="🛍️"
+                         FontSize="20"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"/>
+                </Border>
+                <VerticalStackLayout Grid.Column="1"
+                                     Spacing="2"
+                                     VerticalOptions="Center">
+                  <Label Text="Products"
+                         FontSize="13"
+                         FontAttributes="Bold"
+                         TextColor="#2D1B4E"/>
+                  <Label Text="Food, toys, care"
+                         FontSize="10"
+                         TextColor="#6B5B8C"/>
+                </VerticalStackLayout>
+              </Grid>
             </Border>
 
-            <!-- Products Card -->
+            <!-- Community -->
             <Border Grid.Row="1" Grid.Column="0"
-                    Stroke="#DDD2FF"
-                    StrokeThickness="1"
                     StrokeShape="RoundRectangle 14,14,14,14"
+                    Stroke="#E5DCFB"
+                    StrokeThickness="1"
                     BackgroundColor="White"
-                    Padding="16">
-              <VerticalStackLayout Spacing="8" VerticalOptions="Center">
-                <Label Text="🛍️"
-                       FontSize="28"
-                       HorizontalOptions="Center" />
-                <Label Text="Products"
-                       FontSize="13"
-                       FontAttributes="Bold"
-                       TextColor="#2D1B4E"
-                       HorizontalTextAlignment="Center" />
-              </VerticalStackLayout>
+                    Padding="14">
+              <Border.Shadow>
+                <Shadow Brush="#10000000"
+                        Offset="0,2"
+                        Radius="6"/>
+              </Border.Shadow>
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCommunityTapped"/>
+              </Border.GestureRecognizers>
+              <Grid ColumnDefinitions="Auto,*"
+                    ColumnSpacing="10">
+                <Border Grid.Column="0"
+                        StrokeShape="RoundRectangle 12,12,12,12"
+                        BackgroundColor="#E5F4FF"
+                        Stroke="Transparent"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        Padding="0">
+                  <Label Text="👥"
+                         FontSize="20"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"/>
+                </Border>
+                <VerticalStackLayout Grid.Column="1"
+                                     Spacing="2"
+                                     VerticalOptions="Center">
+                  <Label Text="Community"
+                         FontSize="13"
+                         FontAttributes="Bold"
+                         TextColor="#2D1B4E"/>
+                  <Label Text="Posts &amp; events"
+                         FontSize="10"
+                         TextColor="#6B5B8C"/>
+                </VerticalStackLayout>
+              </Grid>
             </Border>
 
-            <!-- Community Card -->
+            <!-- Vet -->
             <Border Grid.Row="1" Grid.Column="1"
-                    Stroke="#DDD2FF"
-                    StrokeThickness="1"
                     StrokeShape="RoundRectangle 14,14,14,14"
+                    Stroke="#E5DCFB"
+                    StrokeThickness="1"
                     BackgroundColor="White"
-                    Padding="16">
-              <VerticalStackLayout Spacing="8" VerticalOptions="Center">
-                <Label Text="👥"
-                       FontSize="28"
-                       HorizontalOptions="Center" />
-                <Label Text="Community"
-                       FontSize="13"
-                       FontAttributes="Bold"
-                       TextColor="#2D1B4E"
-                       HorizontalTextAlignment="Center" />
-              </VerticalStackLayout>
+                    Padding="14">
+              <Border.Shadow>
+                <Shadow Brush="#10000000"
+                        Offset="0,2"
+                        Radius="6"/>
+              </Border.Shadow>
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnVetTapped"/>
+              </Border.GestureRecognizers>
+              <Grid ColumnDefinitions="Auto,*"
+                    ColumnSpacing="10">
+                <Border Grid.Column="0"
+                        StrokeShape="RoundRectangle 12,12,12,12"
+                        BackgroundColor="#E0F8EE"
+                        Stroke="Transparent"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        Padding="0">
+                  <Label Text="🏥"
+                         FontSize="20"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"/>
+                </Border>
+                <VerticalStackLayout Grid.Column="1"
+                                     Spacing="2"
+                                     VerticalOptions="Center">
+                  <Label Text="Vet Care"
+                         FontSize="13"
+                         FontAttributes="Bold"
+                         TextColor="#2D1B4E"/>
+                  <Label Text="Book a visit"
+                         FontSize="10"
+                         TextColor="#6B5B8C"/>
+                </VerticalStackLayout>
+              </Grid>
             </Border>
           </Grid>
         </VerticalStackLayout>
 
-        <!-- Featured Section -->
-        <VerticalStackLayout Padding="24,20,24,0" Spacing="8">
-          <Label Text="Featured This Week"
-                 FontSize="14"
-                 FontAttributes="Bold"
-                 TextColor="#2D1B4E" />
-          
-          <!-- Featured Item 1 -->
-          <Border Stroke="#DDD2FF"
-                  StrokeThickness="1"
-                  StrokeShape="RoundRectangle 14,14,14,14"
-                  BackgroundColor="White"
-                  Padding="0">
-            <Grid ColumnDefinitions="80,*" ColumnSpacing="12" Padding="12">
-              <BoxView Grid.Column="0" 
-                       Color="#E4DDF9"
-                       CornerRadius="10"
-                       WidthRequest="80"
-                       HeightRequest="80" />
-              <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
-                <Label Text="Golden Retriever"
-                       FontSize="13"
-                       FontAttributes="Bold"
-                       TextColor="#2D1B4E" />
-                <Label Text="Adult, Friendly &amp; Playful"
-                       FontSize="11"
-                       TextColor="#6B5B8C" />
-                <Label Text="⭐ 4.8 rating"
-                       FontSize="10"
-                       TextColor="#B19CD9" />
-              </VerticalStackLayout>
-            </Grid>
-          </Border>
-
-          <!-- Featured Item 2 -->
-          <Border Stroke="#DDD2FF"
-                  StrokeThickness="1"
-                  StrokeShape="RoundRectangle 14,14,14,14"
-                  BackgroundColor="White"
-                  Padding="0">
-            <Grid ColumnDefinitions="80,*" ColumnSpacing="12" Padding="12">
-              <BoxView Grid.Column="0" 
-                       Color="#E4DDF9"
-                       CornerRadius="10"
-                       WidthRequest="80"
-                       HeightRequest="80" />
-              <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
-                <Label Text="Pet Grooming Service"
-                       FontSize="13"
-                       FontAttributes="Bold"
-                       TextColor="#2D1B4E" />
-                <Label Text="Professional grooming for all breeds"
-                       FontSize="11"
-                       TextColor="#6B5B8C" />
-                <Label Text="⭐ 4.9 rating"
-                       FontSize="10"
-                       TextColor="#B19CD9" />
-              </VerticalStackLayout>
-            </Grid>
-          </Border>
-        </VerticalStackLayout>
-
-        <!-- Promotions Banner -->
-        <VerticalStackLayout Padding="24,20,24,24">
-          <Border Stroke="#B19CD9"
-                  StrokeThickness="1"
-                  StrokeShape="RoundRectangle 14,14,14,14"
-                  BackgroundColor="#F0E7FF"
-                  Padding="16">
-            <VerticalStackLayout Spacing="4">
-              <Label Text="🎉 Special Offer"
-                     FontSize="12"
+        <!-- Seller CTA -->
+        <Border Margin="20,16,20,0"
+                StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#B19CD9"
+                StrokeThickness="1"
+                BackgroundColor="#B19CD9"
+                Padding="16,14"
+                IsVisible="{Binding IsSeller}">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnRehomeTapped"/>
+          </Border.GestureRecognizers>
+          <Grid ColumnDefinitions="Auto,*,Auto"
+                ColumnSpacing="14">
+            <Label Grid.Column="0"
+                   Text="📝"
+                   FontSize="28"
+                   VerticalOptions="Center"/>
+            <VerticalStackLayout Grid.Column="1"
+                                 Spacing="2"
+                                 VerticalOptions="Center">
+              <Label Text="Rehome a Pet"
+                     FontSize="14"
                      FontAttributes="Bold"
-                     TextColor="#B19CD9" />
-              <Label Text="Get 20% off on all veterinary services this week!"
-                     FontSize="13"
-                     FontAttributes="Bold"
-                     TextColor="#2D1B4E"
-                     LineBreakMode="WordWrap" />
-              <Button Text="View Details"
-                      BackgroundColor="Transparent"
-                      TextColor="#B19CD9"
-                      FontSize="11"
-                      BorderWidth="0"
-                      Padding="0,8,0,0" />
+                     TextColor="White"/>
+              <Label Text="List your pet for adopters to find"
+                     FontSize="11"
+                     TextColor="#F0EAFB"
+                     LineBreakMode="WordWrap"/>
             </VerticalStackLayout>
-          </Border>
+            <Label Grid.Column="2"
+                   Text="›"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalOptions="Center"/>
+          </Grid>
+        </Border>
+
+        <!-- Featured Pets -->
+        <VerticalStackLayout Padding="20,20,0,0"
+                             Spacing="10"
+                             IsVisible="{Binding HasFeaturedPets}">
+          <Grid ColumnDefinitions="*,Auto"
+                Padding="0,0,20,0">
+            <Label Grid.Column="0"
+                   Text="Pets ready for adoption"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   TextColor="#2D1B4E"/>
+            <Label Grid.Column="1"
+                   Text="See all ›"
+                   FontSize="11"
+                   FontAttributes="Bold"
+                   TextColor="#B19CD9"
+                   VerticalOptions="Center">
+              <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnFindPetsTapped"/>
+              </Label.GestureRecognizers>
+            </Label>
+          </Grid>
+
+          <CollectionView ItemsSource="{Binding FeaturedPets}"
+                          HeightRequest="220">
+            <CollectionView.ItemsLayout>
+              <LinearItemsLayout Orientation="Horizontal"
+                                 ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+              <DataTemplate>
+                <Border WidthRequest="160"
+                        StrokeShape="RoundRectangle 14,14,14,14"
+                        Stroke="#E5DCFB"
+                        StrokeThickness="1"
+                        BackgroundColor="White"
+                        Padding="0">
+                  <Border.Shadow>
+                    <Shadow Brush="#10000000"
+                            Offset="0,2"
+                            Radius="6"/>
+                  </Border.Shadow>
+                  <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnFeaturedPetTapped"/>
+                  </Border.GestureRecognizers>
+                  <VerticalStackLayout Spacing="0">
+                    <Image Source="{Binding Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
+                           Aspect="AspectFill"
+                           HeightRequest="120"/>
+                    <VerticalStackLayout Padding="10,8,10,10"
+                                         Spacing="2">
+                      <Label Text="{Binding Name}"
+                             FontSize="13"
+                             FontAttributes="Bold"
+                             TextColor="#2D1B4E"
+                             LineBreakMode="TailTruncation"/>
+                      <Label Text="{Binding Breed}"
+                             FontSize="10"
+                             TextColor="#6B5B8C"
+                             LineBreakMode="TailTruncation"/>
+                      <Label Text="{Binding Age, StringFormat='{0} year(s) old'}"
+                             FontSize="10"
+                             FontAttributes="Bold"
+                             TextColor="#B19CD9"
+                             Margin="0,2,0,0"/>
+                    </VerticalStackLayout>
+                  </VerticalStackLayout>
+                </Border>
+              </DataTemplate>
+            </CollectionView.ItemTemplate>
+          </CollectionView>
         </VerticalStackLayout>
+
+        <!-- Featured Products -->
+        <VerticalStackLayout Padding="20,20,0,0"
+                             Spacing="10"
+                             IsVisible="{Binding HasFeaturedProducts}">
+          <Grid ColumnDefinitions="*,Auto"
+                Padding="0,0,20,0">
+            <Label Grid.Column="0"
+                   Text="Popular products"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   TextColor="#2D1B4E"/>
+            <Label Grid.Column="1"
+                   Text="See all ›"
+                   FontSize="11"
+                   FontAttributes="Bold"
+                   TextColor="#B19CD9"
+                   VerticalOptions="Center">
+              <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnProductsTapped"/>
+              </Label.GestureRecognizers>
+            </Label>
+          </Grid>
+
+          <CollectionView ItemsSource="{Binding FeaturedProducts}"
+                          HeightRequest="220">
+            <CollectionView.ItemsLayout>
+              <LinearItemsLayout Orientation="Horizontal"
+                                 ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+              <DataTemplate>
+                <Border WidthRequest="160"
+                        StrokeShape="RoundRectangle 14,14,14,14"
+                        Stroke="#E5DCFB"
+                        StrokeThickness="1"
+                        BackgroundColor="White"
+                        Padding="0">
+                  <Border.Shadow>
+                    <Shadow Brush="#10000000"
+                            Offset="0,2"
+                            Radius="6"/>
+                  </Border.Shadow>
+                  <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnFeaturedProductTapped"/>
+                  </Border.GestureRecognizers>
+                  <VerticalStackLayout Spacing="0">
+                    <Image Source="{Binding Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
+                           Aspect="AspectFill"
+                           HeightRequest="120"/>
+                    <VerticalStackLayout Padding="10,8,10,10"
+                                         Spacing="2">
+                      <Label Text="{Binding Name}"
+                             FontSize="13"
+                             FontAttributes="Bold"
+                             TextColor="#2D1B4E"
+                             LineBreakMode="TailTruncation"
+                             MaxLines="2"/>
+                      <Label Text="{Binding DiscountedPrice, StringFormat='${0:F2}'}"
+                             FontSize="13"
+                             FontAttributes="Bold"
+                             TextColor="#B19CD9"
+                             Margin="0,2,0,0"/>
+                    </VerticalStackLayout>
+                  </VerticalStackLayout>
+                </Border>
+              </DataTemplate>
+            </CollectionView.ItemTemplate>
+          </CollectionView>
+        </VerticalStackLayout>
+
+        <!-- Reviews -->
+        <VerticalStackLayout Padding="20,24,0,0"
+                             Spacing="10"
+                             IsVisible="{Binding HasReviews}">
+          <Grid ColumnDefinitions="*,Auto"
+                Padding="0,0,20,0">
+            <VerticalStackLayout Grid.Column="0"
+                                 Spacing="2">
+              <Label Text="Loved by pet parents"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"/>
+              <Label Text="Real reviews from the Floofy community"
+                     FontSize="11"
+                     TextColor="#6B5B8C"/>
+            </VerticalStackLayout>
+            <Label Grid.Column="1"
+                   Text="See all ›"
+                   FontSize="11"
+                   FontAttributes="Bold"
+                   TextColor="#B19CD9"
+                   VerticalOptions="Center"/>
+          </Grid>
+
+          <CollectionView ItemsSource="{Binding Reviews}"
+                          HeightRequest="180">
+            <CollectionView.ItemsLayout>
+              <LinearItemsLayout Orientation="Horizontal"
+                                 ItemSpacing="12"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+              <DataTemplate>
+                <Border WidthRequest="280"
+                        StrokeShape="RoundRectangle 14,14,14,14"
+                        Stroke="#E5DCFB"
+                        StrokeThickness="1"
+                        BackgroundColor="White"
+                        Padding="14">
+                  <Border.Shadow>
+                    <Shadow Brush="#10000000"
+                            Offset="0,2"
+                            Radius="6"/>
+                  </Border.Shadow>
+                  <VerticalStackLayout Spacing="8">
+                    <!-- Header: avatar + name + rating -->
+                    <Grid ColumnDefinitions="36,*,Auto"
+                          ColumnSpacing="10">
+                      <Border Grid.Column="0"
+                              StrokeShape="RoundRectangle 18,18,18,18"
+                              BackgroundColor="#F0EAFB"
+                              Stroke="Transparent"
+                              WidthRequest="36"
+                              HeightRequest="36"
+                              Padding="0">
+                        <Label Text="👤"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                      </Border>
+                      <VerticalStackLayout Grid.Column="1"
+                                           Spacing="0"
+                                           VerticalOptions="Center">
+                        <Label Text="{Binding AuthorName}"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               TextColor="#2D1B4E"
+                               LineBreakMode="TailTruncation"/>
+                        <Label Text="{Binding TimeAgo}"
+                               FontSize="10"
+                               TextColor="#A89BBB"/>
+                      </VerticalStackLayout>
+                      <Label Grid.Column="2"
+                             Text="{Binding Rating, Converter={StaticResource RatingToStarsConverter}}"
+                             FontSize="11"
+                             TextColor="#F5B301"
+                             VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- Comment -->
+                    <Label Text="{Binding Comment}"
+                           FontSize="12"
+                           TextColor="#6B5B8C"
+                           LineBreakMode="TailTruncation"
+                           MaxLines="3"/>
+
+                    <!-- Subject -->
+                    <Border StrokeShape="RoundRectangle 8,8,8,8"
+                            BackgroundColor="#F0EAFB"
+                            Stroke="Transparent"
+                            Padding="8,3"
+                            HorizontalOptions="Start">
+                      <Label Text="{Binding Subject}"
+                             FontSize="10"
+                             FontAttributes="Bold"
+                             TextColor="#6B4FAA"/>
+                    </Border>
+                  </VerticalStackLayout>
+                </Border>
+              </DataTemplate>
+            </CollectionView.ItemTemplate>
+          </CollectionView>
+        </VerticalStackLayout>
+
+        <!-- Promo banner -->
+        <Border Margin="20,24,20,0"
+                StrokeShape="RoundRectangle 18,18,18,18"
+                Stroke="Transparent"
+                BackgroundColor="#6B4FAA"
+                Padding="0">
+          <Border.Shadow>
+            <Shadow Brush="#306B4FAA"
+                    Offset="0,4"
+                    Radius="14"/>
+          </Border.Shadow>
+          <Grid ColumnDefinitions="*,Auto"
+                Padding="20,18,16,18"
+                ColumnSpacing="10">
+            <VerticalStackLayout Grid.Column="0"
+                                 Spacing="6"
+                                 VerticalOptions="Center">
+              <Border StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#33FFFFFF"
+                      Stroke="Transparent"
+                      Padding="8,3"
+                      HorizontalOptions="Start">
+                <Label Text="LIMITED TIME"
+                       FontSize="9"
+                       FontAttributes="Bold"
+                       TextColor="White"/>
+              </Border>
+              <Label Text="20% off all vet services"
+                     FontSize="18"
+                     FontAttributes="Bold"
+                     TextColor="White"
+                     LineBreakMode="WordWrap"/>
+              <Label Text="Use code FLOOFY20 at checkout — this week only"
+                     FontSize="11"
+                     TextColor="#E8DDFB"
+                     LineBreakMode="WordWrap"/>
+              <Button Text="Book a visit"
+                      Clicked="OnVetTapped"
+                      BackgroundColor="White"
+                      TextColor="#6B4FAA"
+                      FontSize="12"
+                      FontAttributes="Bold"
+                      CornerRadius="10"
+                      Padding="16,0"
+                      HeightRequest="36"
+                      Margin="0,6,0,0"
+                      HorizontalOptions="Start"/>
+            </VerticalStackLayout>
+            <Label Grid.Column="1"
+                   Text="🩺"
+                   FontSize="56"
+                   VerticalOptions="Center"
+                   Opacity="0.85"/>
+          </Grid>
+        </Border>
+
       </VerticalStackLayout>
     </ScrollView>
 
