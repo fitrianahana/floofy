@@ -18,6 +18,7 @@
       <converters:StockToLabelConverter x:Key="StockToLabelConverter"/>
       <converters:StockToColorConverter x:Key="StockToColorConverter"/>
       <converters:ImageOrPlaceholderConverter x:Key="ImageOrPlaceholderConverter"/>
+      <converters:CurrentUserPetConverter x:Key="CurrentUserPetConverter"/>
     </ResourceDictionary>
   </Application.Resources>
 </Application>

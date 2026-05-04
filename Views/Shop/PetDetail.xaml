@@ -78,13 +78,13 @@
                    FontAttributes="Bold"
                    FontSize="13"/>
 
-            <!-- Title + species/breed chips -->
-            <VerticalStackLayout Spacing="8">
-              <Label Text="{Binding Pet.Name}"
-                     FontSize="22"
-                     FontAttributes="Bold"
-                     TextColor="#2D1B4E"
-                     LineBreakMode="WordWrap"/>
+              <!-- Title + species/breed chips -->
+              <VerticalStackLayout Spacing="8">
+                <Label Text="{Binding Pet.Name}"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"
+                       LineBreakMode="WordWrap"/>
 
               <HorizontalStackLayout Spacing="6">
                 <Border StrokeShape="RoundRectangle 10,10,10,10"
@@ -108,9 +108,60 @@
                          TextColor="#6B5B8C"/>
                 </Border>
               </HorizontalStackLayout>
-            </VerticalStackLayout>
+             </VerticalStackLayout>
 
-            <!-- Quick stats card -->
+             <!-- Seller Info card -->
+             <Border StrokeShape="RoundRectangle 14,14,14,14"
+                     Stroke="#DDD2FF"
+                     StrokeThickness="1"
+                     BackgroundColor="White"
+                     Padding="16,14">
+               <Border.Shadow>
+                 <Shadow Brush="#10000000"
+                         Offset="0,2"
+                         Radius="6"/>
+               </Border.Shadow>
+               <Grid ColumnDefinitions="Auto,*"
+                     ColumnSpacing="12">
+                 <!-- Seller avatar -->
+                 <Border Grid.Column="0"
+                         StrokeShape="RoundRectangle 24,24,24,24"
+                         Stroke="#DDD2FF"
+                         StrokeThickness="1"
+                         BackgroundColor="#F0EAFB"
+                         WidthRequest="48"
+                         HeightRequest="48"
+                         VerticalOptions="Center">
+                   <Image Source="{Binding Seller.ProfileImageUrl, Converter={StaticResource ImageOrPlaceholderConverter}}"
+                          Aspect="AspectFill"/>
+                 </Border>
+
+                  <!-- Seller details -->
+                  <VerticalStackLayout Grid.Column="1"
+                                       Spacing="4"
+                                       VerticalOptions="Center">
+                    <Label Text="Owner"
+                           FontSize="11"
+                           TextColor="#6B5B8C"/>
+                    <HorizontalStackLayout Spacing="6">
+                      <Label Text="{Binding Seller.FullName}"
+                             FontSize="14"
+                             FontAttributes="Bold"
+                             TextColor="#2D1B4E"
+                             LineBreakMode="TailTruncation"
+                             VerticalOptions="Center"/>
+                      <Label Text="(You)"
+                             FontSize="12"
+                             FontAttributes="Bold"
+                             TextColor="#B19CD9"
+                             IsVisible="{Binding IsOwner}"
+                             VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                  </VerticalStackLayout>
+               </Grid>
+             </Border>
+
+             <!-- Quick stats card -->
             <Border StrokeShape="RoundRectangle 14,14,14,14"
                     Stroke="#DDD2FF"
                     StrokeThickness="1"
@@ -191,10 +242,10 @@
                        FontSize="13"
                        TextColor="#6B5B8C"
                        LineBreakMode="WordWrap"/>
-              </VerticalStackLayout>
-            </Border>
+               </VerticalStackLayout>
+             </Border>
 
-            <!-- Health & Details card -->
+             <!-- Health & Details card -->
             <Border StrokeShape="RoundRectangle 14,14,14,14"
                     Stroke="#DDD2FF"
                     StrokeThickness="1"

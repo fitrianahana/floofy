@@ -1,4 +1,5 @@
 using System.Globalization;
+using floofy.Services;
 
 namespace floofy.Converters;
 
@@ -86,6 +87,28 @@ public class ImageOrPlaceholderConverter : IValueConverter
       return "no_image.png";
     }
     return url;
+  }
+
+  public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+  {
+    throw new NotImplementedException();
+  }
+}
+
+public class CurrentUserPetConverter : IValueConverter
+{
+  public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+  {
+    if (value is not Guid sellerId)
+      return false;
+
+    var sessionService = App.Services.GetRequiredService<SessionService>();
+    var currentUser = sessionService.CurrentUser;
+
+    if (currentUser is null)
+      return false;
+
+    return sellerId == currentUser.Id;
   }
 
   public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

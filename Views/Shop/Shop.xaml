@@ -190,12 +190,28 @@
               <Grid ColumnDefinitions="110,*,Auto"
                     ColumnSpacing="0"
                     Padding="0">
-                <!-- Pet Image (full card height) -->
-                <Image Grid.Column="0"
-                       Source="{Binding Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
-                       HeightRequest="120"
-                       WidthRequest="110"
-                       Aspect="AspectFill"/>
+                <!-- Pet Image (full card height) with overlay -->
+                <Grid Grid.Column="0"
+                      RowSpacing="0">
+                  <Image Source="{Binding Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
+                         HeightRequest="120"
+                         WidthRequest="110"
+                         Aspect="AspectFill"/>
+                  
+                  <!-- Owner badge overlay -->
+                  <Border BackgroundColor="#B19CD9"
+                          StrokeShape="RoundRectangle 6,6,6,6"
+                          Padding="4,2"
+                          Margin="6,6,0,0"
+                          VerticalOptions="Start"
+                          HorizontalOptions="Start"
+                          IsVisible="{Binding SellerId, Converter={StaticResource CurrentUserPetConverter}}">
+                    <Label Text="Yours"
+                           FontSize="9"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+                  </Border>
+                </Grid>
 
                 <!-- Pet Details -->
                 <VerticalStackLayout Grid.Column="1"
@@ -397,14 +413,50 @@
                    FontSize="12"
                    TextColor="#6B5B8C"
                    HorizontalOptions="Center"/>
-          </VerticalStackLayout>
-        </CollectionView.EmptyView>
-      </CollectionView>
-    </Grid>
+           </VerticalStackLayout>
+         </CollectionView.EmptyView>
+       </CollectionView>
+     </Grid>
 
-    <controls:BottomNav Grid.Row="0"
-                        Grid.RowSpan="4"
-                        ActiveTab="shop"
-                        VerticalOptions="End"/>
-  </Grid>
-</ContentPage>
+     <!-- Toast Notification -->
+     <Border x:Name="Toast"
+             Grid.Row="0"
+             Grid.RowSpan="4"
+             StrokeShape="RoundRectangle 24,24,24,24"
+             Stroke="Transparent"
+             BackgroundColor="#2D1B4E"
+             Padding="18,12"
+             IsVisible="False"
+             Opacity="0"
+             VerticalOptions="End"
+             HorizontalOptions="Center"
+             Margin="20,0,20,20"
+             InputTransparent="True">
+       <Border.Shadow>
+         <Shadow Brush="#40000000"
+                 Offset="0,6"
+                 Radius="16"/>
+       </Border.Shadow>
+       <HorizontalStackLayout Spacing="12">
+         <Label Text="✓"
+                FontSize="16"
+                FontAttributes="Bold"
+                TextColor="White"
+                VerticalOptions="Center"
+                Margin="2,0,0,0"/>
+         <Label x:Name="ToastMessage"
+                Text="Toast message"
+                FontSize="13"
+                FontAttributes="Bold"
+                TextColor="White"
+                VerticalOptions="Center"
+                LineBreakMode="TailTruncation"/>
+       </HorizontalStackLayout>
+     </Border>
+
+     <controls:BottomNav Grid.Row="0"
+                         Grid.RowSpan="4"
+                         ActiveTab="shop"
+                         VerticalOptions="End"/>
+   </Grid>
+ </ContentPage>

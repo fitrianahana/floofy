@@ -7,6 +7,9 @@ public partial class PetDetail : ContentPage
 {
   private readonly PetDetailViewModel _viewModel;
   private Guid _petId = Guid.Empty;
+  
+  public static event EventHandler<string>? OnListingCancelled;
+  public static string? PendingCancelNotification { get; set; }
 
   public string PetId
   {
@@ -48,21 +51,32 @@ public partial class PetDetail : ContentPage
     await Navigation.PushModalAsync(dialog);
     var confirmed = await dialog.WaitForResultAsync();
 
-     if (confirmed)
-     {
-       var petName = _viewModel.Pet.Name;
-       await _viewModel.OnCancelListingAsync();
-       
-       if (string.IsNullOrEmpty(_viewModel.ErrorMessage))
-       {
-         // Navigate back to shop page
-         await Shell.Current.GoToAsync("..");
-       }
-       else
-       {
-         // Show error if cancellation failed
-         await DisplayAlertAsync("Error", _viewModel.ErrorMessage, "OK");
-       }
-     }
+      if (confirmed)
+      {
+        var petName = _viewModel.Pet.Name;
+        await _viewModel.OnCancelListingAsync();
+        
+        if (string.IsNullOrEmpty(_viewModel.ErrorMessage))
+        {
+          var message = $"{petName}'s listing was cancelled";
+          // Store in both event and static property for reliability
+          PendingCancelNotification = message;
+          System.Diagnostics.Debug.WriteLine($"[PetDetail] Set PendingCancelNotification: {message}");
+          
+          // Navigate back
+          await Shell.Current.GoToAsync("..");
+          
+          // Give time for navigation to complete, then show toast
+          await Task.Delay(500);
+          System.Diagnostics.Debug.WriteLine($"[PetDetail] After navigation, raising event");
+          OnListingCancelled?.Invoke(this, message);
+          System.Diagnostics.Debug.WriteLine($"[PetDetail] Raised OnListingCancelled event");
+        }
+        else
+        {
+          // Show error if cancellation failed
+          await DisplayAlertAsync("Error", _viewModel.ErrorMessage, "OK");
+        }
+      }
   }
 }

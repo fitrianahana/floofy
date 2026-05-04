@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using floofy.Data;
 using floofy.Models;
 using floofy.Services;
 
@@ -9,6 +10,7 @@ public class PetDetailViewModel : BaseViewModel
   private readonly IPetService _petService;
   private readonly ICartService _cartService;
   private readonly SessionService _sessionService;
+  private readonly IRepository<User> _userRepository;
 
   private Pet? _pet;
   private decimal _adoptionFee;
@@ -16,6 +18,8 @@ public class PetDetailViewModel : BaseViewModel
   private string _statusMessage = string.Empty;
   private bool _isSubmittingAdoption;
   private bool _isOwner;
+  private User? _seller;
+
 
   public Pet? Pet
   {
@@ -67,6 +71,12 @@ public class PetDetailViewModel : BaseViewModel
     set => SetProperty(ref _isOwner, value);
   }
 
+  public User? Seller
+  {
+    get => _seller;
+    set => SetProperty(ref _seller, value);
+  }
+
   public bool CanAdopt => Pet is not null && !_isSubmittingAdoption && !_isInCart && !IsOwner;
   public string AdoptButtonText => _isInCart ? "In Cart" : "Adopt Pet";
 
@@ -78,6 +88,7 @@ public class PetDetailViewModel : BaseViewModel
     _petService = App.Services.GetRequiredService<IPetService>();
     _cartService = App.Services.GetRequiredService<ICartService>();
     _sessionService = App.Services.GetRequiredService<SessionService>();
+    _userRepository = App.Services.GetRequiredService<IRepository<User>>();
 
     AdoptCommand = new RelayCommand(async () => await OnAdoptAsync());
     CancelListingCommand = new RelayCommand(async () => await OnCancelListingAsync());
@@ -99,6 +110,10 @@ public class PetDetailViewModel : BaseViewModel
       }
 
       Pet = pet;
+
+      // Load seller information
+      var seller = await _userRepository.GetByIdAsync(pet.SellerId);
+      Seller = seller;
 
       var listing = await _petService.GetActiveListingForPetAsync(pet.Id);
       AdoptionFee = listing?.Price ?? 0m;
