@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="floofy.Views.EditProfile"
+             Title="Edit Profile"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+
+  <Grid BackgroundColor="#F8F7FC"
+        RowDefinitions="Auto,*,Auto"
+        RowSpacing="0">
+
+    <!-- Header -->
+    <Grid Grid.Row="0"
+          ColumnDefinitions="Auto,*"
+          Padding="12,16,16,12"
+          ColumnSpacing="6"
+          BackgroundColor="White">
+
+      <Button Grid.Column="0"
+              Text="←"
+              Clicked="OnBackClicked"
+              BackgroundColor="Transparent"
+              TextColor="#2D1B4E"
+              FontSize="20"
+              FontAttributes="Bold"
+              BorderWidth="0"
+              CornerRadius="20"
+              WidthRequest="40"
+              HeightRequest="40"
+              Padding="8,4,8,10"/>
+
+      <VerticalStackLayout Grid.Column="1"
+                           Spacing="2"
+                           VerticalOptions="Center">
+        <Label Text="Edit Profile"
+               FontSize="18"
+               FontAttributes="Bold"
+               TextColor="#2D1B4E"/>
+        <Label Text="Update your account details"
+               FontSize="11"
+               TextColor="#6B5B8C"/>
+      </VerticalStackLayout>
+    </Grid>
+
+    <!-- Form -->
+    <ScrollView Grid.Row="1">
+      <VerticalStackLayout Padding="20,18,20,24"
+                           Spacing="14">
+
+        <Label Text="{Binding ErrorMessage}"
+               IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
+               TextColor="#FF6B6B"
+               FontAttributes="Bold"
+               FontSize="12"/>
+        <Label Text="{Binding StatusMessage}"
+               IsVisible="{Binding StatusMessage, Converter={StaticResource StringBoolConverter}}"
+               TextColor="#4CAF93"
+               FontAttributes="Bold"
+               FontSize="12"/>
+
+        <!-- Identity card -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <Border.Shadow>
+            <Shadow Brush="#10000000"
+                    Offset="0,2"
+                    Radius="6"/>
+          </Border.Shadow>
+          <VerticalStackLayout Spacing="12">
+            <HorizontalStackLayout Spacing="8">
+              <Label Text="👤"
+                     FontSize="16"
+                     VerticalOptions="Center"/>
+              <Label Text="Identity"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+              <Label Text="Full name *"
+                     FontSize="11"
+                     FontAttributes="Bold"
+                     TextColor="#6B5B8C"/>
+              <Border Stroke="#DDD2FF"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#F8F7FC"
+                      Padding="10,2">
+                <Entry Text="{Binding FullName}"
+                       Placeholder="Your full name"
+                       PlaceholderColor="#A89BBB"
+                       TextColor="#2D1B4E"
+                       FontSize="13"/>
+              </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+              <Label Text="Email *"
+                     FontSize="11"
+                     FontAttributes="Bold"
+                     TextColor="#6B5B8C"/>
+              <Border Stroke="#DDD2FF"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#F8F7FC"
+                      Padding="10,2">
+                <Entry Text="{Binding Email}"
+                       Placeholder="you@example.com"
+                       PlaceholderColor="#A89BBB"
+                       TextColor="#2D1B4E"
+                       Keyboard="Email"
+                       FontSize="13"/>
+              </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+              <Label Text="Phone number"
+                     FontSize="11"
+                     FontAttributes="Bold"
+                     TextColor="#6B5B8C"/>
+              <Border Stroke="#DDD2FF"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#F8F7FC"
+                      Padding="10,2">
+                <Entry Text="{Binding PhoneNumber}"
+                       Placeholder="+1 555 0100"
+                       PlaceholderColor="#A89BBB"
+                       TextColor="#2D1B4E"
+                       Keyboard="Telephone"
+                       FontSize="13"/>
+              </Border>
+            </VerticalStackLayout>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Photo card -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <Border.Shadow>
+            <Shadow Brush="#10000000"
+                    Offset="0,2"
+                    Radius="6"/>
+          </Border.Shadow>
+          <VerticalStackLayout Spacing="10">
+            <HorizontalStackLayout Spacing="8">
+              <Label Text="📷"
+                     FontSize="16"
+                     VerticalOptions="Center"/>
+              <Label Text="Profile Photo"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <Grid ColumnDefinitions="80,*"
+                  ColumnSpacing="14">
+              <Border Grid.Column="0"
+                      StrokeShape="RoundRectangle 40,40,40,40"
+                      Stroke="#DDD2FF"
+                      StrokeThickness="1"
+                      WidthRequest="80"
+                      HeightRequest="80"
+                      Padding="0">
+                <Image Source="{Binding ProfileImageUrl, Converter={StaticResource ImageOrPlaceholderConverter}}"
+                       Aspect="AspectFill"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Fill"/>
+              </Border>
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="4"
+                                   VerticalOptions="Center">
+                <Label Text="Photo URL"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       TextColor="#6B5B8C"/>
+                <Border Stroke="#DDD2FF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10,10,10,10"
+                        BackgroundColor="#F8F7FC"
+                        Padding="10,2">
+                  <Entry Text="{Binding ProfileImageUrl}"
+                         Placeholder="https://…"
+                         PlaceholderColor="#A89BBB"
+                         TextColor="#2D1B4E"
+                         Keyboard="Url"
+                         FontSize="12"/>
+                </Border>
+                <Label Text="Leave empty to use the default avatar."
+                       FontSize="10"
+                       TextColor="#A89BBB"/>
+              </VerticalStackLayout>
+            </Grid>
+          </VerticalStackLayout>
+        </Border>
+
+      </VerticalStackLayout>
+    </ScrollView>
+
+    <!-- Sticky save bar -->
+    <Border Grid.Row="2"
+            BackgroundColor="White"
+            Stroke="#E5DCFB"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 0,0,0,0"
+            Padding="16,12">
+      <Grid ColumnDefinitions="*,Auto"
+            ColumnSpacing="12">
+
+        <ActivityIndicator Grid.Column="0"
+                           IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Color="#B19CD9"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"/>
+
+        <Button Grid.Column="1"
+                Text="Save changes"
+                BackgroundColor="#B19CD9"
+                TextColor="White"
+                CornerRadius="12"
+                FontSize="13"
+                FontAttributes="Bold"
+                Padding="24,0"
+                HeightRequest="44"
+                Command="{Binding SaveCommand}"
+                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"/>
+      </Grid>
+    </Border>
+  </Grid>
+</ContentPage>

@@ -54,18 +54,46 @@
                 Padding="14,0"
                 IsVisible="{Binding CanShowSellAction}"/>
 
-        <!-- Cart icon (buyers only) -->
-        <Button Text="🛒"
-                Clicked="OnCartClicked"
-                BackgroundColor="#E6FFFFFF"
-                TextColor="#2D1B4E"
-                FontSize="18"
-                BorderWidth="0"
-                CornerRadius="22"
-                WidthRequest="44"
-                HeightRequest="44"
-                Padding="0"
-                IsVisible="{Binding IsBuyer}"/>
+        <!-- Cart icon with count badge (buyers only) -->
+        <Grid IsVisible="{Binding IsBuyer}">
+          <Border StrokeShape="RoundRectangle 22,22,22,22"
+                  Stroke="Transparent"
+                  BackgroundColor="#E6FFFFFF"
+                  WidthRequest="44"
+                  HeightRequest="44"
+                  Padding="0">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Tapped="OnCartClicked"/>
+            </Border.GestureRecognizers>
+            <Label Text="🛒"
+                   FontSize="18"
+                   TextColor="#2D1B4E"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+          </Border>
+
+          <Border IsVisible="{Binding HasCartItems}"
+                  StrokeShape="RoundRectangle 10,10,10,10"
+                  Stroke="White"
+                  StrokeThickness="2"
+                  BackgroundColor="#FF6B6B"
+                  WidthRequest="20"
+                  HeightRequest="20"
+                  Padding="0"
+                  HorizontalOptions="End"
+                  VerticalOptions="Start"
+                  Margin="0,-4,-4,0"
+                  InputTransparent="True">
+            <Label Text="{Binding CartBadgeText}"
+                   FontSize="9"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Fill"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"/>
+          </Border>
+        </Grid>
       </HorizontalStackLayout>
     </Grid>
 

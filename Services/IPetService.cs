@@ -12,4 +12,5 @@ public interface IPetService
   Task<List<Pet>> GetPetsByBreedAsync(string breed);
   Task<Pet> CreatePetWithListingAsync(Pet pet, decimal listingPrice);
   Task<PetListing?> GetActiveListingForPetAsync(Guid petId);
+  Task CancelListingAsync(Guid petId);
 }

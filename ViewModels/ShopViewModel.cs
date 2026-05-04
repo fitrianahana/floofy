@@ -15,9 +15,11 @@ public class ShopViewModel : BaseViewModel
 {
   private readonly IPetService _petService;
   private readonly IProductService _productService;
+  private readonly ICartService _cartService;
   private readonly SessionService _sessionService;
   private ShopSection _activeSection = ShopSection.Pets;
   private string _searchQuery = string.Empty;
+  private int _cartItemCount;
   private ObservableCollection<Pet> _pets = new();
   private ObservableCollection<Product> _products = new();
 
@@ -55,6 +57,20 @@ public class ShopViewModel : BaseViewModel
 
   public string HeaderBackground => IsPetsSectionActive ? "petshop_bg.jpg" : "shop_bg.jpg";
 
+  public int CartItemCount
+  {
+    get => _cartItemCount;
+    set
+    {
+      SetProperty(ref _cartItemCount, value);
+      OnPropertyChanged(nameof(HasCartItems));
+      OnPropertyChanged(nameof(CartBadgeText));
+    }
+  }
+
+  public bool HasCartItems => _cartItemCount > 0;
+  public string CartBadgeText => _cartItemCount > 9 ? "9+" : _cartItemCount.ToString();
+
   public string SearchQuery
   {
     get => _searchQuery;
@@ -82,6 +98,7 @@ public class ShopViewModel : BaseViewModel
   {
     _petService = App.Services.GetRequiredService<IPetService>();
     _productService = App.Services.GetRequiredService<IProductService>();
+    _cartService = App.Services.GetRequiredService<ICartService>();
     _sessionService = App.Services.GetRequiredService<SessionService>();
 
     PropertyChanged += (_, e) =>
@@ -115,6 +132,28 @@ public class ShopViewModel : BaseViewModel
     OnPropertyChanged(nameof(IsSeller));
     OnPropertyChanged(nameof(CanShowSellAction));
     OnPropertyChanged(nameof(HeaderSubtitle));
+  }
+
+  public async Task RefreshCartCountAsync()
+  {
+    var user = _sessionService.CurrentUser;
+    if (user is null)
+    {
+      CartItemCount = 0;
+      return;
+    }
+
+    try
+    {
+      var cart = await _cartService.GetUserCartAsync(user.Id);
+      var products = cart.Items.Sum(i => i.Quantity);
+      var pets = cart.PetItems.Count;
+      CartItemCount = products + pets;
+    }
+    catch
+    {
+      CartItemCount = 0;
+    }
   }
 
   private async Task LoadCurrentSectionAsync()

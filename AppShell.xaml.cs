@@ -12,6 +12,8 @@ namespace floofy
       Routing.RegisterRoute("sellPet", typeof(SellPet));
       Routing.RegisterRoute("rehomingAgreement", typeof(RehomingAgreement));
       Routing.RegisterRoute("rehomingPolicy", typeof(RehomingPolicy));
+      Routing.RegisterRoute("editProfile", typeof(EditProfile));
+      Routing.RegisterRoute("myListings", typeof(MyListings));
     }
   }
 }

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="floofy.Views.CancelListingDialog"
+             Title="Cancel Listing"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#00000000">
+  <Grid BackgroundColor="#00000080"
+        Padding="0"
+        RowDefinitions="*,Auto,*">
+
+    <Border Grid.Row="1"
+            Stroke="#E8E0F5"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 16,16,16,16"
+            BackgroundColor="White"
+            Padding="24,32"
+            Margin="32,0">
+      <VerticalStackLayout Spacing="20">
+
+        <Label Text="⚠️"
+               FontSize="56"
+               HorizontalOptions="Center"
+               VerticalOptions="Start"/>
+
+        <Label Text="Cancel rehoming?"
+               FontSize="20"
+               FontAttributes="Bold"
+               TextColor="#2D1B4E"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"/>
+
+        <Label x:Name="MessageLabel"
+               Text="Are you sure you want to cancel rehoming for this pet? The listing will be removed from the shop and adopters won't be able to find it."
+               FontSize="13"
+               TextColor="#6B5B8C"
+               LineBreakMode="WordWrap"
+               HorizontalTextAlignment="Center"/>
+
+        <Grid ColumnDefinitions="*,Auto,Auto,*"
+              ColumnSpacing="12"
+              Padding="0,8">
+
+          <Button Grid.Column="1"
+                  Text="Keep Listed"
+                  x:Name="KeepButton"
+                  Clicked="OnKeepClicked"
+                  BackgroundColor="Transparent"
+                  TextColor="#B19CD9"
+                  BorderColor="#B19CD9"
+                  BorderWidth="1.5"
+                  FontAttributes="Bold"
+                  FontSize="13"
+                  CornerRadius="8"
+                  Padding="20,12"
+                  CharacterSpacing="0.3"/>
+
+          <Button Grid.Column="2"
+                  Text="Yes, Cancel"
+                  x:Name="CancelButton"
+                  Clicked="OnConfirmCancelClicked"
+                  BackgroundColor="#FF6B6B"
+                  TextColor="White"
+                  FontAttributes="Bold"
+                  FontSize="13"
+                  CornerRadius="8"
+                  Padding="20,12"
+                  CharacterSpacing="0.3"/>
+        </Grid>
+      </VerticalStackLayout>
+    </Border>
+  </Grid>
+</ContentPage>

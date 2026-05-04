@@ -84,4 +84,24 @@ public class PetService : IPetService
         .OrderByDescending(l => l.ListingStartDate)
         .FirstOrDefault();
   }
+
+  public async Task CancelListingAsync(Guid petId)
+  {
+    var pet = await _petRepository.GetByIdAsync(petId);
+    if (pet is null) return;
+
+    pet.MarkAsDeleted();
+    await _petRepository.UpdateAsync(pet);
+
+    var listings = await _petListingRepository.GetAllAsync();
+    var activeListings = listings
+        .Where(l => l.PetId == petId && !l.IsDeleted && l.IsActive)
+        .ToList();
+
+    foreach (var listing in activeListings)
+    {
+      listing.ExpireListing();
+      await _petListingRepository.UpdateAsync(listing);
+    }
+  }
 }

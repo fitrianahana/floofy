@@ -16,7 +16,7 @@ public partial class Shop : ContentPage
     BindingContext = viewModel;
   }
 
-  protected override void OnAppearing()
+  protected override async void OnAppearing()
   {
     base.OnAppearing();
     _viewModel.RefreshRoles();
@@ -24,6 +24,7 @@ public partial class Shop : ContentPage
     {
       cmd.Execute(null);
     }
+    await _viewModel.RefreshCartCountAsync();
   }
 
   private void OnPetsTabClicked(object? sender, EventArgs e)

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="floofy.Views.MyListings"
+             Title="My Listings"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+
+  <Grid BackgroundColor="#F8F7FC"
+        RowDefinitions="Auto,*,Auto"
+        RowSpacing="0">
+
+    <!-- Header -->
+    <Grid Grid.Row="0"
+          ColumnDefinitions="Auto,*"
+          Padding="12,16,16,12"
+          ColumnSpacing="6"
+          BackgroundColor="White">
+
+      <Button Grid.Column="0"
+              Text="←"
+              Clicked="OnBackClicked"
+              BackgroundColor="Transparent"
+              TextColor="#2D1B4E"
+              FontSize="20"
+              FontAttributes="Bold"
+              BorderWidth="0"
+              CornerRadius="20"
+              WidthRequest="40"
+              HeightRequest="40"
+              Padding="8,4,8,10"/>
+
+      <VerticalStackLayout Grid.Column="1"
+                           Spacing="2"
+                           VerticalOptions="Center">
+        <Label Text="My Listings"
+               FontSize="18"
+               FontAttributes="Bold"
+               TextColor="#2D1B4E"/>
+        <Label Text="Pets you've listed for rehoming"
+               FontSize="11"
+               TextColor="#6B5B8C"/>
+      </VerticalStackLayout>
+    </Grid>
+
+    <!-- Body -->
+    <Grid Grid.Row="1">
+
+      <ActivityIndicator IsRunning="{Binding IsLoading}"
+                         IsVisible="{Binding IsLoading}"
+                         Color="#B19CD9"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center"/>
+
+      <CollectionView ItemsSource="{Binding Listings}"
+                      IsVisible="{Binding ShowList}"
+                      Margin="20,16,20,0">
+        <CollectionView.ItemsLayout>
+          <LinearItemsLayout Orientation="Vertical"
+                             ItemSpacing="10"/>
+        </CollectionView.ItemsLayout>
+        <CollectionView.ItemTemplate>
+          <DataTemplate>
+            <Border StrokeShape="RoundRectangle 14,14,14,14"
+                    Stroke="#E5DCFB"
+                    StrokeThickness="1"
+                    BackgroundColor="White"
+                    Padding="0">
+              <Border.Shadow>
+                <Shadow Brush="#10000000"
+                        Offset="0,2"
+                        Radius="6"/>
+              </Border.Shadow>
+              <Grid ColumnDefinitions="125,*,Auto"
+                    ColumnSpacing="0">
+                <Grid.GestureRecognizers>
+                  <TapGestureRecognizer Tapped="OnListingTapped"/>
+                </Grid.GestureRecognizers>
+
+                <Image Grid.Column="0"
+                       Source="{Binding Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
+                       Aspect="AspectFill"
+                       HeightRequest="135"
+                       WidthRequest="125"/>
+
+                <VerticalStackLayout Grid.Column="1"
+                                     Padding="12,10,8,10"
+                                     Spacing="4"
+                                     VerticalOptions="Center">
+                  <Label Text="{Binding Name}"
+                         FontSize="14"
+                         FontAttributes="Bold"
+                         TextColor="#2D1B4E"
+                         LineBreakMode="TailTruncation"
+                         MaxLines="1"/>
+                  <HorizontalStackLayout Spacing="4">
+                    <Label Text="{Binding Species}"
+                           FontSize="11"
+                           TextColor="#6B5B8C"/>
+                    <Label Text="·"
+                           FontSize="11"
+                           TextColor="#6B5B8C"/>
+                    <Label Text="{Binding Breed}"
+                           FontSize="11"
+                           TextColor="#6B5B8C"
+                           LineBreakMode="TailTruncation"/>
+                  </HorizontalStackLayout>
+                  <Label Text="{Binding Age, StringFormat='{0} year(s) old'}"
+                         FontSize="11"
+                         FontAttributes="Bold"
+                         TextColor="#B19CD9"
+                         Margin="0,2,0,0"/>
+
+                  <Label Text="Cancel Rehoming"
+                         Clicked="onCancelListingClicked"
+                         FontSize="11"
+                         FontAttributes="Bold"
+                         TextColor="#FF6B6B"
+                         Margin="0,2,0,0"/>
+
+                  <Button Text="Cancel rehoming"
+                          Clicked="OnCancelListingClicked"
+                          BackgroundColor="Transparent"
+                          TextColor="#FF6B6B"
+                          BorderColor="#FFD0D7"
+                          BorderWidth="1"
+                          FontSize="10"
+                          FontAttributes="Bold"
+                          CornerRadius="11"
+                          Padding="4,0"
+                          HeightRequest="22"
+                          HorizontalOptions="Start"
+                          Margin="0,6,0,0"/>
+                </VerticalStackLayout>
+
+                <Label Grid.Column="2"
+                       Text="›"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="#A89BBB"
+                       VerticalOptions="Center"
+                       Margin="0,0,14,0"/>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.Footer>
+          <Grid HeightRequest="20"/>
+        </CollectionView.Footer>
+      </CollectionView>
+
+      <!-- Empty state -->
+      <VerticalStackLayout IsVisible="{Binding ShowEmpty}"
+                           Padding="20"
+                           Spacing="12"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center">
+        <Label Text="📝"
+               FontSize="56"
+               HorizontalOptions="Center"/>
+        <Label Text="No listings yet"
+               FontSize="16"
+               FontAttributes="Bold"
+               TextColor="#2D1B4E"
+               HorizontalOptions="Center"/>
+        <Label Text="List your first pet to find them a forever home."
+               FontSize="12"
+               TextColor="#6B5B8C"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"/>
+      </VerticalStackLayout>
+    </Grid>
+
+    <!-- Sticky CTA -->
+    <Border Grid.Row="2"
+            BackgroundColor="White"
+            Stroke="#E5DCFB"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 0,0,0,0"
+            Padding="16,12">
+      <Button Text="📝  Rehome a new pet"
+              Clicked="OnRehomeClicked"
+              BackgroundColor="#B19CD9"
+              TextColor="White"
+              CornerRadius="12"
+              FontSize="13"
+              FontAttributes="Bold"
+              HeightRequest="44"
+              Padding="20,0"/>
+    </Border>
+
+    <!-- Toast notification (overlay above sticky bar) -->
+    <Border Grid.Row="1"
+            x:Name="Toast"
+            VerticalOptions="End"
+            HorizontalOptions="Center"
+            StrokeShape="RoundRectangle 22,22,22,22"
+            BackgroundColor="#2D1B4E"
+            Stroke="Transparent"
+            Padding="16,10"
+            Margin="20,0,20,16"
+            IsVisible="False"
+            Opacity="0"
+            InputTransparent="True">
+      <Border.Shadow>
+        <Shadow Brush="#40000000"
+                Offset="0,4"
+                Radius="14"/>
+      </Border.Shadow>
+      <HorizontalStackLayout Spacing="10">
+        <Label Text="✓"
+               FontSize="14"
+               FontAttributes="Bold"
+               TextColor="#4CD18A"
+               VerticalOptions="Center"/>
+        <Label x:Name="ToastMessage"
+               Text=""
+               FontSize="12"
+               FontAttributes="Bold"
+               TextColor="White"
+               VerticalOptions="Center"
+               LineBreakMode="TailTruncation"/>
+      </HorizontalStackLayout>
+    </Border>
+  </Grid>
+</ContentPage>

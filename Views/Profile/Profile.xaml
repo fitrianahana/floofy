@@ -6,221 +6,530 @@
              Title="Profile"
              NavigationPage.HasNavigationBar="False">
   <Grid BackgroundColor="#F8F7FC">
-    <ScrollView Padding="0,0,0,96">
-      <VerticalStackLayout Spacing="0" Padding="0">
+    <ScrollView>
+      <VerticalStackLayout Spacing="0"
+                           Padding="0,0,0,108">
+
         <!-- Header -->
-        <VerticalStackLayout Padding="24,20,24,0" Spacing="8">
+        <VerticalStackLayout Padding="20,18,20,0"
+                             Spacing="2">
           <Label Text="My Profile"
-                 FontSize="28"
+                 FontSize="22"
                  FontAttributes="Bold"
-                 TextColor="#2D1B4E" />
+                 TextColor="#2D1B4E"/>
           <Label Text="Manage your account and preferences"
-                 FontSize="13"
-                 TextColor="#6B5B8C"
-                 LineBreakMode="WordWrap" />
+                 FontSize="12"
+                 TextColor="#6B5B8C"/>
         </VerticalStackLayout>
 
-        <!-- Profile Card -->
-        <VerticalStackLayout Padding="24,20,24,0" Spacing="12">
-          <Border Stroke="#DDD2FF"
-                  StrokeThickness="1"
-                  StrokeShape="RoundRectangle 16,16,16,16"
-                  BackgroundColor="White"
-                  Padding="20">
-            <VerticalStackLayout Spacing="16" VerticalOptions="Center">
-              <!-- Profile Avatar -->
-              <Border CornerRadius="50"
-                      StrokeThickness="0"
-                      BackgroundColor="#E4DDF9"
-                      Padding="0"
+        <!-- Profile Hero Card -->
+        <Border Margin="20,16,20,0"
+                StrokeShape="RoundRectangle 18,18,18,18"
+                Stroke="#E5DCFB"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="0">
+          <Border.Shadow>
+            <Shadow Brush="#10000000"
+                    Offset="0,2"
+                    Radius="8"/>
+          </Border.Shadow>
+          <Grid RowDefinitions="Auto,Auto"
+                Padding="20,22,20,18"
+                RowSpacing="14">
+
+            <!-- Avatar with image fallback -->
+            <Grid Grid.Row="0"
+                  HorizontalOptions="Center">
+              <!-- Initials placeholder (shown when no profile image) -->
+              <Border IsVisible="{Binding HasProfileImage, Converter={StaticResource InvertedBoolConverter}}"
+                      StrokeShape="RoundRectangle 50,50,50,50"
+                      BackgroundColor="#F0EAFB"
+                      Stroke="#DDD2FF"
+                      StrokeThickness="1"
                       WidthRequest="100"
                       HeightRequest="100"
-                      HorizontalOptions="Center" />
-              
+                      Padding="0">
+                <Label Text="{Binding Initials}"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       TextColor="#6B4FAA"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+              </Border>
 
-              <!-- User Name -->
-              <Label x:Name="FullNameLabel"
+              <!-- Profile photo (shown when present) -->
+              <Border IsVisible="{Binding HasProfileImage}"
+                      StrokeShape="RoundRectangle 50,50,50,50"
+                      Stroke="#DDD2FF"
+                      StrokeThickness="1"
+                      WidthRequest="100"
+                      HeightRequest="100"
+                      Padding="0">
+                <Image Source="{Binding ProfileImage, Converter={StaticResource ImageOrPlaceholderConverter}}"
+                       Aspect="AspectFill"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Fill"/>
+              </Border>
+            </Grid>
+
+            <!-- Identity -->
+            <VerticalStackLayout Grid.Row="1"
+                                 Spacing="6">
+              <Label Text="{Binding FullName}"
                      FontSize="20"
                      FontAttributes="Bold"
                      TextColor="#2D1B4E"
-                     HorizontalOptions="Center" />
-
-              <!-- User Email -->
-              <Label x:Name="EmailLabel"
-                     FontSize="13"
+                     HorizontalOptions="Center"/>
+              <Label Text="{Binding Email}"
+                     FontSize="12"
                      TextColor="#6B5B8C"
-                     HorizontalOptions="Center" />
+                     HorizontalOptions="Center"/>
+              <Label Text="{Binding PhoneNumber}"
+                     FontSize="11"
+                     TextColor="#A89BBB"
+                     HorizontalOptions="Center"
+                     IsVisible="{Binding HasPhone}"/>
 
-              <!-- User Roles -->
-              <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
-                <Label x:Name="RolesLabel"
-                       FontSize="12"
-                       TextColor="#B19CD9"
-                       FontAttributes="Bold" />
+              <!-- Role chips -->
+              <HorizontalStackLayout Spacing="6"
+                                     HorizontalOptions="Center"
+                                     Margin="0,4,0,0">
+                <Border IsVisible="{Binding IsAdopter}"
+                        StrokeShape="RoundRectangle 12,12,12,12"
+                        BackgroundColor="#F0EAFB"
+                        Stroke="Transparent"
+                        Padding="10,4">
+                  <Label Text="🐾  Adopter"
+                         FontSize="11"
+                         FontAttributes="Bold"
+                         TextColor="#6B4FAA"/>
+                </Border>
+                <Border IsVisible="{Binding IsRehomer}"
+                        StrokeShape="RoundRectangle 12,12,12,12"
+                        BackgroundColor="#FFF1E0"
+                        Stroke="Transparent"
+                        Padding="10,4">
+                  <Label Text="📝  Rehomer"
+                         FontSize="11"
+                         FontAttributes="Bold"
+                         TextColor="#A05F22"/>
+                </Border>
               </HorizontalStackLayout>
             </VerticalStackLayout>
-          </Border>
-        </VerticalStackLayout>
+          </Grid>
+        </Border>
 
-        <!-- Account Settings Section -->
-        <VerticalStackLayout Padding="24,24,24,0" Spacing="12">
-          <Label Text="Account Settings"
+        <!-- Account section -->
+        <VerticalStackLayout Padding="20,22,20,0"
+                             Spacing="10">
+          <Label Text="Account"
                  FontSize="14"
                  FontAttributes="Bold"
-                 TextColor="#2D1B4E" />
+                 TextColor="#2D1B4E"/>
 
-          <!-- Edit Profile Option -->
-          <Border Stroke="#DDD2FF"
+          <!-- Edit Profile -->
+          <Border StrokeShape="RoundRectangle 14,14,14,14"
+                  Stroke="#E5DCFB"
                   StrokeThickness="1"
-                  StrokeShape="RoundRectangle 12,12,12,12"
                   BackgroundColor="White"
-                  Padding="16">
-            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
-              <Label Text="✏️"
-                     FontSize="20"
-                     WidthRequest="30" />
-              <VerticalStackLayout Spacing="2" HorizontalOptions="Fill">
+                  Padding="14">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Tapped="OnEditProfileClicked"/>
+            </Border.GestureRecognizers>
+            <Grid ColumnDefinitions="44,*,Auto"
+                  ColumnSpacing="12">
+              <Border Grid.Column="0"
+                      StrokeShape="RoundRectangle 12,12,12,12"
+                      BackgroundColor="#F0EAFB"
+                      Stroke="Transparent"
+                      WidthRequest="44"
+                      HeightRequest="44"
+                      Padding="0">
+                <Label Text="✏️"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+              </Border>
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="2"
+                                   VerticalOptions="Center">
                 <Label Text="Edit Profile"
-                       FontSize="14"
+                       FontSize="13"
                        FontAttributes="Bold"
-                       TextColor="#2D1B4E" />
-                <Label Text="Update your personal information"
+                       TextColor="#2D1B4E"/>
+                <Label Text="Update your name, email, photo, and phone"
                        FontSize="11"
-                       TextColor="#6B5B8C" />
+                       TextColor="#6B5B8C"/>
               </VerticalStackLayout>
-              <Label Text="→"
-                     FontSize="16"
-                     TextColor="#6B5B8C"
-                     VerticalOptions="Center" />
-            </HorizontalStackLayout>
+              <Label Grid.Column="2"
+                     Text="›"
+                     FontSize="22"
+                     FontAttributes="Bold"
+                     TextColor="#A89BBB"
+                     VerticalOptions="Center"/>
+            </Grid>
           </Border>
 
-          <!-- Change Password Option -->
-          <Border Stroke="#DDD2FF"
+          <!-- Change Password -->
+          <Border StrokeShape="RoundRectangle 14,14,14,14"
+                  Stroke="#E5DCFB"
                   StrokeThickness="1"
-                  StrokeShape="RoundRectangle 12,12,12,12"
                   BackgroundColor="White"
-                  Padding="16">
-            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
-              <Label Text="🔐"
-                     FontSize="20"
-                     WidthRequest="30" />
-              <VerticalStackLayout Spacing="2" HorizontalOptions="Fill">
+                  Padding="14">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Tapped="OnChangePasswordClicked"/>
+            </Border.GestureRecognizers>
+            <Grid ColumnDefinitions="44,*,Auto"
+                  ColumnSpacing="12">
+              <Border Grid.Column="0"
+                      StrokeShape="RoundRectangle 12,12,12,12"
+                      BackgroundColor="#E5F4FF"
+                      Stroke="Transparent"
+                      WidthRequest="44"
+                      HeightRequest="44"
+                      Padding="0">
+                <Label Text="🔐"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+              </Border>
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="2"
+                                   VerticalOptions="Center">
                 <Label Text="Change Password"
-                       FontSize="14"
+                       FontSize="13"
                        FontAttributes="Bold"
-                       TextColor="#2D1B4E" />
+                       TextColor="#2D1B4E"/>
                 <Label Text="Update your password"
                        FontSize="11"
-                       TextColor="#6B5B8C" />
+                       TextColor="#6B5B8C"/>
               </VerticalStackLayout>
-              <Label Text="→"
-                     FontSize="16"
-                     TextColor="#6B5B8C"
-                     VerticalOptions="Center" />
-            </HorizontalStackLayout>
-          </Border>
-
-          <!-- Notifications Option -->
-          <Border Stroke="#DDD2FF"
-                  StrokeThickness="1"
-                  StrokeShape="RoundRectangle 12,12,12,12"
-                  BackgroundColor="White"
-                  Padding="16">
-            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
-              <Label Text="🔔"
-                     FontSize="20"
-                     WidthRequest="30" />
-              <VerticalStackLayout Spacing="2" HorizontalOptions="Fill">
-                <Label Text="Notifications"
-                       FontSize="14"
-                       FontAttributes="Bold"
-                       TextColor="#2D1B4E" />
-                <Label Text="Manage notification preferences"
-                       FontSize="11"
-                       TextColor="#6B5B8C" />
-              </VerticalStackLayout>
-              <Label Text="→"
-                     FontSize="16"
-                     TextColor="#6B5B8C"
-                     VerticalOptions="Center" />
-            </HorizontalStackLayout>
+              <Label Grid.Column="2"
+                     Text="›"
+                     FontSize="22"
+                     FontAttributes="Bold"
+                     TextColor="#A89BBB"
+                     VerticalOptions="Center"/>
+            </Grid>
           </Border>
         </VerticalStackLayout>
 
-        <!-- Other Section -->
-        <VerticalStackLayout Padding="24,24,24,0" Spacing="12">
-          <Label Text="Other"
+        <!-- Activity section -->
+        <VerticalStackLayout Padding="20,22,20,0"
+                             Spacing="10">
+          <Label Text="Activity"
                  FontSize="14"
                  FontAttributes="Bold"
-                 TextColor="#2D1B4E" />
+                 TextColor="#2D1B4E"/>
 
-           <!-- Help &amp; Support Option -->
-           <Border Stroke="#DDD2FF"
-                   StrokeThickness="1"
-                   StrokeShape="RoundRectangle 12,12,12,12"
-                   BackgroundColor="White"
-                   Padding="16">
-             <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
-               <Label Text="❓"
-                      FontSize="20"
-                      WidthRequest="30" />
-               <VerticalStackLayout Spacing="2" HorizontalOptions="Fill">
-                 <Label Text="Help &amp; Support"
-                        FontSize="14"
-                        FontAttributes="Bold"
-                        TextColor="#2D1B4E" />
-                 <Label Text="Get help and contact support"
-                        FontSize="11"
-                        TextColor="#6B5B8C" />
-               </VerticalStackLayout>
-               <Label Text="→"
-                      FontSize="16"
-                      TextColor="#6B5B8C"
-                      VerticalOptions="Center" />
-             </HorizontalStackLayout>
-           </Border>
-
-          <!-- About Option -->
-          <Border Stroke="#DDD2FF"
+          <!-- My Cart -->
+          <Border StrokeShape="RoundRectangle 14,14,14,14"
+                  Stroke="#E5DCFB"
                   StrokeThickness="1"
-                  StrokeShape="RoundRectangle 12,12,12,12"
                   BackgroundColor="White"
-                  Padding="16">
-            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
-              <Label Text="ℹ️"
-                     FontSize="20"
-                     WidthRequest="30" />
-              <VerticalStackLayout Spacing="2" HorizontalOptions="Fill">
-                <Label Text="About Floofy"
-                       FontSize="14"
+                  Padding="14"
+                  IsVisible="{Binding IsAdopter}">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Tapped="OnCartClicked"/>
+            </Border.GestureRecognizers>
+            <Grid ColumnDefinitions="44,*,Auto"
+                  ColumnSpacing="12">
+
+              <!-- Icon + badge -->
+              <Grid Grid.Column="0">
+                <Border StrokeShape="RoundRectangle 12,12,12,12"
+                        BackgroundColor="#F0EAFB"
+                        Stroke="Transparent"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        Padding="0">
+                  <Label Text="🛒"
+                         FontSize="18"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"/>
+                </Border>
+                <Border IsVisible="{Binding HasCartItems}"
+                        StrokeShape="RoundRectangle 10,10,10,10"
+                        Stroke="White"
+                        StrokeThickness="2"
+                        BackgroundColor="#FF6B6B"
+                        WidthRequest="20"
+                        HeightRequest="20"
+                        Padding="0"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        Margin="0,-4,-4,0"
+                        InputTransparent="True">
+                  <Label Text="{Binding CartBadgeText}"
+                         FontSize="9"
+                         FontAttributes="Bold"
+                         TextColor="White"
+                         HorizontalOptions="Fill"
+                         VerticalOptions="Fill"
+                         HorizontalTextAlignment="Center"
+                         VerticalTextAlignment="Center"/>
+                </Border>
+              </Grid>
+
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="2"
+                                   VerticalOptions="Center">
+                <Label Text="My Cart"
+                       FontSize="13"
                        FontAttributes="Bold"
-                       TextColor="#2D1B4E" />
-                <Label Text="Learn about the app"
+                       TextColor="#2D1B4E"/>
+                <Label Text="Pets and products you saved"
                        FontSize="11"
-                       TextColor="#6B5B8C" />
+                       TextColor="#6B5B8C"/>
               </VerticalStackLayout>
-              <Label Text="→"
-                     FontSize="16"
-                     TextColor="#6B5B8C"
-                     VerticalOptions="Center" />
-            </HorizontalStackLayout>
+              <Label Grid.Column="2"
+                     Text="›"
+                     FontSize="22"
+                     FontAttributes="Bold"
+                     TextColor="#A89BBB"
+                     VerticalOptions="Center"/>
+            </Grid>
+          </Border>
+
+          <!-- My Listings (rehomers) -->
+          <Border StrokeShape="RoundRectangle 14,14,14,14"
+                  Stroke="#E5DCFB"
+                  StrokeThickness="1"
+                  BackgroundColor="White"
+                  Padding="14"
+                  IsVisible="{Binding IsRehomer}">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Tapped="OnMyListingsClicked"/>
+            </Border.GestureRecognizers>
+            <Grid ColumnDefinitions="44,*,Auto"
+                  ColumnSpacing="12">
+              <Border Grid.Column="0"
+                      StrokeShape="RoundRectangle 12,12,12,12"
+                      BackgroundColor="#FFF1E0"
+                      Stroke="Transparent"
+                      WidthRequest="44"
+                      HeightRequest="44"
+                      Padding="0">
+                <Label Text="📝"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+              </Border>
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="2"
+                                   VerticalOptions="Center">
+                <Label Text="My Listings"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"/>
+                <Label Text="Pets you've listed for rehoming"
+                       FontSize="11"
+                       TextColor="#6B5B8C"/>
+              </VerticalStackLayout>
+              <Label Grid.Column="2"
+                     Text="›"
+                     FontSize="22"
+                     FontAttributes="Bold"
+                     TextColor="#A89BBB"
+                     VerticalOptions="Center"/>
+            </Grid>
+          </Border>
+
+          <!-- Order History -->
+          <Border StrokeShape="RoundRectangle 14,14,14,14"
+                  Stroke="#E5DCFB"
+                  StrokeThickness="1"
+                  BackgroundColor="White"
+                  Padding="14">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Tapped="OnOrderHistoryClicked"/>
+            </Border.GestureRecognizers>
+            <Grid ColumnDefinitions="44,*,Auto"
+                  ColumnSpacing="12">
+              <Border Grid.Column="0"
+                      StrokeShape="RoundRectangle 12,12,12,12"
+                      BackgroundColor="#E0F8EE"
+                      Stroke="Transparent"
+                      WidthRequest="44"
+                      HeightRequest="44"
+                      Padding="0">
+                <Label Text="📦"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+              </Border>
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="2"
+                                   VerticalOptions="Center">
+                <Label Text="Order History"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"/>
+                <Label Text="View your past purchases"
+                       FontSize="11"
+                       TextColor="#6B5B8C"/>
+              </VerticalStackLayout>
+              <Label Grid.Column="2"
+                     Text="›"
+                     FontSize="22"
+                     FontAttributes="Bold"
+                     TextColor="#A89BBB"
+                     VerticalOptions="Center"/>
+            </Grid>
+          </Border>
+
+          <!-- Vet Bookings -->
+          <Border StrokeShape="RoundRectangle 14,14,14,14"
+                  Stroke="#E5DCFB"
+                  StrokeThickness="1"
+                  BackgroundColor="White"
+                  Padding="14">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Tapped="OnBookingsClicked"/>
+            </Border.GestureRecognizers>
+            <Grid ColumnDefinitions="44,*,Auto"
+                  ColumnSpacing="12">
+              <Border Grid.Column="0"
+                      StrokeShape="RoundRectangle 12,12,12,12"
+                      BackgroundColor="#FFE8EE"
+                      Stroke="Transparent"
+                      WidthRequest="44"
+                      HeightRequest="44"
+                      Padding="0">
+                <Label Text="🩺"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+              </Border>
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="2"
+                                   VerticalOptions="Center">
+                <Label Text="My Bookings"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"/>
+                <Label Text="Vet visits and appointments"
+                       FontSize="11"
+                       TextColor="#6B5B8C"/>
+              </VerticalStackLayout>
+              <Label Grid.Column="2"
+                     Text="›"
+                     FontSize="22"
+                     FontAttributes="Bold"
+                     TextColor="#A89BBB"
+                     VerticalOptions="Center"/>
+            </Grid>
           </Border>
         </VerticalStackLayout>
 
-        <!-- Logout Button -->
-        <VerticalStackLayout Padding="24,24,24,24">
-          <Button Text="🚪 Logout"
+        <!-- Support section -->
+        <VerticalStackLayout Padding="20,22,20,0"
+                             Spacing="10">
+          <Label Text="Support"
+                 FontSize="14"
+                 FontAttributes="Bold"
+                 TextColor="#2D1B4E"/>
+
+          <Border StrokeShape="RoundRectangle 14,14,14,14"
+                  Stroke="#E5DCFB"
+                  StrokeThickness="1"
+                  BackgroundColor="White"
+                  Padding="14">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Tapped="OnHelpClicked"/>
+            </Border.GestureRecognizers>
+            <Grid ColumnDefinitions="44,*,Auto"
+                  ColumnSpacing="12">
+              <Border Grid.Column="0"
+                      StrokeShape="RoundRectangle 12,12,12,12"
+                      BackgroundColor="#F0EAFB"
+                      Stroke="Transparent"
+                      WidthRequest="44"
+                      HeightRequest="44"
+                      Padding="0">
+                <Label Text="❓"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+              </Border>
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="2"
+                                   VerticalOptions="Center">
+                <Label Text="Help &amp; Support"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"/>
+                <Label Text="Contact us or browse FAQs"
+                       FontSize="11"
+                       TextColor="#6B5B8C"/>
+              </VerticalStackLayout>
+              <Label Grid.Column="2"
+                     Text="›"
+                     FontSize="22"
+                     FontAttributes="Bold"
+                     TextColor="#A89BBB"
+                     VerticalOptions="Center"/>
+            </Grid>
+          </Border>
+
+          <Border StrokeShape="RoundRectangle 14,14,14,14"
+                  Stroke="#E5DCFB"
+                  StrokeThickness="1"
+                  BackgroundColor="White"
+                  Padding="14">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Tapped="OnAboutClicked"/>
+            </Border.GestureRecognizers>
+            <Grid ColumnDefinitions="44,*,Auto"
+                  ColumnSpacing="12">
+              <Border Grid.Column="0"
+                      StrokeShape="RoundRectangle 12,12,12,12"
+                      BackgroundColor="#F0EAFB"
+                      Stroke="Transparent"
+                      WidthRequest="44"
+                      HeightRequest="44"
+                      Padding="0">
+                <Label Text="ℹ️"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+              </Border>
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="2"
+                                   VerticalOptions="Center">
+                <Label Text="About Floofy"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"/>
+                <Label Text="Version, terms, and credits"
+                       FontSize="11"
+                       TextColor="#6B5B8C"/>
+              </VerticalStackLayout>
+              <Label Grid.Column="2"
+                     Text="›"
+                     FontSize="22"
+                     FontAttributes="Bold"
+                     TextColor="#A89BBB"
+                     VerticalOptions="Center"/>
+            </Grid>
+          </Border>
+        </VerticalStackLayout>
+
+        <!-- Logout -->
+        <VerticalStackLayout Padding="20,22,20,0">
+          <Button Text="🚪  Sign out"
                   Clicked="OnLogoutClicked"
                   BackgroundColor="Transparent"
                   TextColor="#FF6B6B"
                   BorderColor="#FF6B6B"
                   BorderWidth="1"
-                  FontSize="14"
+                  FontSize="13"
                   FontAttributes="Bold"
-                  CornerRadius="10"
-                  Padding="0,12" />
+                  CornerRadius="12"
+                  Padding="0,12"/>
         </VerticalStackLayout>
+
       </VerticalStackLayout>
     </ScrollView>
 

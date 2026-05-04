@@ -47,6 +47,9 @@ namespace floofy
       builder.Services.AddTransient<CommunityViewModel>();
       builder.Services.AddTransient<ShopViewModel>();
       builder.Services.AddTransient<HomeViewModel>();
+      builder.Services.AddTransient<ProfileViewModel>();
+      builder.Services.AddTransient<EditProfileViewModel>();
+      builder.Services.AddTransient<MyListingsViewModel>();
       builder.Services.AddTransient<PetDetailViewModel>();
       builder.Services.AddTransient<ProductDetailViewModel>();
       builder.Services.AddTransient<SellPetViewModel>();
@@ -70,6 +73,8 @@ namespace floofy
       builder.Services.AddTransient<SellPet>();
       builder.Services.AddTransient<RehomingAgreement>();
       builder.Services.AddTransient<RehomingPolicy>();
+      builder.Services.AddTransient<EditProfile>();
+      builder.Services.AddTransient<MyListings>();
 
 #if DEBUG
       builder.Logging.AddDebug();
