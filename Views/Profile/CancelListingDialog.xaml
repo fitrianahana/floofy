@@ -23,7 +23,7 @@
                HorizontalOptions="Center"
                VerticalOptions="Start"/>
 
-        <Label Text="Cancel rehoming?"
+        <Label Text="Cancel Rehoming?"
                FontSize="20"
                FontAttributes="Bold"
                TextColor="#2D1B4E"
