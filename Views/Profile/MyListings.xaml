@@ -113,25 +113,14 @@
                          Margin="0,2,0,0"/>
 
                   <Label Text="Cancel Rehoming"
-                         Clicked="onCancelListingClicked"
-                         FontSize="11"
-                         FontAttributes="Bold"
-                         TextColor="#FF6B6B"
-                         Margin="0,2,0,0"/>
-
-                  <Button Text="Cancel rehoming"
-                          Clicked="OnCancelListingClicked"
-                          BackgroundColor="Transparent"
-                          TextColor="#FF6B6B"
-                          BorderColor="#FFD0D7"
-                          BorderWidth="1"
-                          FontSize="10"
+                          FontSize="11"
                           FontAttributes="Bold"
-                          CornerRadius="11"
-                          Padding="4,0"
-                          HeightRequest="22"
-                          HorizontalOptions="Start"
-                          Margin="0,6,0,0"/>
+                          TextColor="#FF6B6B"
+                          Margin="0,2,0,0">
+                     <Label.GestureRecognizers>
+                       <TapGestureRecognizer Tapped="OnCancelListingClicked"/>
+                     </Label.GestureRecognizers>
+                   </Label>
                 </VerticalStackLayout>
 
                 <Label Grid.Column="2"
