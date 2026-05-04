@@ -19,7 +19,7 @@
         <!-- Hero image with overlays -->
         <Grid Grid.Row="0"
               HeightRequest="300">
-          <Image Source="{Binding Pet.Thumbnail}"
+          <Image Source="{Binding Pet.Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
                  Aspect="AspectFill"
                  VerticalOptions="Fill"
                  HorizontalOptions="Fill"/>
@@ -311,18 +311,17 @@
         <VerticalStackLayout Grid.Column="0"
                              Spacing="0"
                              VerticalOptions="Center">
-          <Label Text="Looking for a home"
+          <Label Text="Adoption fee"
                  FontSize="10"
                  TextColor="#6B5B8C"/>
-          <Label Text="{Binding Pet.Name}"
+          <Label Text="{Binding AdoptionFee, StringFormat='${0:F2}'}"
                  FontSize="16"
                  FontAttributes="Bold"
-                 TextColor="#2D1B4E"
-                 LineBreakMode="TailTruncation"/>
+                 TextColor="#2D1B4E"/>
         </VerticalStackLayout>
 
         <Button Grid.Column="1"
-                Text="Adopt Pet"
+                Text="{Binding AdoptButtonText}"
                 BackgroundColor="#B19CD9"
                 TextColor="White"
                 CornerRadius="12"

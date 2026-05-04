@@ -14,25 +14,58 @@
     <Grid Grid.Row="0"
           HeightRequest="150">
       <!-- Background Image -->
-      <Image Source="shop_bg.jpg"
+      <Image Source="{Binding HeaderBackground}"
              Aspect="AspectFill"
              VerticalOptions="Fill"
              HorizontalOptions="Fill"
              Opacity="1"/>
 
       <!-- Header Content -->
-      <VerticalStackLayout Padding="24,20,24,12"
+      <VerticalStackLayout Padding="24,20,140,12"
                            Spacing="4"
                            VerticalOptions="Center">
         <Label Text="Shop"
                FontSize="24"
                FontAttributes="Bold"
                TextColor="White"/>
-        <Label Text="Browse and discover amazing products"
+        <Label Text="{Binding HeaderSubtitle}"
                FontSize="12"
                TextColor="#E8E0F5"
                LineBreakMode="WordWrap"/>
       </VerticalStackLayout>
+
+      <!-- Header actions (top-right) -->
+      <HorizontalStackLayout Spacing="8"
+                             Margin="0,16,16,0"
+                             HorizontalOptions="End"
+                             VerticalOptions="Start">
+
+        <!-- Rehome pill (sellers only, on Pets tab) -->
+        <Button Text="📝 Rehome"
+                Clicked="OnSellClicked"
+                BackgroundColor="#B19CD9"
+                TextColor="White"
+                FontSize="12"
+                FontAttributes="Bold"
+                BorderWidth="0"
+                CornerRadius="22"
+                HeightRequest="44"
+                Padding="14,0"
+                IsVisible="{Binding CanShowSellAction}"/>
+
+        <!-- Cart icon (buyers only) -->
+        <Button Text="🛒"
+                Clicked="OnCartClicked"
+                BackgroundColor="#E6FFFFFF"
+                TextColor="#2D1B4E"
+                FontSize="18"
+                BorderWidth="0"
+                CornerRadius="22"
+                WidthRequest="44"
+                HeightRequest="44"
+                Padding="0"
+                IsVisible="{Binding IsBuyer}"/>
+      </HorizontalStackLayout>
     </Grid>
 
     <!-- Tab Selector with Indicator -->
@@ -79,7 +112,7 @@
                          Padding="24,12,24,0"
                          Spacing="8">
       <SearchBar x:Name="SearchBar"
-                 Placeholder="Search products or pets..."
+                 Placeholder="{Binding SearchPlaceholder}"
                  Text="{Binding SearchQuery}"
                  SearchButtonPressed="OnSearchButtonPressed"
                  IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
@@ -127,7 +160,7 @@
                     Padding="0">
                 <!-- Pet Image (full card height) -->
                 <Image Grid.Column="0"
-                       Source="{Binding Thumbnail}"
+                       Source="{Binding Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
                        HeightRequest="120"
                        WidthRequest="110"
                        Aspect="AspectFill"/>
@@ -229,7 +262,7 @@
                                    Padding="0">
                 <!-- Product Image with overlays -->
                 <Grid HeightRequest="150">
-                  <Image Source="{Binding Thumbnail}"
+                  <Image Source="{Binding Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
                          Aspect="AspectFill"
                          HorizontalOptions="Fill"
                          VerticalOptions="Fill"/>

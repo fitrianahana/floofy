@@ -10,4 +10,6 @@ public interface IPetService
   Task<List<Pet>> SearchPetsAsync(string query);
   Task<List<Pet>> GetSellerPetsAsync(Guid sellerId);
   Task<List<Pet>> GetPetsByBreedAsync(string breed);
+  Task<Pet> CreatePetWithListingAsync(Pet pet, decimal listingPrice);
+  Task<PetListing?> GetActiveListingForPetAsync(Guid petId);
 }

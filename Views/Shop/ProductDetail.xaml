@@ -19,7 +19,7 @@
         <!-- Hero image with overlays -->
         <Grid Grid.Row="0"
               HeightRequest="300">
-          <Image Source="{Binding Product.Thumbnail}"
+          <Image Source="{Binding Product.Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
                  Aspect="AspectFill"
                  VerticalOptions="Fill"
                  HorizontalOptions="Fill"/>

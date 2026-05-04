@@ -42,6 +42,7 @@ public class AppDatabase
     // Shopping Cart
     await _database.CreateTableAsync<Cart>();
     await _database.CreateTableAsync<CartItem>();
+    await _database.CreateTableAsync<PetCartItem>();
 
     // Categories
     await _database.CreateTableAsync<PetCategory>();

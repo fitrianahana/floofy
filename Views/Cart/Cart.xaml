@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="floofy.Views.Cart"
+             x:Name="CartPage"
+             Title="My Cart"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+
+  <Grid BackgroundColor="#F8F7FC"
+        RowDefinitions="Auto,*,Auto"
+        RowSpacing="0">
+
+    <!-- Header -->
+    <Grid Grid.Row="0"
+          ColumnDefinitions="Auto,*,Auto"
+          Padding="12,16,12,12"
+          ColumnSpacing="6"
+          BackgroundColor="White">
+
+      <Button Grid.Column="0"
+              Text="←"
+              Clicked="OnBackClicked"
+              BackgroundColor="Transparent"
+              TextColor="#2D1B4E"
+              FontSize="20"
+              FontAttributes="Bold"
+              BorderWidth="0"
+              CornerRadius="20"
+              WidthRequest="40"
+              HeightRequest="40"
+              Padding="8,4,8,10"/>
+
+      <VerticalStackLayout Grid.Column="1"
+                           Spacing="2"
+                           VerticalOptions="Center">
+        <Label Text="My Cart"
+               FontSize="18"
+               FontAttributes="Bold"
+               TextColor="#2D1B4E"/>
+        <Label Text="{Binding ItemCount, StringFormat='{0} item(s)'}"
+               FontSize="11"
+               TextColor="#6B5B8C"/>
+      </VerticalStackLayout>
+
+      <Button Grid.Column="2"
+              Text="Clear"
+              Clicked="OnClearClicked"
+              BackgroundColor="Transparent"
+              TextColor="#FF6B6B"
+              FontSize="12"
+              FontAttributes="Bold"
+              BorderWidth="0"
+              Padding="10,0"
+              IsVisible="{Binding ShowList}"/>
+    </Grid>
+
+    <!-- Body -->
+    <Grid Grid.Row="1">
+
+      <!-- Loading -->
+      <ActivityIndicator IsRunning="{Binding IsLoading}"
+                         IsVisible="{Binding IsLoading}"
+                         Color="#B19CD9"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center"/>
+
+      <!-- Items -->
+      <ScrollView IsVisible="{Binding ShowList}">
+        <VerticalStackLayout Padding="16,12,16,12"
+                             Spacing="10">
+
+          <Label Text="{Binding ErrorMessage}"
+                 IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
+                 TextColor="#FF6B6B"
+                 FontAttributes="Bold"
+                 FontSize="12"/>
+
+          <Label Text="{Binding StatusMessage}"
+                 IsVisible="{Binding StatusMessage, Converter={StaticResource StringBoolConverter}}"
+                 TextColor="#4CAF93"
+                 FontAttributes="Bold"
+                 FontSize="12"/>
+
+          <!-- Pets section -->
+          <VerticalStackLayout Spacing="8"
+                               IsVisible="{Binding HasPets}">
+            <HorizontalStackLayout Spacing="8"
+                                   Margin="2,4,0,0">
+              <Label Text="🐾"
+                     FontSize="14"
+                     VerticalOptions="Center"/>
+              <Label Text="Pets for adoption"
+                     FontSize="13"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <CollectionView ItemsSource="{Binding PetItems}">
+              <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="10"/>
+              </CollectionView.ItemsLayout>
+              <CollectionView.ItemTemplate>
+                <DataTemplate>
+                  <Border StrokeShape="RoundRectangle 14,14,14,14"
+                          Stroke="#E5DCFB"
+                          StrokeThickness="1"
+                          BackgroundColor="White"
+                          Padding="0">
+                    <Border.Shadow>
+                      <Shadow Brush="#10000000"
+                              Offset="0,2"
+                              Radius="6"/>
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="90,*,Auto"
+                          ColumnSpacing="0">
+
+                      <Image Grid.Column="0"
+                             Source="{Binding Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
+                             Aspect="AspectFill"
+                             HeightRequest="100"
+                             WidthRequest="90"/>
+
+                      <VerticalStackLayout Grid.Column="1"
+                                           Padding="12,10,8,10"
+                                           Spacing="4"
+                                           VerticalOptions="Center">
+                        <Label Text="{Binding PetName}"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#2D1B4E"
+                               LineBreakMode="TailTruncation"
+                               MaxLines="1"/>
+                        <HorizontalStackLayout Spacing="4">
+                          <Label Text="{Binding Species}"
+                                 FontSize="11"
+                                 TextColor="#6B5B8C"/>
+                          <Label Text="·"
+                                 FontSize="11"
+                                 TextColor="#6B5B8C"/>
+                          <Label Text="{Binding Breed}"
+                                 FontSize="11"
+                                 TextColor="#6B5B8C"
+                                 LineBreakMode="TailTruncation"/>
+                        </HorizontalStackLayout>
+                        <Grid ColumnDefinitions="Auto,*"
+                              ColumnSpacing="8"
+                              Margin="0,4,0,0">
+                          <Border Grid.Column="0"
+                                  StrokeShape="RoundRectangle 10,10,10,10"
+                                  BackgroundColor="#F0EAFB"
+                                  Stroke="Transparent"
+                                  Padding="8,3">
+                            <Label Text="Adoption fee"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="#6B5B8C"/>
+                          </Border>
+                          <Label Grid.Column="1"
+                                 Text="{Binding AdoptionFee, StringFormat='${0:F2}'}"
+                                 FontSize="14"
+                                 FontAttributes="Bold"
+                                 TextColor="#B19CD9"
+                                 VerticalOptions="Center"
+                                 HorizontalTextAlignment="End"/>
+                        </Grid>
+                      </VerticalStackLayout>
+
+                      <Button Grid.Column="2"
+                              Text="✕"
+                              BackgroundColor="Transparent"
+                              TextColor="#A89BBB"
+                              FontSize="14"
+                              BorderWidth="0"
+                              WidthRequest="36"
+                              HeightRequest="36"
+                              Padding="0"
+                              VerticalOptions="Start"
+                              Margin="0,4,4,0"
+                              Command="{Binding Source={x:Reference CartPage}, Path=BindingContext.RemovePetCommand}"
+                              CommandParameter="{Binding .}"/>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </CollectionView.ItemTemplate>
+            </CollectionView>
+          </VerticalStackLayout>
+
+          <!-- Products section -->
+          <VerticalStackLayout Spacing="8"
+                               IsVisible="{Binding HasProducts}">
+            <HorizontalStackLayout Spacing="8"
+                                   Margin="2,4,0,0">
+              <Label Text="🛍️"
+                     FontSize="14"
+                     VerticalOptions="Center"/>
+              <Label Text="Products"
+                     FontSize="13"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <CollectionView ItemsSource="{Binding Items}">
+              <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="10"/>
+              </CollectionView.ItemsLayout>
+              <CollectionView.ItemTemplate>
+                <DataTemplate>
+                  <Border StrokeShape="RoundRectangle 14,14,14,14"
+                          Stroke="#E5DCFB"
+                          StrokeThickness="1"
+                          BackgroundColor="White"
+                          Padding="0">
+                    <Border.Shadow>
+                      <Shadow Brush="#10000000"
+                              Offset="0,2"
+                              Radius="6"/>
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="90,*,Auto"
+                          ColumnSpacing="0">
+
+                      <Image Grid.Column="0"
+                             Source="{Binding Thumbnail, Converter={StaticResource ImageOrPlaceholderConverter}}"
+                             Aspect="AspectFill"
+                             HeightRequest="100"
+                             WidthRequest="90"/>
+
+                      <VerticalStackLayout Grid.Column="1"
+                                           Padding="12,10,8,10"
+                                           Spacing="6"
+                                           VerticalOptions="Center">
+                        <Label Text="{Binding ProductName}"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#2D1B4E"
+                               LineBreakMode="TailTruncation"
+                               MaxLines="2"/>
+                        <Label Text="{Binding UnitPrice, StringFormat='${0:F2} each'}"
+                               FontSize="11"
+                               TextColor="#6B5B8C"/>
+
+                        <Grid ColumnDefinitions="Auto,*"
+                              ColumnSpacing="10"
+                              Margin="0,2,0,0">
+                          <Border Grid.Column="0"
+                                  StrokeShape="RoundRectangle 10,10,10,10"
+                                  Stroke="#DDD2FF"
+                                  StrokeThickness="1"
+                                  BackgroundColor="#F0EAFB"
+                                  Padding="0">
+                            <Grid ColumnDefinitions="32,Auto,32"
+                                  HeightRequest="34">
+                              <Button Grid.Column="0"
+                                      Text="−"
+                                      FontSize="16"
+                                      FontAttributes="Bold"
+                                      BackgroundColor="Transparent"
+                                      TextColor="#6B5B8C"
+                                      Padding="0"
+                                      BorderWidth="0"
+                                      Command="{Binding Source={x:Reference CartPage}, Path=BindingContext.DecrementCommand}"
+                                      CommandParameter="{Binding .}"/>
+                              <Label Grid.Column="1"
+                                     Text="{Binding Quantity}"
+                                     FontSize="13"
+                                     FontAttributes="Bold"
+                                     TextColor="#2D1B4E"
+                                     VerticalOptions="Center"
+                                     HorizontalOptions="Center"
+                                     MinimumWidthRequest="20"/>
+                              <Button Grid.Column="2"
+                                      Text="+"
+                                      FontSize="14"
+                                      FontAttributes="Bold"
+                                      BackgroundColor="Transparent"
+                                      TextColor="#6B5B8C"
+                                      Padding="0"
+                                      BorderWidth="0"
+                                      Command="{Binding Source={x:Reference CartPage}, Path=BindingContext.IncrementCommand}"
+                                      CommandParameter="{Binding .}"/>
+                            </Grid>
+                          </Border>
+
+                          <Label Grid.Column="1"
+                                 Text="{Binding Subtotal, StringFormat='${0:F2}'}"
+                                 FontSize="14"
+                                 FontAttributes="Bold"
+                                 TextColor="#B19CD9"
+                                 VerticalOptions="Center"
+                                 HorizontalTextAlignment="End"/>
+                        </Grid>
+                      </VerticalStackLayout>
+
+                      <Button Grid.Column="2"
+                              Text="✕"
+                              BackgroundColor="Transparent"
+                              TextColor="#A89BBB"
+                              FontSize="14"
+                              BorderWidth="0"
+                              WidthRequest="36"
+                              HeightRequest="36"
+                              Padding="0"
+                              VerticalOptions="Start"
+                              Margin="0,4,4,0"
+                              Command="{Binding Source={x:Reference CartPage}, Path=BindingContext.RemoveCommand}"
+                              CommandParameter="{Binding .}"/>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </CollectionView.ItemTemplate>
+            </CollectionView>
+          </VerticalStackLayout>
+
+        </VerticalStackLayout>
+      </ScrollView>
+
+      <!-- Empty state -->
+      <VerticalStackLayout IsVisible="{Binding ShowEmpty}"
+                           Padding="20"
+                           Spacing="12"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center">
+        <Label Text="🛒"
+               FontSize="56"
+               HorizontalOptions="Center"/>
+        <Label Text="Your cart is empty"
+               FontSize="16"
+               FontAttributes="Bold"
+               TextColor="#2D1B4E"
+               HorizontalOptions="Center"/>
+        <Label Text="Browse the shop and add some goodies."
+               FontSize="12"
+               TextColor="#6B5B8C"
+               HorizontalOptions="Center"/>
+        <Label Text="{Binding ErrorMessage}"
+               IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
+               TextColor="#FF6B6B"
+               FontAttributes="Bold"
+               FontSize="12"
+               HorizontalOptions="Center"
+               Margin="0,8,0,0"/>
+      </VerticalStackLayout>
+    </Grid>
+
+    <!-- Sticky checkout bar -->
+    <Border Grid.Row="2"
+            BackgroundColor="White"
+            Stroke="#E5DCFB"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 0,0,0,0"
+            Padding="16,12"
+            IsVisible="{Binding ShowList}">
+      <Grid ColumnDefinitions="*,Auto"
+            ColumnSpacing="12">
+
+        <VerticalStackLayout Grid.Column="0"
+                             Spacing="0"
+                             VerticalOptions="Center">
+          <Label Text="Total"
+                 FontSize="10"
+                 TextColor="#6B5B8C"/>
+          <Label Text="{Binding TotalPrice, StringFormat='${0:F2}'}"
+                 FontSize="18"
+                 FontAttributes="Bold"
+                 TextColor="#2D1B4E"/>
+        </VerticalStackLayout>
+
+        <Button Grid.Column="1"
+                Text="Checkout"
+                BackgroundColor="#B19CD9"
+                TextColor="White"
+                CornerRadius="12"
+                FontSize="13"
+                FontAttributes="Bold"
+                Padding="24,0"
+                HeightRequest="44"
+                Command="{Binding CheckoutCommand}"/>
+      </Grid>
+    </Border>
+
+  </Grid>
+</ContentPage>

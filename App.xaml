@@ -17,6 +17,7 @@
       <converters:RatingToStarsConverter x:Key="RatingToStarsConverter"/>
       <converters:StockToLabelConverter x:Key="StockToLabelConverter"/>
       <converters:StockToColorConverter x:Key="StockToColorConverter"/>
+      <converters:ImageOrPlaceholderConverter x:Key="ImageOrPlaceholderConverter"/>
     </ResourceDictionary>
   </Application.Resources>
 </Application>

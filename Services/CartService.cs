@@ -7,15 +7,18 @@ public class CartService : ICartService
 {
   private readonly IRepository<Cart> _cartRepository;
   private readonly IRepository<CartItem> _cartItemRepository;
+  private readonly IRepository<PetCartItem> _petCartItemRepository;
   private readonly IRepository<Product> _productRepository;
 
   public CartService(
       IRepository<Cart> cartRepository,
       IRepository<CartItem> cartItemRepository,
+      IRepository<PetCartItem> petCartItemRepository,
       IRepository<Product> productRepository)
   {
     _cartRepository = cartRepository;
     _cartItemRepository = cartItemRepository;
+    _petCartItemRepository = petCartItemRepository;
     _productRepository = productRepository;
   }
 
@@ -29,6 +32,17 @@ public class CartService : ICartService
       cart = new Cart { UserId = userId };
       await _cartRepository.InsertAsync(cart);
     }
+
+    var allCartItems = await _cartItemRepository.GetAllAsync();
+    cart.Items = allCartItems
+        .Where(ci => ci.CartId == cart.Id && !ci.IsDeleted)
+        .ToList();
+
+    var allPetCartItems = await _petCartItemRepository.GetAllAsync();
+    cart.PetItems = allPetCartItems
+        .Where(pi => pi.CartId == cart.Id && !pi.IsDeleted)
+        .ToList();
+
     return cart;
   }
 
@@ -98,13 +112,57 @@ public class CartService : ICartService
   public async Task ClearCartAsync(Guid userId)
   {
     var cart = await GetUserCartAsync(userId);
+
     var allCartItems = await _cartItemRepository.GetAllAsync();
     var cartItems = allCartItems.Where(ci => ci.CartId == cart.Id && !ci.IsDeleted).ToList();
-
     foreach (var item in cartItems)
     {
       item.MarkAsDeleted();
       await _cartItemRepository.UpdateAsync(item);
     }
+
+    var allPetCartItems = await _petCartItemRepository.GetAllAsync();
+    var petCartItems = allPetCartItems.Where(pi => pi.CartId == cart.Id && !pi.IsDeleted).ToList();
+    foreach (var item in petCartItems)
+    {
+      item.MarkAsDeleted();
+      await _petCartItemRepository.UpdateAsync(item);
+    }
+  }
+
+  public async Task<bool> AddPetToCartAsync(Guid userId, Guid petId, decimal adoptionFee)
+  {
+    var cart = await GetUserCartAsync(userId);
+
+    var allPetCartItems = await _petCartItemRepository.GetAllAsync();
+    var existing = allPetCartItems.FirstOrDefault(pi =>
+        pi.CartId == cart.Id && pi.PetId == petId && !pi.IsDeleted);
+
+    if (existing != null)
+    {
+      return false;
+    }
+
+    var petCartItem = new PetCartItem
+    {
+      CartId = cart.Id,
+      PetId = petId,
+      AdoptionFee = adoptionFee
+    };
+    await _petCartItemRepository.InsertAsync(petCartItem);
+    return true;
+  }
+
+  public async Task RemovePetFromCartAsync(Guid userId, Guid petCartItemId)
+  {
+    var item = (await _petCartItemRepository.GetByIdAsync(petCartItemId))!;
+    item.MarkAsDeleted();
+    await _petCartItemRepository.UpdateAsync(item);
+  }
+
+  public async Task<bool> IsPetInCartAsync(Guid userId, Guid petId)
+  {
+    var cart = await GetUserCartAsync(userId);
+    return cart.PetItems.Any(pi => pi.PetId == petId);
   }
 }

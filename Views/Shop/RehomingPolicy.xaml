@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="floofy.Views.RehomingPolicy"
+             Title="Policy and Procedures"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+
+  <Grid BackgroundColor="#F8F7FC"
+        RowDefinitions="Auto,*"
+        RowSpacing="0">
+
+    <!-- Header -->
+    <Grid Grid.Row="0"
+          ColumnDefinitions="Auto,*"
+          Padding="12,16,16,12"
+          ColumnSpacing="6"
+          BackgroundColor="White">
+
+      <Button Grid.Column="0"
+              Text="←"
+              Clicked="OnBackClicked"
+              BackgroundColor="Transparent"
+              TextColor="#2D1B4E"
+              FontSize="20"
+              FontAttributes="Bold"
+              BorderWidth="0"
+              CornerRadius="20"
+              WidthRequest="40"
+              HeightRequest="40"
+              Padding="8,4,8,10"/>
+
+      <VerticalStackLayout Grid.Column="1"
+                           Spacing="2"
+                           VerticalOptions="Center">
+        <Label Text="Policy and Procedures"
+               FontSize="18"
+               FontAttributes="Bold"
+               TextColor="#2D1B4E"/>
+        <Label Text="How rehoming works on Floofy"
+               FontSize="11"
+               TextColor="#6B5B8C"/>
+      </VerticalStackLayout>
+    </Grid>
+
+    <ScrollView Grid.Row="1">
+      <VerticalStackLayout Padding="20,18,20,28"
+                           Spacing="16">
+
+        <!-- Intro card -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="#F0EAFB"
+                Padding="16,14">
+          <Grid ColumnDefinitions="Auto,*"
+                ColumnSpacing="14">
+            <Label Grid.Column="0"
+                   Text="🛡️"
+                   FontSize="32"
+                   VerticalOptions="Center"/>
+            <VerticalStackLayout Grid.Column="1"
+                                 Spacing="2"
+                                 VerticalOptions="Center">
+              <Label Text="A clear, animal-first process"
+                     FontSize="13"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"/>
+              <Label Text="Submitting a listing constitutes acceptance of the procedures below."
+                     FontSize="11"
+                     TextColor="#6B5B8C"
+                     LineBreakMode="WordWrap"/>
+            </VerticalStackLayout>
+          </Grid>
+        </Border>
+
+        <!-- Step 1 -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <VerticalStackLayout Spacing="8">
+            <HorizontalStackLayout Spacing="10">
+              <Border StrokeShape="RoundRectangle 14,14,14,14"
+                      BackgroundColor="#B19CD9"
+                      Stroke="Transparent"
+                      WidthRequest="28"
+                      HeightRequest="28"
+                      Padding="0">
+                <Label Text="1"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Fill"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+              </Border>
+              <Label Text="Listing Review"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+            <Label Text="New listings appear in the shop immediately and may be reviewed by Floofy moderators. Listings with missing essentials, deceptive content, or welfare concerns may be paused or removed."
+                   FontSize="12"
+                   TextColor="#6B5B8C"
+                   LineBreakMode="WordWrap"/>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Step 2 -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <VerticalStackLayout Spacing="8">
+            <HorizontalStackLayout Spacing="10">
+              <Border StrokeShape="RoundRectangle 14,14,14,14"
+                      BackgroundColor="#B19CD9"
+                      Stroke="Transparent"
+                      WidthRequest="28"
+                      HeightRequest="28"
+                      Padding="0">
+                <Label Text="2"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Fill"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+              </Border>
+              <Label Text="Adopter Inquiries"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+            <Label Text="Interested adopters connect with you via Floofy. Respond promptly and honestly. Don't share personal contact information until you're comfortable with the adopter."
+                   FontSize="12"
+                   TextColor="#6B5B8C"
+                   LineBreakMode="WordWrap"/>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Step 3 -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <VerticalStackLayout Spacing="8">
+            <HorizontalStackLayout Spacing="10">
+              <Border StrokeShape="RoundRectangle 14,14,14,14"
+                      BackgroundColor="#B19CD9"
+                      Stroke="Transparent"
+                      WidthRequest="28"
+                      HeightRequest="28"
+                      Padding="0">
+                <Label Text="3"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Fill"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+              </Border>
+              <Label Text="Meet and Greet"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+            <Label Text="A safe, in-person introduction is strongly encouraged before transfer. Choose a neutral location and bring a friend if possible. The pet's comfort with the prospective adopter is the deciding factor."
+                   FontSize="12"
+                   TextColor="#6B5B8C"
+                   LineBreakMode="WordWrap"/>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Step 4 -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <VerticalStackLayout Spacing="8">
+            <HorizontalStackLayout Spacing="10">
+              <Border StrokeShape="RoundRectangle 14,14,14,14"
+                      BackgroundColor="#B19CD9"
+                      Stroke="Transparent"
+                      WidthRequest="28"
+                      HeightRequest="28"
+                      Padding="0">
+                <Label Text="4"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Fill"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+              </Border>
+              <Label Text="Transfer and Records"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+            <Label Text="At handover, share medical records, microchip details, and any care notes. Mark the listing as completed in Floofy so the pet is removed from the shop."
+                   FontSize="12"
+                   TextColor="#6B5B8C"
+                   LineBreakMode="WordWrap"/>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Step 5 -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <VerticalStackLayout Spacing="8">
+            <HorizontalStackLayout Spacing="10">
+              <Border StrokeShape="RoundRectangle 14,14,14,14"
+                      BackgroundColor="#B19CD9"
+                      Stroke="Transparent"
+                      WidthRequest="28"
+                      HeightRequest="28"
+                      Padding="0">
+                <Label Text="5"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Fill"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+              </Border>
+              <Label Text="Reporting Concerns"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+            <Label Text="If you suspect mistreatment, fraud, or any abuse of the platform, report it to Floofy support. We may suspend accounts and cooperate with relevant authorities when warranted."
+                   FontSize="12"
+                   TextColor="#6B5B8C"
+                   LineBreakMode="WordWrap"/>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Acknowledge button -->
+        <Button Text="I Understand"
+                Clicked="OnUnderstandClicked"
+                BackgroundColor="#B19CD9"
+                TextColor="White"
+                CornerRadius="12"
+                FontSize="13"
+                FontAttributes="Bold"
+                Padding="24,0"
+                HeightRequest="46"
+                Margin="0,4,0,0"/>
+
+        <Label Text="Floofy may update these procedures. Continued use of the rehoming feature constitutes acceptance of the latest version."
+               FontSize="11"
+               FontAttributes="Italic"
+               TextColor="#A89BBB"
+               HorizontalTextAlignment="Center"
+               LineBreakMode="WordWrap"
+               Margin="0,4,0,0"/>
+      </VerticalStackLayout>
+    </ScrollView>
+  </Grid>
+</ContentPage>

@@ -19,6 +19,7 @@ public partial class Shop : ContentPage
   protected override void OnAppearing()
   {
     base.OnAppearing();
+    _viewModel.RefreshRoles();
     if (_viewModel.LoadCurrentSectionCommand is ICommand cmd && cmd.CanExecute(null))
     {
       cmd.Execute(null);
@@ -94,5 +95,15 @@ public partial class Shop : ContentPage
     {
       await Shell.Current.GoToAsync($"productDetail?productId={product.Id}");
     }
+  }
+
+  private async void OnCartClicked(object? sender, EventArgs e)
+  {
+    await Shell.Current.GoToAsync("cart");
+  }
+
+  private async void OnSellClicked(object? sender, EventArgs e)
+  {
+    await Shell.Current.GoToAsync("sellPet");
   }
 }

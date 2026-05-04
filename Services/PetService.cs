@@ -6,10 +6,14 @@ using floofy.Models;
 public class PetService : IPetService
 {
   private readonly IRepository<Pet> _petRepository;
+  private readonly IRepository<PetListing> _petListingRepository;
 
-  public PetService(IRepository<Pet> petRepository)
+  public PetService(
+      IRepository<Pet> petRepository,
+      IRepository<PetListing> petListingRepository)
   {
     _petRepository = petRepository;
+    _petListingRepository = petListingRepository;
   }
 
   public async Task<Pet> GetPetByIdAsync(Guid petId)
@@ -56,5 +60,28 @@ public class PetService : IPetService
     return allPets
         .Where(p => p.Breed.Equals(breed, StringComparison.OrdinalIgnoreCase) && !p.IsDeleted)
         .ToList();
+  }
+
+  public async Task<Pet> CreatePetWithListingAsync(Pet pet, decimal listingPrice)
+  {
+    if (pet.Id == Guid.Empty)
+      pet.Id = Guid.NewGuid();
+
+    await _petRepository.InsertAsync(pet);
+
+    var listing = pet.GenerateListing();
+    listing.Price = listingPrice;
+    await _petListingRepository.InsertAsync(listing);
+
+    return pet;
+  }
+
+  public async Task<PetListing?> GetActiveListingForPetAsync(Guid petId)
+  {
+    var listings = await _petListingRepository.GetAllAsync();
+    return listings
+        .Where(l => l.PetId == petId && !l.IsDeleted && l.IsActive)
+        .OrderByDescending(l => l.ListingStartDate)
+        .FirstOrDefault();
   }
 }

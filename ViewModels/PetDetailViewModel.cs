@@ -7,9 +7,12 @@ namespace floofy.ViewModels;
 public class PetDetailViewModel : BaseViewModel
 {
   private readonly IPetService _petService;
+  private readonly ICartService _cartService;
   private readonly SessionService _sessionService;
 
   private Pet? _pet;
+  private decimal _adoptionFee;
+  private bool _isInCart;
   private string _statusMessage = string.Empty;
   private bool _isSubmittingAdoption;
 
@@ -20,6 +23,23 @@ public class PetDetailViewModel : BaseViewModel
     {
       SetProperty(ref _pet, value);
       OnPropertyChanged(nameof(CanAdopt));
+    }
+  }
+
+  public decimal AdoptionFee
+  {
+    get => _adoptionFee;
+    set => SetProperty(ref _adoptionFee, value);
+  }
+
+  public bool IsInCart
+  {
+    get => _isInCart;
+    set
+    {
+      SetProperty(ref _isInCart, value);
+      OnPropertyChanged(nameof(CanAdopt));
+      OnPropertyChanged(nameof(AdoptButtonText));
     }
   }
 
@@ -39,16 +59,18 @@ public class PetDetailViewModel : BaseViewModel
     }
   }
 
-  public bool CanAdopt => Pet is not null && !_isSubmittingAdoption;
+  public bool CanAdopt => Pet is not null && !_isSubmittingAdoption && !_isInCart;
+  public string AdoptButtonText => _isInCart ? "In Cart" : "Adopt Pet";
 
   public ICommand AdoptCommand { get; }
 
   public PetDetailViewModel()
   {
     _petService = App.Services.GetRequiredService<IPetService>();
+    _cartService = App.Services.GetRequiredService<ICartService>();
     _sessionService = App.Services.GetRequiredService<SessionService>();
 
-    AdoptCommand = new RelayCommand(OnAdopt);
+    AdoptCommand = new RelayCommand(async () => await OnAdoptAsync());
   }
 
   public async Task LoadPetAsync(Guid petId)
@@ -63,11 +85,16 @@ public class PetDetailViewModel : BaseViewModel
       {
         ErrorMessage = "Pet not found.";
         Pet = null;
+        return;
       }
-      else
-      {
-        Pet = pet;
-      }
+
+      Pet = pet;
+
+      var listing = await _petService.GetActiveListingForPetAsync(pet.Id);
+      AdoptionFee = listing?.Price ?? 0m;
+
+      var user = _sessionService.CurrentUser;
+      IsInCart = user is not null && await _cartService.IsPetInCartAsync(user.Id, pet.Id);
     }
     catch (Exception ex)
     {
@@ -79,7 +106,7 @@ public class PetDetailViewModel : BaseViewModel
     }
   }
 
-  private void OnAdopt()
+  private async Task OnAdoptAsync()
   {
     if (Pet is null) return;
 
@@ -91,11 +118,26 @@ public class PetDetailViewModel : BaseViewModel
     }
 
     ErrorMessage = string.Empty;
+    StatusMessage = string.Empty;
     IsSubmittingAdoption = true;
 
     try
     {
-      StatusMessage = $"Adoption request sent for {Pet.Name}. We'll be in touch soon!";
+      var added = await _cartService.AddPetToCartAsync(user.Id, Pet.Id, AdoptionFee);
+      if (added)
+      {
+        StatusMessage = $"{Pet.Name} added to your cart for adoption.";
+        IsInCart = true;
+      }
+      else
+      {
+        StatusMessage = $"{Pet.Name} is already in your cart.";
+        IsInCart = true;
+      }
+    }
+    catch (Exception ex)
+    {
+      ErrorMessage = $"Could not add to cart: {ex.Message}";
     }
     finally
     {

@@ -10,4 +10,8 @@ public interface ICartService
   Task UpdateCartItemQuantityAsync(Guid cartItemId, int newQuantity);
   Task<decimal> GetCartTotalAsync(Guid userId);
   Task ClearCartAsync(Guid userId);
+
+  Task<bool> AddPetToCartAsync(Guid userId, Guid petId, decimal adoptionFee);
+  Task RemovePetFromCartAsync(Guid userId, Guid petCartItemId);
+  Task<bool> IsPetInCartAsync(Guid userId, Guid petId);
 }

@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="floofy.Views.SellPet"
+             Title="Rehome a Pet"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+
+  <Grid BackgroundColor="#F8F7FC"
+        RowDefinitions="Auto,*,Auto"
+        RowSpacing="0">
+
+    <!-- Header with background image -->
+    <Grid Grid.Row="0"
+          HeightRequest="160">
+
+      <!-- Background image -->
+      <Image Source="rehome_bg.jpg"
+             Aspect="AspectFill"
+             VerticalOptions="Fill"
+             HorizontalOptions="Fill"/>
+
+      <!-- Back chip -->
+      <Button Text="←"
+              Clicked="OnBackClicked"
+              BackgroundColor="#E6FFFFFF"
+              TextColor="#2D1B4E"
+              FontSize="20"
+              FontAttributes="Bold"
+              BorderWidth="0"
+              CornerRadius="20"
+              WidthRequest="40"
+              HeightRequest="40"
+              Padding="8,4,8,10"
+              Margin="16,16,0,0"
+              HorizontalOptions="Start"
+              VerticalOptions="Start"/>
+
+      <!-- Header text -->
+      <VerticalStackLayout Padding="24,0,24,18"
+                           Spacing="4"
+                           VerticalOptions="End">
+        <Label Text="Rehome Your Pet"
+               FontSize="22"
+               FontAttributes="Bold"
+               TextColor="White"/>
+        <Label Text="Help your pet find a loving forever home"
+               FontSize="12"
+               TextColor="#E8E0F5"
+               LineBreakMode="WordWrap"/>
+      </VerticalStackLayout>
+    </Grid>
+
+    <!-- Form -->
+    <ScrollView Grid.Row="1">
+      <VerticalStackLayout Padding="20,18,20,24"
+                           Spacing="14">
+
+        <!-- Hero intro card -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="#F0EAFB"
+                Padding="16,14">
+          <Grid ColumnDefinitions="Auto,*"
+                ColumnSpacing="14">
+            <Label Grid.Column="0"
+                   Text="🐾"
+                   FontSize="32"
+                   VerticalOptions="Center"/>
+            <VerticalStackLayout Grid.Column="1"
+                                 Spacing="2"
+                                 VerticalOptions="Center">
+              <Label Text="Every pet deserves a loving home"
+                     FontSize="13"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"/>
+              <Label Text="Fill in the details below — adopters will see your listing in the shop."
+                     FontSize="11"
+                     TextColor="#6B5B8C"
+                     LineBreakMode="WordWrap"/>
+            </VerticalStackLayout>
+          </Grid>
+        </Border>
+
+        <!-- Status / error -->
+        <Label Text="{Binding ErrorMessage}"
+               IsVisible="{Binding ErrorMessage, Converter={StaticResource StringBoolConverter}}"
+               TextColor="#FF6B6B"
+               FontAttributes="Bold"
+               FontSize="12"/>
+        <Label Text="{Binding StatusMessage}"
+               IsVisible="{Binding StatusMessage, Converter={StaticResource StringBoolConverter}}"
+               TextColor="#4CAF93"
+               FontAttributes="Bold"
+               FontSize="12"/>
+
+        <!-- Basic info card -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <Border.Shadow>
+            <Shadow Brush="#10000000"
+                    Offset="0,2"
+                    Radius="6"/>
+          </Border.Shadow>
+          <VerticalStackLayout Spacing="12">
+            <HorizontalStackLayout Spacing="8">
+              <Label Text="🐶"
+                     FontSize="16"
+                     VerticalOptions="Center"/>
+              <Label Text="Basic Information"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+              <Label Text="Pet name *"
+                     FontSize="11"
+                     FontAttributes="Bold"
+                     TextColor="#6B5B8C"/>
+              <Border Stroke="#DDD2FF"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#F8F7FC"
+                      Padding="10,2">
+                <Entry Text="{Binding Name}"
+                       Placeholder="e.g. Max"
+                       PlaceholderColor="#A89BBB"
+                       TextColor="#2D1B4E"
+                       FontSize="13"/>
+              </Border>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="10">
+              <VerticalStackLayout Grid.Column="0"
+                                   Spacing="4">
+                <Label Text="Species *"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       TextColor="#6B5B8C"/>
+                <Border Stroke="#DDD2FF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10,10,10,10"
+                        BackgroundColor="#F8F7FC"
+                        Padding="10,2">
+                  <Entry Text="{Binding Species}"
+                         Placeholder="Dog, Cat..."
+                         PlaceholderColor="#A89BBB"
+                         TextColor="#2D1B4E"
+                         FontSize="13"/>
+                </Border>
+              </VerticalStackLayout>
+
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="4">
+                <Label Text="Breed *"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       TextColor="#6B5B8C"/>
+                <Border Stroke="#DDD2FF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10,10,10,10"
+                        BackgroundColor="#F8F7FC"
+                        Padding="10,2">
+                  <Entry Text="{Binding Breed}"
+                         Placeholder="e.g. Golden Retriever"
+                         PlaceholderColor="#A89BBB"
+                         TextColor="#2D1B4E"
+                         FontSize="13"/>
+                </Border>
+              </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout Spacing="4">
+              <Label Text="Description *"
+                     FontSize="11"
+                     FontAttributes="Bold"
+                     TextColor="#6B5B8C"/>
+              <Border Stroke="#DDD2FF"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#F8F7FC"
+                      Padding="10,4">
+                <Editor Text="{Binding Description}"
+                        Placeholder="Personality, history, why they're looking for a new home…"
+                        PlaceholderColor="#A89BBB"
+                        TextColor="#2D1B4E"
+                        FontSize="13"
+                        AutoSize="TextChanges"
+                        HeightRequest="90"/>
+              </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+              <Label Text="Photo URL"
+                     FontSize="11"
+                     FontAttributes="Bold"
+                     TextColor="#6B5B8C"/>
+              <Border Stroke="#DDD2FF"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#F8F7FC"
+                      Padding="10,2">
+                <Entry Text="{Binding Thumbnail}"
+                       Placeholder="https://…"
+                       PlaceholderColor="#A89BBB"
+                       TextColor="#2D1B4E"
+                       Keyboard="Url"
+                       FontSize="13"/>
+              </Border>
+            </VerticalStackLayout>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Profile card -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <Border.Shadow>
+            <Shadow Brush="#10000000"
+                    Offset="0,2"
+                    Radius="6"/>
+          </Border.Shadow>
+          <VerticalStackLayout Spacing="12">
+            <HorizontalStackLayout Spacing="8">
+              <Label Text="📋"
+                     FontSize="16"
+                     VerticalOptions="Center"/>
+              <Label Text="Profile"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="10">
+              <VerticalStackLayout Grid.Column="0"
+                                   Spacing="4">
+                <Label Text="Age (years)"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       TextColor="#6B5B8C"/>
+                <Border Stroke="#DDD2FF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10,10,10,10"
+                        BackgroundColor="#F8F7FC"
+                        Padding="10,2">
+                  <Entry Text="{Binding Age}"
+                         Keyboard="Numeric"
+                         TextColor="#2D1B4E"
+                         FontSize="13"/>
+                </Border>
+              </VerticalStackLayout>
+
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="4">
+                <Label Text="Gender"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       TextColor="#6B5B8C"/>
+                <Border Stroke="#DDD2FF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10,10,10,10"
+                        BackgroundColor="#F8F7FC"
+                        Padding="10,2">
+                  <Picker ItemsSource="{Binding GenderOptions}"
+                          SelectedItem="{Binding Gender}"
+                          TextColor="#2D1B4E"
+                          FontSize="13"/>
+                </Border>
+              </VerticalStackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="10">
+              <VerticalStackLayout Grid.Column="0"
+                                   Spacing="4">
+                <Label Text="Weight (kg)"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       TextColor="#6B5B8C"/>
+                <Border Stroke="#DDD2FF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10,10,10,10"
+                        BackgroundColor="#F8F7FC"
+                        Padding="10,2">
+                  <Entry Text="{Binding Weight}"
+                         Keyboard="Numeric"
+                         TextColor="#2D1B4E"
+                         FontSize="13"/>
+                </Border>
+              </VerticalStackLayout>
+
+              <VerticalStackLayout Grid.Column="1"
+                                   Spacing="4">
+                <Label Text="Height (cm)"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       TextColor="#6B5B8C"/>
+                <Border Stroke="#DDD2FF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10,10,10,10"
+                        BackgroundColor="#F8F7FC"
+                        Padding="10,2">
+                  <Entry Text="{Binding Height}"
+                         Keyboard="Numeric"
+                         TextColor="#2D1B4E"
+                         FontSize="13"/>
+                </Border>
+              </VerticalStackLayout>
+            </Grid>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Health card -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <Border.Shadow>
+            <Shadow Brush="#10000000"
+                    Offset="0,2"
+                    Radius="6"/>
+          </Border.Shadow>
+          <VerticalStackLayout Spacing="10">
+            <HorizontalStackLayout Spacing="8">
+              <Label Text="🩺"
+                     FontSize="16"
+                     VerticalOptions="Center"/>
+              <Label Text="Health"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <Grid ColumnDefinitions="*,Auto"
+                  ColumnSpacing="10">
+              <VerticalStackLayout Grid.Column="0"
+                                   Spacing="2"
+                                   VerticalOptions="Center">
+                <Label Text="Vaccinated"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"/>
+                <Label Text="Has received core vaccinations"
+                       FontSize="11"
+                       TextColor="#6B5B8C"/>
+              </VerticalStackLayout>
+              <Switch Grid.Column="1"
+                      IsToggled="{Binding Vaccinated}"
+                      OnColor="#B19CD9"
+                      ThumbColor="White"/>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,Auto"
+                  ColumnSpacing="10">
+              <VerticalStackLayout Grid.Column="0"
+                                   Spacing="2"
+                                   VerticalOptions="Center">
+                <Label Text="Neutered"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#2D1B4E"/>
+                <Label Text="Spayed or neutered"
+                       FontSize="11"
+                       TextColor="#6B5B8C"/>
+              </VerticalStackLayout>
+              <Switch Grid.Column="1"
+                      IsToggled="{Binding Neutered}"
+                      OnColor="#B19CD9"
+                      ThumbColor="White"/>
+            </Grid>
+
+            <VerticalStackLayout Spacing="4">
+              <Label Text="Health certificate (optional)"
+                     FontSize="11"
+                     FontAttributes="Bold"
+                     TextColor="#6B5B8C"/>
+              <Border Stroke="#DDD2FF"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 10,10,10,10"
+                      BackgroundColor="#F8F7FC"
+                      Padding="10,2">
+                <Entry Text="{Binding HealthCertificate}"
+                       Placeholder="Issuer / certificate ref"
+                       PlaceholderColor="#A89BBB"
+                       TextColor="#2D1B4E"
+                       FontSize="13"/>
+              </Border>
+            </VerticalStackLayout>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Rehoming fee card -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <Border.Shadow>
+            <Shadow Brush="#10000000"
+                    Offset="0,2"
+                    Radius="6"/>
+          </Border.Shadow>
+          <VerticalStackLayout Spacing="8">
+            <HorizontalStackLayout Spacing="8">
+              <Label Text="💰"
+                     FontSize="16"
+                     VerticalOptions="Center"/>
+              <Label Text="Rehoming Fee"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+            <Label Text="Set a fee to help cover vet, food, and care costs."
+                   FontSize="11"
+                   TextColor="#6B5B8C"/>
+
+            <Border Stroke="#DDD2FF"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10,10,10,10"
+                    BackgroundColor="#F8F7FC"
+                    Padding="10,2">
+              <Grid ColumnDefinitions="Auto,*"
+                    ColumnSpacing="6">
+                <Label Grid.Column="0"
+                       Text="$"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#6B5B8C"
+                       VerticalOptions="Center"/>
+                <Entry Grid.Column="1"
+                       Text="{Binding Price}"
+                       Keyboard="Numeric"
+                       TextColor="#2D1B4E"
+                       FontSize="13"/>
+              </Grid>
+            </Border>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Legal disclosures -->
+        <Border StrokeShape="RoundRectangle 14,14,14,14"
+                Stroke="#DDD2FF"
+                StrokeThickness="1"
+                BackgroundColor="White"
+                Padding="16,14">
+          <Border.Shadow>
+            <Shadow Brush="#10000000"
+                    Offset="0,2"
+                    Radius="6"/>
+          </Border.Shadow>
+          <VerticalStackLayout Spacing="10">
+            <HorizontalStackLayout Spacing="8">
+              <Label Text="📜"
+                     FontSize="16"
+                     VerticalOptions="Center"/>
+              <Label Text="Before You Submit"
+                     FontSize="14"
+                     FontAttributes="Bold"
+                     TextColor="#2D1B4E"
+                     VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <Label Text="By tapping List for Rehoming, you automatically accept our Rehoming Agreement and Policy &amp; Procedures."
+                   FontSize="12"
+                   TextColor="#6B5B8C"
+                   LineBreakMode="WordWrap"/>
+
+            <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="8"
+                  Margin="0,4,0,0">
+              <Button Grid.Column="0"
+                      Text="View Agreement"
+                      Clicked="OnViewAgreementClicked"
+                      BackgroundColor="#F0EAFB"
+                      TextColor="#6B4FAA"
+                      FontSize="12"
+                      FontAttributes="Bold"
+                      BorderWidth="0"
+                      CornerRadius="10"
+                      HeightRequest="40"
+                      Padding="0"/>
+              <Button Grid.Column="1"
+                      Text="View Policy"
+                      Clicked="OnViewPolicyClicked"
+                      BackgroundColor="#F0EAFB"
+                      TextColor="#6B4FAA"
+                      FontSize="12"
+                      FontAttributes="Bold"
+                      BorderWidth="0"
+                      CornerRadius="10"
+                      HeightRequest="40"
+                      Padding="0"/>
+            </Grid>
+          </VerticalStackLayout>
+        </Border>
+
+      </VerticalStackLayout>
+    </ScrollView>
+
+    <!-- Sticky submit bar -->
+    <Border Grid.Row="2"
+            BackgroundColor="White"
+            Stroke="#E5DCFB"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 0,0,0,0"
+            Padding="16,12">
+      <Grid ColumnDefinitions="*,Auto"
+            ColumnSpacing="12">
+
+        <ActivityIndicator Grid.Column="0"
+                           IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Color="#B19CD9"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"/>
+
+        <Button Grid.Column="1"
+                Text="List for Rehoming"
+                BackgroundColor="#B19CD9"
+                TextColor="White"
+                CornerRadius="12"
+                FontSize="13"
+                FontAttributes="Bold"
+                Padding="24,0"
+                HeightRequest="44"
+                Command="{Binding SubmitCommand}"
+                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"/>
+      </Grid>
+    </Border>
+  </Grid>
+</ContentPage>

@@ -15,6 +15,7 @@ public class ShopViewModel : BaseViewModel
 {
   private readonly IPetService _petService;
   private readonly IProductService _productService;
+  private readonly SessionService _sessionService;
   private ShopSection _activeSection = ShopSection.Pets;
   private string _searchQuery = string.Empty;
   private ObservableCollection<Pet> _pets = new();
@@ -30,6 +31,10 @@ public class ShopViewModel : BaseViewModel
       OnPropertyChanged(nameof(IsProductsSectionActive));
       OnPropertyChanged(nameof(ShowPetsList));
       OnPropertyChanged(nameof(ShowProductsList));
+      OnPropertyChanged(nameof(CanShowSellAction));
+      OnPropertyChanged(nameof(SearchPlaceholder));
+      OnPropertyChanged(nameof(HeaderSubtitle));
+      OnPropertyChanged(nameof(HeaderBackground));
     }
   }
 
@@ -38,6 +43,17 @@ public class ShopViewModel : BaseViewModel
 
   public bool ShowPetsList => IsPetsSectionActive && !IsLoading;
   public bool ShowProductsList => IsProductsSectionActive && !IsLoading;
+
+  public bool IsBuyer => _sessionService.CurrentUser?.IsBuyer ?? false;
+  public bool IsSeller => _sessionService.CurrentUser?.IsSeller ?? false;
+  public bool CanShowSellAction => IsSeller && IsPetsSectionActive;
+  public string HeaderSubtitle => IsPetsSectionActive
+    ? "Find your new best friend"
+    : "Browse and discover amazing products";
+
+  public string SearchPlaceholder => IsPetsSectionActive ? "Search pets" : "Search products";
+
+  public string HeaderBackground => IsPetsSectionActive ? "petshop_bg.jpg" : "shop_bg.jpg";
 
   public string SearchQuery
   {
@@ -66,6 +82,7 @@ public class ShopViewModel : BaseViewModel
   {
     _petService = App.Services.GetRequiredService<IPetService>();
     _productService = App.Services.GetRequiredService<IProductService>();
+    _sessionService = App.Services.GetRequiredService<SessionService>();
 
     PropertyChanged += (_, e) =>
     {
@@ -90,6 +107,14 @@ public class ShopViewModel : BaseViewModel
 
     LoadCurrentSectionCommand = new RelayCommand(async () => await LoadCurrentSectionAsync());
     SearchCommand = new RelayCommand(async () => await SearchCurrentSectionAsync());
+  }
+
+  public void RefreshRoles()
+  {
+    OnPropertyChanged(nameof(IsBuyer));
+    OnPropertyChanged(nameof(IsSeller));
+    OnPropertyChanged(nameof(CanShowSellAction));
+    OnPropertyChanged(nameof(HeaderSubtitle));
   }
 
   private async Task LoadCurrentSectionAsync()

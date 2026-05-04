@@ -75,3 +75,21 @@ public class StockToColorConverter : IValueConverter
     throw new NotImplementedException();
   }
 }
+
+public class ImageOrPlaceholderConverter : IValueConverter
+{
+  public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+  {
+    var url = value?.ToString();
+    if (string.IsNullOrWhiteSpace(url))
+    {
+      return "no_image.png";
+    }
+    return url;
+  }
+
+  public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+  {
+    throw new NotImplementedException();
+  }
+}
