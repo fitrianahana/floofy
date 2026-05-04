@@ -7,9 +7,6 @@ public partial class PetDetail : ContentPage
 {
   private readonly PetDetailViewModel _viewModel;
   private Guid _petId = Guid.Empty;
-  
-  public static event EventHandler<string>? OnListingCancelled;
-  public static string? PendingCancelNotification { get; set; }
 
   public string PetId
   {
@@ -51,32 +48,42 @@ public partial class PetDetail : ContentPage
     await Navigation.PushModalAsync(dialog);
     var confirmed = await dialog.WaitForResultAsync();
 
-      if (confirmed)
+    if (confirmed)
+    {
+      var petName = _viewModel.Pet.Name;
+      await _viewModel.OnCancelListingAsync();
+      
+      if (string.IsNullOrEmpty(_viewModel.ErrorMessage))
       {
-        var petName = _viewModel.Pet.Name;
-        await _viewModel.OnCancelListingAsync();
+        // Show success toast on current page before navigating
+        await ShowSuccessToastAsync($"{petName}'s listing was cancelled");
         
-        if (string.IsNullOrEmpty(_viewModel.ErrorMessage))
-        {
-          var message = $"{petName}'s listing was cancelled";
-          // Store in both event and static property for reliability
-          PendingCancelNotification = message;
-          System.Diagnostics.Debug.WriteLine($"[PetDetail] Set PendingCancelNotification: {message}");
-          
-          // Navigate back
-          await Shell.Current.GoToAsync("..");
-          
-          // Give time for navigation to complete, then show toast
-          await Task.Delay(500);
-          System.Diagnostics.Debug.WriteLine($"[PetDetail] After navigation, raising event");
-          OnListingCancelled?.Invoke(this, message);
-          System.Diagnostics.Debug.WriteLine($"[PetDetail] Raised OnListingCancelled event");
-        }
-        else
-        {
-          // Show error if cancellation failed
-          await DisplayAlertAsync("Error", _viewModel.ErrorMessage, "OK");
-        }
+        // Then navigate back after toast completes (3 seconds)
+        await Shell.Current.GoToAsync("..");
       }
+      else
+      {
+        // Show error if cancellation failed
+        await DisplayAlertAsync("Error", _viewModel.ErrorMessage, "OK");
+      }
+    }
+  }
+
+  private async Task ShowSuccessToastAsync(string message)
+  {
+    // Set the toast message
+    SuccessToastMessage.Text = message;
+    SuccessToast.Opacity = 0;
+    SuccessToast.IsVisible = true;
+    
+    // Animate in
+    await SuccessToast.FadeToAsync(1, 200, Easing.CubicOut);
+    
+    // Show for 3 seconds
+    await Task.Delay(3000);
+    
+    // Animate out
+    await SuccessToast.FadeToAsync(0, 250, Easing.CubicIn);
+    SuccessToast.IsVisible = false;
   }
 }

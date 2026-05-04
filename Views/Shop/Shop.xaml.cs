@@ -14,45 +14,11 @@ public partial class Shop : ContentPage
     InitializeComponent();
     _viewModel = viewModel;
     BindingContext = viewModel;
-    
-    System.Diagnostics.Debug.WriteLine($"[Shop] Constructor called, setting up event subscription");
-    
-    // Subscribe to listing cancelled event from PetDetail
-    PetDetail.OnListingCancelled += (sender, message) =>
-    {
-      System.Diagnostics.Debug.WriteLine($"[Shop] Received OnListingCancelled event: {message}");
-      try
-      {
-        MainThread.BeginInvokeOnMainThread(async () =>
-        {
-          System.Diagnostics.Debug.WriteLine($"[Shop] About to show toast on MainThread");
-          await ShowToastAsync(message);
-          System.Diagnostics.Debug.WriteLine($"[Shop] Toast display completed");
-        });
-      }
-      catch (Exception ex)
-      {
-        System.Diagnostics.Debug.WriteLine($"[Shop] Error showing toast: {ex.Message}");
-      }
-    };
   }
 
   protected override async void OnAppearing()
   {
     base.OnAppearing();
-    
-    System.Diagnostics.Debug.WriteLine($"[Shop] OnAppearing called");
-    
-    // Check for pending notification from PetDetail as a fallback
-    if (!string.IsNullOrEmpty(PetDetail.PendingCancelNotification))
-    {
-      var message = PetDetail.PendingCancelNotification;
-      PetDetail.PendingCancelNotification = null;
-      System.Diagnostics.Debug.WriteLine($"[Shop] Found pending notification: {message}");
-      // Small delay to ensure UI is ready
-      await Task.Delay(200);
-      await ShowToastAsync(message);
-    }
     
     _viewModel.RefreshRoles();
     if (_viewModel.LoadCurrentSectionCommand is ICommand cmd && cmd.CanExecute(null))
